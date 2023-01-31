@@ -2,7 +2,6 @@ bin
 obj
 .idea
 .vs
-/src/ChemDec.Api/appsettings.Development.json
-/src/ChemDec.Api/*.user
-/src/ChemDec.Api/.dockerignore
-/src/Oplog/Oplog.Api/appsettings.Development.json
+/src/Oplog.Api/*.user
+/src/Oplog.Api/.dockerignore
+/src/Oplog.Api/appsettings.Development.json
