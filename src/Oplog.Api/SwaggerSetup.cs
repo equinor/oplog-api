@@ -18,7 +18,11 @@ namespace Oplog.Api
                         {
                             TokenUrl = new Uri($"https://login.microsoftonline.com/{configuration["AzureAd:TenantId"]}/oauth2/v2.0/token"),
                             AuthorizationUrl = new Uri($"https://login.microsoftonline.com/{configuration["AzureAd:TenantId"]}/oauth2/v2.0/authorize"),
-                            Scopes = new Dictionary<string, string> { { $"api://{configuration["AzureAd:ClientId"]}/User.Impersonation", "Oplog API" } },
+                            Scopes = new Dictionary<string, string> {
+                                { $"api://{configuration["AzureAd:ClientId"]}/User.Impersonation", "Oplog API" },
+                                { $"api://{configuration["AzureAd:ClientId"]}/.default", "Oplog API" },
+                                { $"api://{configuration["AzureAd:ClientId"]}/oplog.read", "Oplog API" }
+                            },
                         }
                     },
                     Description = "Oplog Security Scheme"
@@ -40,7 +44,11 @@ namespace Oplog.Api
                                 Name = "Bearer",
                                 In = ParameterLocation.Header
                             },
-                            new List<string> { $"{configuration["AzureAd:ClientId"]}/User.Impersonation" }
+                            new List<string> { 
+                                $"{configuration["AzureAd:ClientId"]}/User.Impersonation",
+                                $"{configuration["AzureAd:ClientId"]}/.default",
+                                $"{configuration["AzureAd:ClientId"]}/oplog.read"
+                            }
 
                         }
                     });

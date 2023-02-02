@@ -7,18 +7,15 @@ var configuration = builder.Configuration;
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddMicrosoftIdentityWebApiAuthentication(configuration);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(optionsA =>
     {
     }, optionsB =>
     {
-
         configuration.Bind("AzureAd", optionsB);
         var defaultBackChannel = new HttpClient();
         defaultBackChannel.DefaultRequestHeaders.Add("Origin", "oplog");
         optionsB.Backchannel = defaultBackChannel;
-
     })
     .EnableTokenAcquisitionToCallDownstreamApi(e => { })
     .AddInMemoryTokenCaches();
