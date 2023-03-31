@@ -22,15 +22,20 @@ namespace Oplog.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(CreateCommentRequest request)
         {
-            await _commandDispatcher.Dispatch(new CreateCommentCommand(request.LogType, request.SubType, request.Comment, request.OperationsAreaId, request.Author, request.Unit, request.EffectiveTime));
+            await _commandDispatcher.Dispatch(new CreateCommentCommand(request.LogType, request.SubType, request.Comment, request.OperationsAreaId, request.Author, request.Unit, request.EffectiveTime, GetUserName()));
             return Ok();
         }
 
         [HttpPut]
         public async Task<IActionResult> Put(UpdateCommentRequest request)
         {
-            await _commandDispatcher.Dispatch(new UpdateCommentCommand(request.LogType, request.SubType, request.Comment, request.OperationsAreaId, request.Author, request.Unit, request.EffectiveTime));
+            await _commandDispatcher.Dispatch(new UpdateCommentCommand(request.LogType, request.SubType, request.Comment, request.OperationsAreaId, request.Author, request.Unit, request.EffectiveTime, GetUserName()));
             return Ok();
+        }
+
+        private string GetUserName()
+        {
+            return HttpContext.User.Identity.Name;
         }
     }
 }

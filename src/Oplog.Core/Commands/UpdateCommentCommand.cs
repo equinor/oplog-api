@@ -16,8 +16,9 @@ namespace Oplog.Core.Commands
         public string Author { get; set; }
         public int Unit { get; set; }
         public DateTime EffectiveTime { get; set; }
+        public string UpdatedBy { get; set; }
 
-        public UpdateCommentCommand(int logType, int subType, string comment, int operationsArea, string author, int unit, DateTime effectiveTime)
+        public UpdateCommentCommand(int logType, int subType, string comment, int operationsArea, string author, int unit, DateTime effectiveTime, string updatedBy)
         {
             LogType = logType;
             SubType = subType;
@@ -26,6 +27,7 @@ namespace Oplog.Core.Commands
             Author = author;
             Unit = unit;
             EffectiveTime = effectiveTime;
+            UpdatedBy = updatedBy;
         }
     }
 }
