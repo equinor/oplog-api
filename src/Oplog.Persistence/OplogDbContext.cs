@@ -1,17 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Oplog.Persistence.Models;
 
 namespace Oplog.Persistence
 {
     public class OplogDbContext : DbContext
     {
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
-        public OplogDbContext()
+        public OplogDbContext(DbContextOptions<OplogDbContext> context):base(context)
         {
 
         }
