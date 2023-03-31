@@ -1,3 +1,5 @@
+using System;
+
 namespace Oplog.Api
 {
     public class WeatherForecast
