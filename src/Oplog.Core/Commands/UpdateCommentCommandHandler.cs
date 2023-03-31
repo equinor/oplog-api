@@ -27,7 +27,9 @@ namespace Oplog.Core.Commands
                 Unit = command.Unit,
                 Subtype = command.SubType,
                 Text = command.Comment,
-                EffectiveTime = command.EffectiveTime
+                EffectiveTime = command.EffectiveTime,
+                UpdatedDate = DateTime.Now,
+                UpdatedBy = command.UpdatedBy
             };
 
             _commentsRepository.Update(comment);

@@ -11,8 +11,9 @@ namespace Oplog.Core.Commands
         public string Author { get; set; }
         public int Unit { get; set; }
         public DateTime EffectiveTime { get; set; }
+        public string CreatedBy { get; set; }
 
-        public CreateCommentCommand(int logType, int subType, string comment, int operationsArea, string author, int unit, DateTime effectiveTime)
+        public CreateCommentCommand(int logType, int subType, string comment, int operationsArea, string author, int unit, DateTime effectiveTime, string createdBy)
         {
             LogType = logType;
             SubType = subType;
@@ -21,6 +22,7 @@ namespace Oplog.Core.Commands
             Author = author;
             Unit = unit;
             EffectiveTime = effectiveTime;
+            CreatedBy = createdBy;
         }
     }
 }

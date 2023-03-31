@@ -22,7 +22,9 @@ namespace Oplog.Core.Commands
                 Unit = command.Unit,
                 Subtype = command.SubType,
                 Text = command.Comment,
-                EffectiveTime = command.EffectiveTime
+                EffectiveTime = command.EffectiveTime,
+                CreatedBy = command.CreatedBy,
+                CreatedDate = DateTime.Now
             };
 
             await _commentsRepository.Insert(comment);
