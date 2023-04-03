@@ -9,6 +9,6 @@ namespace Oplog.Core.Queries
 {
     public interface IConfiguredTypesQueries
     {
-        Task<List<ConfiguredTypesByCategory>> GetConfiguredTypesByCategory(CategoryId categoryId);
+        Task<List<ConfiguredTypesByCategoryResult>> GetConfiguredTypesByCategory(CategoryId categoryId);
     }
 }

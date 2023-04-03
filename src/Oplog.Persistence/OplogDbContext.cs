@@ -8,6 +8,7 @@ namespace Oplog.Persistence
         public DbSet<Category> Categories { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<ConfiguredType> ConfiguredTypes { get; set; }
+        public DbSet<Area> Areas { get; set; }
 
         public OplogDbContext(DbContextOptions<OplogDbContext> context):base(context)
         {

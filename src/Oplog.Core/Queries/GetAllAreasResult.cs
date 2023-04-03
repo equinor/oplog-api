@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 
 namespace Oplog.Core.Queries
 {
-    public class ConfiguredTypesByCategory
+    public class GetAllAreasResult
     {
+        public GetAllAreasResult(int id, string name, string description)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+        }
         public int Id { get; set; }
-        public int ConfiguredTypeId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int? CategoryId { get; set; }
     }
 }
