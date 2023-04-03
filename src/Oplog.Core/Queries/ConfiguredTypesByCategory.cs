@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Oplog.Persistence.Models
+namespace Oplog.Core.Queries
 {
-    public class Area
+    public class ConfiguredTypesByCategory
     {
         public int Id { get; set; }
-
-        //Note: use tag from the legacy database
+        public int ConfiguredTypeId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public int? CategoryId { get; set; }
     }
 }
