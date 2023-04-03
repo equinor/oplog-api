@@ -19,6 +19,7 @@ namespace Oplog.Api.Controllers
             _commandDispatcher = commandDispatcher;
         }
 
+        //TODO: do model validation
         [HttpPost]
         public async Task<IActionResult> Post(CreateCommentRequest request)
         {
