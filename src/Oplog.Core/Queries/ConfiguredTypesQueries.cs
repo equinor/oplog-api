@@ -17,7 +17,7 @@ namespace Oplog.Core.Queries
             _configuredTypesRepository = configuredTypesRepository;
         }
 
-        public async Task<List<ConfiguredTypesByCategory>> GetConfiguredTypesByCategory(CategoryId categoryId)
+        public async Task<List<ConfiguredTypesByCategoryResult>> GetConfiguredTypesByCategory(CategoryId categoryId)
         {
             var configuredTypes = await _configuredTypesRepository.GetByCategory((int)categoryId);
 
@@ -26,16 +26,10 @@ namespace Oplog.Core.Queries
                 return null;
             }
 
-            var results = new List<ConfiguredTypesByCategory>();
-            foreach (var configuredType in configuredTypes)
+            var results = new List<ConfiguredTypesByCategoryResult>();
+            foreach (var type in configuredTypes)
             {
-                results.Add(new ConfiguredTypesByCategory
-                {
-                    Id = configuredType.Id,
-                    Name = configuredType.Name,
-                    CategoryId = configuredType.CategoryId,
-                    Description = configuredType.Description
-                });
+                results.Add(new ConfiguredTypesByCategoryResult(type.Id, type.ConfiguredTypeId, type.Name, type.Description, type.CategoryId));                
             }
 
             return results;

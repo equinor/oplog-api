@@ -25,7 +25,7 @@ namespace Oplog.Api.Controllers
 
             if (categoryId == null)
             {
-                return BadRequest($"{categoryName} is incorrect");
+                return BadRequest($"Incorrect category name: {categoryName}");
             }
 
             var configuredTypes = await _configuredTypesQueries.GetConfiguredTypesByCategory(categoryId.Value);

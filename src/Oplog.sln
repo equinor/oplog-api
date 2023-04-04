@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oplog.Api", "Oplog.Api\Oplo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oplog.Persistence", "Oplog.Persistence\Oplog.Persistence.csproj", "{1EC728EB-5AED-4DA0-A82F-F23DA516C11B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oplog.Core", "Oplog.Core\Oplog.Core.csproj", "{5D29B669-35C4-4200-905F-892FCF23F0FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oplog.Core", "Oplog.Core\Oplog.Core.csproj", "{5D29B669-35C4-4200-905F-892FCF23F0FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oplog.IntegrationTests", "Oplog.IntegrationTests\Oplog.IntegrationTests.csproj", "{826D354A-50BA-4A38-8E92-4A1B8068091E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oplog.IntegrationTests", "Oplog.IntegrationTests\Oplog.IntegrationTests.csproj", "{826D354A-50BA-4A38-8E92-4A1B8068091E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
