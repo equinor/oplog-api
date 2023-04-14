@@ -29,7 +29,8 @@ namespace Oplog.Core.Commands
                 Text = command.Comment,
                 EffectiveTime = command.EffectiveTime,
                 UpdatedDate = DateTime.Now,
-                UpdatedBy = command.UpdatedBy
+                UpdatedBy = command.UpdatedBy,
+                IsCritical = command.IsCritical
             };
 
             _commentsRepository.Update(comment);

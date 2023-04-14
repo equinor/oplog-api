@@ -11,5 +11,6 @@ namespace Oplog.Api.Models
         public string Author { get; set; }
         public int Unit { get; set; }
         public DateTime EffectiveTime { get; set; }
+        public bool? IsCritical { get; set; }
     }
 }

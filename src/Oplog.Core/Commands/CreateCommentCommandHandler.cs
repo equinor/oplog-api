@@ -24,7 +24,8 @@ namespace Oplog.Core.Commands
                 Text = command.Comment,
                 EffectiveTime = command.EffectiveTime,
                 CreatedBy = command.CreatedBy,
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.Now,
+                IsCritical = command.IsCritical
             };
 
             await _commentsRepository.Insert(comment);

@@ -21,6 +21,7 @@ namespace Oplog.Persistence.Models
         public DateTime? EffectiveTime { get; set; }
         public int? Unit { get; set; }
         public int? Subtype { get; set; }
+        public bool? IsCritical { get; set; }
 
         //public int? Cat2TypId { get; set; }
         //public int? Cat3TypId { get; set; }
