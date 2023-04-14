@@ -3,22 +3,22 @@ using System.Threading.Tasks;
 
 namespace Oplog.Persistence.Repositories
 {
-    public class CommentsRepository : ICommentsRepository
+    public class LogsRepository : ILogsRepository
     {
         public readonly OplogDbContext _dbContext;
-        public CommentsRepository(OplogDbContext dbContext)
+        public LogsRepository(OplogDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task Insert(Comment comment)
+        public async Task Insert(Log log)
         {
-            await _dbContext.Comments.AddAsync(comment);
+            await _dbContext.Logs.AddAsync(log);
         }
 
-        public void Update(Comment comment)
+        public void Update(Log log)
         {
-            _dbContext.Comments.Update(comment);
+            _dbContext.Logs.Update(log);
         }
 
         public async Task Save()

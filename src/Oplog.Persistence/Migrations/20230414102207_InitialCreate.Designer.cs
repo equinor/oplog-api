@@ -12,7 +12,7 @@ using Oplog.Persistence;
 namespace Oplog.Persistence.Migrations
 {
     [DbContext(typeof(OplogDbContext))]
-    [Migration("20230413085032_InitialCreate")]
+    [Migration("20230414102207_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -69,7 +69,56 @@ namespace Oplog.Persistence.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Oplog.Persistence.Models.Comment", b =>
+            modelBuilder.Entity("Oplog.Persistence.Models.ConfiguredType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ConfiguredTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DefaultUomTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("EndLife")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("IsDuplicate")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastChangeTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("LastChangeUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Priority")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("StartLife")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("UomTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ConfiguredTypes");
+                });
+
+            modelBuilder.Entity("Oplog.Persistence.Models.Log", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -130,56 +179,7 @@ namespace Oplog.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("Oplog.Persistence.Models.ConfiguredType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ConfiguredTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DefaultUomTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("EndLife")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool?>("IsDuplicate")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastChangeTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("LastChangeUserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Priority")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("StartLife")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("UomTypeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ConfiguredTypes");
+                    b.ToTable("Logs");
                 });
 #pragma warning restore 612, 618
         }

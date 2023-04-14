@@ -42,7 +42,31 @@ namespace Oplog.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comments",
+                name: "ConfiguredTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ConfiguredTypeId = table.Column<int>(type: "int", nullable: false),
+                    LastChangeUserId = table.Column<int>(type: "int", nullable: true),
+                    LastChangeTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    StartLife = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EndLife = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Priority = table.Column<int>(type: "int", nullable: true),
+                    UomTypeId = table.Column<int>(type: "int", nullable: true),
+                    DefaultUomTypeId = table.Column<int>(type: "int", nullable: true),
+                    CategoryId = table.Column<int>(type: "int", nullable: true),
+                    IsDuplicate = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ConfiguredTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Logs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -67,31 +91,7 @@ namespace Oplog.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comments", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ConfiguredTypes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ConfiguredTypeId = table.Column<int>(type: "int", nullable: false),
-                    LastChangeUserId = table.Column<int>(type: "int", nullable: true),
-                    LastChangeTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    StartLife = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    EndLife = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Priority = table.Column<int>(type: "int", nullable: true),
-                    UomTypeId = table.Column<int>(type: "int", nullable: true),
-                    DefaultUomTypeId = table.Column<int>(type: "int", nullable: true),
-                    CategoryId = table.Column<int>(type: "int", nullable: true),
-                    IsDuplicate = table.Column<bool>(type: "bit", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ConfiguredTypes", x => x.Id);
+                    table.PrimaryKey("PK_Logs", x => x.Id);
                 });
         }
 
@@ -105,10 +105,10 @@ namespace Oplog.Persistence.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Comments");
+                name: "ConfiguredTypes");
 
             migrationBuilder.DropTable(
-                name: "ConfiguredTypes");
+                name: "Logs");
         }
     }
 }
