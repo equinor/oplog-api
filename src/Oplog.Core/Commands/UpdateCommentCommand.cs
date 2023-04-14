@@ -17,8 +17,9 @@ namespace Oplog.Core.Commands
         public int Unit { get; set; }
         public DateTime EffectiveTime { get; set; }
         public string UpdatedBy { get; set; }
+        public bool? IsCritical { get; set; }
 
-        public UpdateCommentCommand(int logType, int subType, string comment, int operationsArea, string author, int unit, DateTime effectiveTime, string updatedBy)
+        public UpdateCommentCommand(int logType, int subType, string comment, int operationsArea, string author, int unit, DateTime effectiveTime, string updatedBy, bool? isCritical)
         {
             LogType = logType;
             SubType = subType;
@@ -28,6 +29,7 @@ namespace Oplog.Core.Commands
             Unit = unit;
             EffectiveTime = effectiveTime;
             UpdatedBy = updatedBy;
+            IsCritical = isCritical;
         }
     }
 }

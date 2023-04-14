@@ -6,7 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Oplog.Api;
+using Oplog.Core.Infrastructure;
 using Oplog.Persistence;
+using Oplog.Persistence.Repositories;
 using System.Net.Http;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +30,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddInMemoryTokenCaches();
 
 builder.Services.AddDbContext<OplogDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("Oplog")));
+builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
+builder.Services.AddTransient<ICommentsRepository, CommentsRepository>();
+builder.Services.AddTransient<IAreasRepository, AreasRepository>();
+builder.Services.AddTransient<IConfiguredTypesRepository, ConfiguredTypesRepository>();
+
+//Add command handlers
+CommandHandlersSetup.AddCommandHandlers(builder.Services, typeof(ICommandHandler<>));
+CommandHandlersSetup.AddCommandHandlers(builder.Services, typeof(ICommandHandler<,>));
 
 SwaggerSetup.ConfigureServices(configuration, builder.Services);
 
@@ -54,3 +64,5 @@ app.UseAuthorization();
 SwaggerSetup.Configure(configuration, app);
 app.MapControllers();
 app.Run();
+
+
