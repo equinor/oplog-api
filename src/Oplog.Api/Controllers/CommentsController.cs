@@ -21,7 +21,6 @@ namespace Oplog.Api.Controllers
 
         //TODO: do model validation
         [HttpPost]
-        [AllowAnonymous]
         public async Task<IActionResult> Post(CreateCommentRequest request)
         {
             await _commandDispatcher.Dispatch(new CreateCommentCommand(request.LogType, request.SubType, request.Comment, request.OperationsAreaId, request.Author, request.Unit, request.EffectiveTime, GetUserName(),request.IsCritical));
