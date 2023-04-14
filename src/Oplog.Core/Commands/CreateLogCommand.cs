@@ -2,7 +2,7 @@
 
 namespace Oplog.Core.Commands
 {
-    public class CreateCommentCommand : ICommand
+    public class CreateLogCommand : ICommand
     {
         public int LogType { get; set; }
         public int SubType { get; set; }
@@ -14,7 +14,7 @@ namespace Oplog.Core.Commands
         public string CreatedBy { get; set; }
         public bool? IsCritical { get; set; }
 
-        public CreateCommentCommand(int logType, int subType, string comment, int operationsArea, string author, int unit, DateTime effectiveTime, string createdBy, bool? isCritical)
+        public CreateLogCommand(int logType, int subType, string comment, int operationsArea, string author, int unit, DateTime effectiveTime, string createdBy, bool? isCritical)
         {
             LogType = logType;
             SubType = subType;

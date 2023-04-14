@@ -2,7 +2,7 @@
 
 namespace Oplog.Api.Models
 {
-    public class CreateCommentRequest
+    public class CreateLogRequest
     {
         public int LogType { get; set; }
         public int SubType { get; set; }

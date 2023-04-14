@@ -6,7 +6,7 @@ namespace Oplog.Persistence
     public class OplogDbContext : DbContext
     {
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Log> Logs { get; set; }
         public DbSet<ConfiguredType> ConfiguredTypes { get; set; }
         public DbSet<Area> Areas { get; set; }
 

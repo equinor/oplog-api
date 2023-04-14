@@ -4,17 +4,17 @@ using Oplog.Persistence.Repositories;
 
 namespace Oplog.Core.Commands
 {
-    public class CreateCommentCommandHandler : ICommandHandler<CreateCommentCommand>
+    public class CreateLogCommandHandler : ICommandHandler<CreateLogCommand>
     {
-        private readonly ICommentsRepository _commentsRepository;
+        private readonly ILogsRepository _logsRepository;
 
-        public CreateCommentCommandHandler(ICommentsRepository commentsRepository)
+        public CreateLogCommandHandler(ILogsRepository logsRepository)
         {
-            _commentsRepository = commentsRepository;
+            _logsRepository = logsRepository;
         }
-        public async Task Handle(CreateCommentCommand command)
+        public async Task Handle(CreateLogCommand command)
         {
-            var comment = new Comment
+            var log = new Log
             {
                 LogTypeId = command.LogType,
                 OperationAreaId = command.OperationsAreaId,
@@ -28,8 +28,8 @@ namespace Oplog.Core.Commands
                 IsCritical = command.IsCritical
             };
 
-            await _commentsRepository.Insert(comment);
-            await _commentsRepository.Save();
+            await _logsRepository.Insert(log);
+            await _logsRepository.Save();
         }
     }
 }

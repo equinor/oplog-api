@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Oplog.Core.Commands
 {
-    public class UpdateCommentCommand : ICommand
+    public class UpdateLogCommand : ICommand
     {
         public int LogType { get; set; }
         public int SubType { get; set; }
@@ -19,7 +19,7 @@ namespace Oplog.Core.Commands
         public string UpdatedBy { get; set; }
         public bool? IsCritical { get; set; }
 
-        public UpdateCommentCommand(int logType, int subType, string comment, int operationsArea, string author, int unit, DateTime effectiveTime, string updatedBy, bool? isCritical)
+        public UpdateLogCommand(int logType, int subType, string comment, int operationsArea, string author, int unit, DateTime effectiveTime, string updatedBy, bool? isCritical)
         {
             LogType = logType;
             SubType = subType;

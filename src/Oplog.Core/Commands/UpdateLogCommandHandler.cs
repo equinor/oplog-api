@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace Oplog.Core.Commands
 {
-    public class UpdateCommentCommandHandler : ICommandHandler<UpdateCommentCommand>
+    public class UpdateLogCommandHandler : ICommandHandler<UpdateLogCommand>
     {
-        private readonly ICommentsRepository _commentsRepository;
+        private readonly ILogsRepository _logsRepository;
 
-        public UpdateCommentCommandHandler(ICommentsRepository commentsRepository)
+        public UpdateLogCommandHandler(ILogsRepository logsRepository)
         {
-            _commentsRepository = commentsRepository;
+            _logsRepository = logsRepository;
         }
-        public async Task Handle(UpdateCommentCommand command)
+        public async Task Handle(UpdateLogCommand command)
         {
-            var comment = new Comment
+            var log = new Log
             {
                 LogTypeId = command.LogType,
                 OperationAreaId = command.OperationsAreaId,
@@ -33,8 +33,8 @@ namespace Oplog.Core.Commands
                 IsCritical = command.IsCritical
             };
 
-            _commentsRepository.Update(comment);
-            await _commentsRepository.Save();
+            _logsRepository.Update(log);
+            await _logsRepository.Save();
         }
     }
 }

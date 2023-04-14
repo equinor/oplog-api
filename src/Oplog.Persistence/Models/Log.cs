@@ -2,7 +2,7 @@
 
 namespace Oplog.Persistence.Models
 {
-    public class Comment
+    public class Log
     {
         public int Id { get; set; }
         public int? LogTypeId { get; set; }

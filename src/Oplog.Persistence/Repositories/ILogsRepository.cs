@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 
 namespace Oplog.Persistence.Repositories
 {
-    public interface ICommentsRepository
+    public interface ILogsRepository
     {
-        Task Insert(Comment comment);
-        void Update(Comment comment);
+        Task Insert(Log log);
+        void Update(Log log);
         Task Save();
     }
 }
