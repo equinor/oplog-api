@@ -1,9 +1,11 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Graph;
 using Oplog.Api.Models;
 using Oplog.Core.Commands;
 using Oplog.Core.Infrastructure;
+using Oplog.Core.Queries;
 
 namespace Oplog.Api.Controllers
 {
@@ -12,18 +14,26 @@ namespace Oplog.Api.Controllers
     [Authorize]
     public class LogsController : ControllerBase
     {
-
         private readonly ICommandDispatcher _commandDispatcher;
-        public LogsController(ICommandDispatcher commandDispatcher)
+        private readonly ILogsQueries _queries;
+        public LogsController(ICommandDispatcher commandDispatcher, ILogsQueries queries)
         {
             _commandDispatcher = commandDispatcher;
+            _queries = queries;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var result = await _queries.GetAllLogs();
+            return Ok(result);
         }
 
         //TODO: do model validation
         [HttpPost]
         public async Task<IActionResult> Post(CreateLogRequest request)
         {
-            await _commandDispatcher.Dispatch(new CreateLogCommand(request.LogType, request.SubType, request.Comment, request.OperationsAreaId, request.Author, request.Unit, request.EffectiveTime, GetUserName(),request.IsCritical));
+            await _commandDispatcher.Dispatch(new CreateLogCommand(request.LogType, request.SubType, request.Comment, request.OperationsAreaId, request.Author, request.Unit, request.EffectiveTime, GetUserName(), request.IsCritical));
             return Ok();
         }
 

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Oplog.Api;
 using Oplog.Core.Infrastructure;
+using Oplog.Core.Queries;
 using Oplog.Persistence;
 using Oplog.Persistence.Repositories;
 using System.Net.Http;
@@ -34,6 +35,9 @@ builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
 builder.Services.AddTransient<ILogsRepository, LogsRepository>();
 builder.Services.AddTransient<IAreasRepository, AreasRepository>();
 builder.Services.AddTransient<IConfiguredTypesRepository, ConfiguredTypesRepository>();
+builder.Services.AddTransient<ILogsQueries, LogsQueries>();
+builder.Services.AddTransient<IAreasQueries, AreasQueries>();
+builder.Services.AddTransient<IConfiguredTypesQueries, ConfiguredTypesQueries>();
 
 //Add command handlers
 CommandHandlersSetup.AddCommandHandlers(builder.Services, typeof(ICommandHandler<>));
