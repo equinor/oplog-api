@@ -22,5 +22,10 @@ namespace Oplog.Persistence.Repositories
         {
             return await _dbContext.ConfiguredTypes.Where(c => c.CategoryId == categoryId).ToListAsync();
         }
+
+        public async Task<List<ConfiguredType>> GetAll()
+        {
+            return await _dbContext.ConfiguredTypes.ToListAsync();
+        }
     }
 }
