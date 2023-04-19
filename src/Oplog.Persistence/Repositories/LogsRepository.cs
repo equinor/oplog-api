@@ -1,4 +1,7 @@
-﻿using Oplog.Persistence.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Oplog.Persistence.Models;
+using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 
 namespace Oplog.Persistence.Repositories
@@ -24,6 +27,11 @@ namespace Oplog.Persistence.Repositories
         public async Task Save()
         {
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<List<Log>> GetAll()
+        {
+            return await _dbContext.Logs.ToListAsync();
         }
     }
 }
