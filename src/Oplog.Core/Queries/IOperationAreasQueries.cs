@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Oplog.Core.Queries
 {
-    public interface IAreasQueries
+    public interface IOperationAreasQueries
     {
         Task<List<GetAllAreasResult>> GetAllAreas();
     }

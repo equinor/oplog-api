@@ -33,10 +33,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddDbContext<OplogDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("Oplog")));
 builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
 builder.Services.AddTransient<ILogsRepository, LogsRepository>();
-builder.Services.AddTransient<IAreasRepository, AreasRepository>();
+builder.Services.AddTransient<IOperationsAreasRepository, OperationAreasRepository>();
 builder.Services.AddTransient<IConfiguredTypesRepository, ConfiguredTypesRepository>();
 builder.Services.AddTransient<ILogsQueries, LogsQueries>();
-builder.Services.AddTransient<IAreasQueries, AreasQueries>();
+builder.Services.AddTransient<IOperationAreasQueries, OperationAreasQueries>();
 builder.Services.AddTransient<IConfiguredTypesQueries, ConfiguredTypesQueries>();
 
 //Add command handlers

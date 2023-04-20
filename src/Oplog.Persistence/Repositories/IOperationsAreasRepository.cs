@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Oplog.Persistence.Repositories
 {
-    public interface IAreasRepository
+    public interface IOperationsAreasRepository
     {
-        Task<List<Area>> GetAllAreas();
+        Task<List<OperationArea>> GetAllAreas();
     }
 }

@@ -9,10 +9,10 @@ namespace Oplog.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class AreasController : ControllerBase
+    public class OperationAreasController : ControllerBase
     {
-        private readonly IAreasQueries _areasQueries;
-        public AreasController(IAreasQueries areasQueries)
+        private readonly IOperationAreasQueries _areasQueries;
+        public OperationAreasController(IOperationAreasQueries areasQueries)
         {
             _areasQueries = areasQueries;
         }
