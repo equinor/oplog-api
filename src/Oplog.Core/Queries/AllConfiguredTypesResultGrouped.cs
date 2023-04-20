@@ -21,15 +21,15 @@ namespace Oplog.Core.Queries
 
     public class ConfiguredTypeResult
     {
-        public ConfiguredTypeResult(int configuredTypeId, string name, string description, int? categoryId)
+        public ConfiguredTypeResult(int id, string name, string description, int? categoryId)
         {
-            ConfiguredTypeId = configuredTypeId;
+            Id = id;
             Name = name;
             Description = description;
             CategoryId = categoryId;
 
         }
-        public int ConfiguredTypeId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int? CategoryId { get; set; }
