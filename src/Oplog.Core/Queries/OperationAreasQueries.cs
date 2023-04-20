@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Oplog.Core.Queries
 {
-    public class AreasQueries : IAreasQueries
+    public class OperationAreasQueries : IOperationAreasQueries
     {
-        private readonly IAreasRepository _areasRepository;
-        public AreasQueries(IAreasRepository areasRepository)
+        private readonly IOperationsAreasRepository _areasRepository;
+        public OperationAreasQueries(IOperationsAreasRepository areasRepository)
         {
             _areasRepository = areasRepository;
         }

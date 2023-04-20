@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace Oplog.Persistence.Repositories
 {
-    public class AreasRepository : IAreasRepository
+    public class OperationAreasRepository : IOperationsAreasRepository
     {
         public readonly OplogDbContext _dbContext;
-        public AreasRepository(OplogDbContext dbContext)
+        public OperationAreasRepository(OplogDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<List<Area>> GetAllAreas()
+        public async Task<List<OperationArea>> GetAllAreas()
         {
-            return await _dbContext.Areas.ToListAsync();
+            return await _dbContext.OperationAreas.ToListAsync();
         }
     }
 }
