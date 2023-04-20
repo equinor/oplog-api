@@ -4,8 +4,7 @@ namespace Oplog.Persistence.Models
 {
     public class ConfiguredType
     {
-        public int Id { get; set; }
-        public int ConfiguredTypeId { get; set; }
+        public int Id { get; set; }        
         public int? LastChangeUserId { get; set; }
         public DateTime? LastChangeTime { get; set; }
         public DateTime? StartLife { get; set; }
