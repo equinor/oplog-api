@@ -38,6 +38,13 @@ namespace Oplog.Api.Controllers
             return Ok(configuredTypes);
         }
 
+        [HttpGet("grouped")]
+        public async Task<IActionResult> GetAllGrouped()
+        {
+            var result = await _configuredTypesQueries.GetAllGrouped();
+            return Ok(result);
+        }
+
         private CategoryId? ExtractCategoryId(string categoryName)
         {
             switch (categoryName)

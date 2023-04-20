@@ -29,10 +29,35 @@ namespace Oplog.Core.Queries
             var results = new List<ConfiguredTypesByCategoryResult>();
             foreach (var type in configuredTypes)
             {
-                results.Add(new ConfiguredTypesByCategoryResult(type.Id, type.ConfiguredTypeId, type.Name, type.Description, type.CategoryId));                
+                results.Add(new ConfiguredTypesByCategoryResult(type.Id, type.ConfiguredTypeId, type.Name, type.Description, type.CategoryId));
             }
 
             return results;
+        }
+
+        public async Task<AllConfiguredTypesResultGrouped> GetAllGrouped()
+        {
+            var configuredTypes = await _configuredTypesRepository.GetAll();
+
+            var types = configuredTypes.Where(c => c.CategoryId == (int)CategoryId.Type);
+            var subTypes = configuredTypes.Where(c => c.CategoryId == (int)CategoryId.SubType);
+            var units = configuredTypes.Where(c => c.CategoryId == (int)CategoryId.Unit);
+
+            var result = new AllConfiguredTypesResultGrouped();
+            foreach (var type in types)
+            {
+                result.Types.Add(new ConfiguredTypeResult(type.ConfiguredTypeId, type.Name, type.Description, type.CategoryId));
+            }
+            foreach (var subType in subTypes)
+            {
+                result.Types.Add(new ConfiguredTypeResult(subType.ConfiguredTypeId, subType.Name, subType.Description, subType.CategoryId));
+            }
+            foreach (var unit in units)
+            {
+                result.Types.Add(new ConfiguredTypeResult(unit.ConfiguredTypeId, unit.Name, unit.Description, unit.CategoryId));
+            }
+
+            return result;
         }
     }
 }
