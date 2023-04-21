@@ -14,6 +14,10 @@ namespace Oplog.Persistence.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task<Log> Get(int Id)
+        {
+            return await _dbContext.Logs.SingleOrDefaultAsync(l => l.Id == Id);
+        }
         public async Task Insert(Log log)
         {
             await _dbContext.Logs.AddAsync(log);
