@@ -19,19 +19,18 @@ namespace Oplog.Core.Commands
         }
         public async Task Handle(UpdateLogCommand command)
         {
-            var log = new Log
-            {
-                LogTypeId = command.LogType,
-                OperationAreaId = command.OperationsAreaId,
-                Author = command.Author,
-                Unit = command.Unit,
-                Subtype = command.SubType,
-                Text = command.Comment,
-                EffectiveTime = command.EffectiveTime,
-                UpdatedDate = DateTime.Now,
-                UpdatedBy = command.UpdatedBy,
-                IsCritical = command.IsCritical
-            };
+            var log = await _logsRepository.Get(command.Id);
+
+            log.LogTypeId = command.LogType;
+            log.OperationAreaId = command.OperationsAreaId;
+            log.Author = command.Author;
+            log.Unit = command.Unit;
+            log.Subtype = command.SubType;
+            log.Text = command.Comment;
+            log.EffectiveTime = command.EffectiveTime;
+            log.UpdatedDate = DateTime.Now;
+            log.UpdatedBy = command.UpdatedBy;
+            log.IsCritical = command.IsCritical;
 
             _logsRepository.Update(log);
             await _logsRepository.Save();
