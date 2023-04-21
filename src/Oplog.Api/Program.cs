@@ -14,7 +14,7 @@ using System.Net.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
-
+string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -29,6 +29,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     })
     .EnableTokenAcquisitionToCallDownstreamApi(e => { })
     .AddInMemoryTokenCaches();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(MyAllowSpecificOrigins,
+    builder =>
+    {
+        //var domainsAsArray = new string[corsDomainsFromConfig.Count];
+        //corsDomainsFromConfig.CopyTo(domainsAsArray);
+
+        //builder.WithOrigins(domainsAsArray);
+        builder.AllowAnyOrigin()
+        .SetIsOriginAllowedToAllowWildcardSubdomains()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddDbContext<OplogDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("Oplog")));
 builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
@@ -53,7 +69,7 @@ using (var scope = app.Services.CreateScope())
     var dbContext = services.GetRequiredService<OplogDbContext>();
     dbContext.Database.Migrate();
 }
-
+app.UseCors(MyAllowSpecificOrigins);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
