@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Oplog.Core.Queries
+﻿namespace Oplog.Core.Queries
 {
     public interface ILogsQueries
     {
         Task<List<GetAllLogsResult>> GetAllLogs();
+        Task<List<GetLogsByDateResult>> GetLogsByDate(DateTime fromDate, DateTime toDate);
+
     }
 }
