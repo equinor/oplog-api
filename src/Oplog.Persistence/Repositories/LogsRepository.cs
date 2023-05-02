@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Oplog.Persistence.Models;
+using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Oplog.Persistence.Repositories
@@ -36,6 +37,11 @@ namespace Oplog.Persistence.Repositories
         public async Task<List<Log>> GetAll()
         {
             return await _dbContext.Logs.ToListAsync();
+        }
+
+        public async Task<List<Log>> GetLogsBydate(DateTime fromDate, DateTime toDate)
+        {
+            return await _dbContext.Logs.Where(l => l.CreatedDate >= fromDate && l.CreatedDate <= toDate).ToListAsync();
         }
     }
 }

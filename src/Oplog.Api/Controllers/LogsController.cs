@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Graph;
 using Oplog.Api.Models;
 using Oplog.Core.Commands;
 using Oplog.Core.Infrastructure;
@@ -29,6 +29,13 @@ namespace Oplog.Api.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{fromDate}/{toDate}")]
+        public async Task<IActionResult> Get(DateTime fromDate, DateTime toDate)
+        {
+            var result = await _queries.GetLogsByDate(fromDate, toDate);
+            return Ok(result);
+        }
+
         //TODO: do model validation
         [HttpPost]
         public async Task<IActionResult> Post(CreateLogRequest request)
@@ -37,7 +44,7 @@ namespace Oplog.Api.Controllers
             return Ok();
         }
 
-        [HttpPut("id")]
+        [HttpPut("{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> Put(int id, [FromBody] UpdateLogRequest request)
         {
