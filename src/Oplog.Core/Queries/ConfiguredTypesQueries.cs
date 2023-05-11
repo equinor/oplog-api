@@ -45,11 +45,11 @@ namespace Oplog.Core.Queries
             }
             foreach (var subType in subTypes)
             {
-                result.Types.Add(new ConfiguredTypeResult(subType.Id, subType.Name, subType.Description, subType.CategoryId));
+                result.SubTypes.Add(new ConfiguredTypeResult(subType.Id, subType.Name, subType.Description, subType.CategoryId));
             }
             foreach (var unit in units)
             {
-                result.Types.Add(new ConfiguredTypeResult(unit.Id, unit.Name, unit.Description, unit.CategoryId));
+                result.Units.Add(new ConfiguredTypeResult(unit.Id, unit.Name, unit.Description, unit.CategoryId));
             }
 
             return result;
