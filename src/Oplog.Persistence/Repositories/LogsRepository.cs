@@ -41,7 +41,7 @@ namespace Oplog.Persistence.Repositories
 
         public async Task<List<Log>> GetLogsBydate(DateTime fromDate, DateTime toDate)
         {
-            return await _dbContext.Logs.Where(l => l.CreatedDate >= fromDate && l.CreatedDate <= toDate).Take(1000).ToListAsync();
+            return await _dbContext.Logs.Where(l => l.CreatedDate >= fromDate && l.CreatedDate <= toDate).OrderByDescending(l => l.CreatedDate).Take(1000).ToListAsync();
         }
     }
 }
