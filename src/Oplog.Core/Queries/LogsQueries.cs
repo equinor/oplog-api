@@ -41,7 +41,11 @@ namespace Oplog.Core.Queries
                     EffectiveTime = item.EffectiveTime,
                     Unit = item.Unit,
                     Subtype = item.Subtype,
-                    IsCritical = item.IsCritical
+                    IsCritical = item.IsCritical,
+                    LogTypeName = item.LogTypeName,
+                    SubTypeName = item.SubTypeName,
+                    UnitName = item.UnitName,
+                    AreaName = item.AreaName,
                 };
 
                 result.Add(log);
@@ -81,7 +85,11 @@ namespace Oplog.Core.Queries
                     EffectiveTime = item.EffectiveTime,
                     Unit = item.Unit,
                     Subtype = item.Subtype,
-                    IsCritical = item.IsCritical
+                    IsCritical = item.IsCritical,
+                    LogTypeName = item.LogTypeName,
+                    SubTypeName = item.SubTypeName,
+                    UnitName = item.UnitName,
+                    AreaName = item.AreaName,
                 };
 
                 result.Add(log);

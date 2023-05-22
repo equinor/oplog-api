@@ -10,8 +10,8 @@ namespace Oplog.Persistence.Repositories
         Task<Log> Get(int Id);
         Task Insert(Log log);
         void Update(Log log);
-        Task<List<Log>> GetAll();
-        Task<List<Log>> GetLogsBydate(DateTime fromDate, DateTime toDate);
+        Task<List<LogView>> GetAll();
+        Task<List<LogView>> GetLogsBydate(DateTime fromDate, DateTime toDate);
         Task Save();
     }
 }

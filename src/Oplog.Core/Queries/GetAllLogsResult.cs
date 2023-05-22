@@ -20,5 +20,9 @@
         public int? Unit { get; set; }
         public int? Subtype { get; set; }
         public bool? IsCritical { get; set; }
+        public string AreaName { get; set; }
+        public string LogTypeName { get; set; }
+        public string SubTypeName { get; set; }
+        public string UnitName { get; set; }
     }
 }
