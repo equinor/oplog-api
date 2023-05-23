@@ -4,6 +4,6 @@
     {
         Task<List<GetAllLogsResult>> GetAllLogs();
         Task<List<GetLogsByDateResult>> GetLogsByDate(DateTime fromDate, DateTime toDate);
-
+        Task<List<GetFilteredLogsResult>> GetFilteredLogs(LogsFilter filter);
     }
 }
