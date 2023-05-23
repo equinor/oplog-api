@@ -34,12 +34,12 @@ namespace Oplog.Persistence.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<LogView>> GetAll()
+        public async Task<List<LogsView>> GetAll()
         {
             return await _dbContext.LogsView.ToListAsync();
         }
 
-        public async Task<List<LogView>> GetLogsBydate(DateTime fromDate, DateTime toDate)
+        public async Task<List<LogsView>> GetLogsBydate(DateTime fromDate, DateTime toDate)
         {
             return await _dbContext.LogsView.Where(l => l.CreatedDate >= fromDate && l.CreatedDate <= toDate).OrderByDescending(l => l.CreatedDate).Take(1000).ToListAsync();
         }

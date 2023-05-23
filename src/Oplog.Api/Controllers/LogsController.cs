@@ -45,7 +45,6 @@ namespace Oplog.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        [AllowAnonymous]
         public async Task<IActionResult> Put(int id, [FromBody] UpdateLogRequest request)
         {
             await _commandDispatcher.Dispatch(new UpdateLogCommand(id, request.LogType, request.SubType, request.Comment, request.OperationsAreaId, request.Author, request.Unit, request.EffectiveTime, GetUserName(), request.IsCritical));

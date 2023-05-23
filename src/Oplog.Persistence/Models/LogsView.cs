@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Oplog.Persistence.Models
 {
-    public class LogView
+    public class LogsView
     {
         public int Id { get; set; }
         public int? LogTypeId { get; set; }
