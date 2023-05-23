@@ -7,10 +7,11 @@ namespace Oplog.Persistence
     {
         public DbSet<Category> Categories { get; set; }
         public DbSet<Log> Logs { get; set; }
-        public DbSet<ConfiguredType> ConfiguredTypes { get; set; }        
-        public DbSet<OperationArea> OperationAreas { get; set; } 
+        public DbSet<ConfiguredType> ConfiguredTypes { get; set; }
+        public DbSet<OperationArea> OperationAreas { get; set; }
+        public DbSet<LogView> LogsView { get; set; }
 
-        public OplogDbContext(DbContextOptions<OplogDbContext> context):base(context)
+        public OplogDbContext(DbContextOptions<OplogDbContext> context) : base(context)
         {
 
         }
@@ -21,6 +22,9 @@ namespace Oplog.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<LogView>()
+                .ToView(nameof(LogView))
+                .HasKey(l => l.Id);
         }
     }
 }

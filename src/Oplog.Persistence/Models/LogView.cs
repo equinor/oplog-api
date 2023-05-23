@@ -1,6 +1,12 @@
-﻿namespace Oplog.Core.Queries
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Oplog.Persistence.Models
 {
-    public class GetLogsByDateResult
+    public class LogView
     {
         public int Id { get; set; }
         public int? LogTypeId { get; set; }
