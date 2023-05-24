@@ -48,12 +48,12 @@ namespace Oplog.Persistence.Repositories
         {
             return await _dbContext.LogsView
                        .Where(l => l.CreatedDate >= fromDate && l.CreatedDate <= toDate
-                       || (logTypeIds.Contains(l.LogTypeId.Value) || logTypeIds == null)
-                       || (areaIds.Contains(l.OperationAreaId.Value) || areaIds == null)
-                       || (subTypeIds.Contains(l.Subtype.Value) || subTypeIds == null)
-                       || (unitIds.Contains(l.Unit.Value) || unitIds == null)
-                       || (logTypeIds.Contains(l.LogTypeId.Value) || logTypeIds == null)
-                       || (l.Text.Contains(searchText) || string.IsNullOrWhiteSpace(searchText)))
+                       && (logTypeIds.Contains(l.LogTypeId.Value) || logTypeIds == null
+                       || areaIds.Contains(l.OperationAreaId.Value) || areaIds == null
+                       || subTypeIds.Contains(l.Subtype.Value) || subTypeIds == null
+                       || unitIds.Contains(l.Unit.Value) || unitIds == null
+                       || logTypeIds.Contains(l.LogTypeId.Value) || logTypeIds == null
+                       || l.Text.Contains(searchText) || string.IsNullOrWhiteSpace(searchText)))
                        .OrderByDescending(l => l.CreatedDate).ToListAsync();
         }
 
