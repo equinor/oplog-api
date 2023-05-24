@@ -12,6 +12,7 @@ namespace Oplog.Persistence.Repositories
         void Update(Log log);
         Task<List<LogsView>> GetAll();
         Task<List<LogsView>> GetLogsBydate(DateTime fromDate, DateTime toDate);
+        Task<List<LogsView>> GetFilteredLogs(int[] logTypeIds, int[] areaIds, int[] subTypeIds, int[] unitIds, string searchText, DateTime fromDate, DateTime toDate);
         Task Save();
     }
 }

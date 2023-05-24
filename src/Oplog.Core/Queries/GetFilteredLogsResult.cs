@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace Oplog.Persistence.Models
+﻿namespace Oplog.Core.Queries
 {
-    public class LogsView
+    public class GetFilteredLogsResult
     {
         public int Id { get; set; }
         public int? LogTypeId { get; set; }

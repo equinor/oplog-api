@@ -97,5 +97,49 @@ namespace Oplog.Core.Queries
 
             return result;
         }
+
+        public async Task<List<GetFilteredLogsResult>> GetFilteredLogs(LogsFilter filter)
+        {
+            var logs = await _logsRepository.GetFilteredLogs(filter.LogTypeIds, filter.AreaIds, filter.SubTypeIds, filter.UnitIds, filter.SearchText, filter.FromDate, filter.ToDate);
+
+            if (logs == null)
+            {
+                return null;
+            }
+
+            var result = new List<GetFilteredLogsResult>();
+            foreach (var item in logs)
+            {
+                var log = new GetFilteredLogsResult
+                {
+                    Id = item.Id,
+                    LogTypeId = item.LogTypeId,
+                    ParentId = item.ParentId,
+                    LastChangeUserId = item.LastChangeUserId,
+                    LastChangeDateTime = item.LastChangeDateTime,
+                    UpdatedBy = item.UpdatedBy,
+                    UpdatedDate = item.UpdatedDate,
+                    CreatedById = item.CreatedById,
+                    Author = item.Author,
+                    ScheduleItemState = item.ScheduleItemState,
+                    CreatedBy = item.CreatedBy,
+                    CreatedDate = item.CreatedDate,
+                    Text = item.Text,
+                    OperationAreaId = item.OperationAreaId,
+                    EffectiveTime = item.EffectiveTime,
+                    Unit = item.Unit,
+                    Subtype = item.Subtype,
+                    IsCritical = item.IsCritical,
+                    LogTypeName = item.LogTypeName,
+                    SubTypeName = item.SubTypeName,
+                    UnitName = item.UnitName,
+                    AreaName = item.AreaName,
+                };
+
+                result.Add(log);
+            }
+
+            return result;
+        }
     }
 }
