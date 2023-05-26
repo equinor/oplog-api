@@ -10,6 +10,8 @@ namespace Oplog.Persistence
         public DbSet<ConfiguredType> ConfiguredTypes { get; set; }
         public DbSet<OperationArea> OperationAreas { get; set; }
         public DbSet<LogsView> LogsView { get; set; }
+        public DbSet<UserDefinedFilter> UserDefinedFilters { get; set; }
+        public DbSet<UserDefinedFilterItem> UserDefinedFilterItems { get; set; }
 
         public OplogDbContext(DbContextOptions<OplogDbContext> context) : base(context)
         {
@@ -25,6 +27,11 @@ namespace Oplog.Persistence
             modelBuilder.Entity<LogsView>()
                 .ToView(nameof(LogsView))
                 .HasKey(l => l.Id);
+
+            //modelBuilder.Entity<UserDefinedFilterItem>()
+            //    .HasOne<UserDefinedFilter>()
+            //    .WithOne()
+            //    .HasForeignKey<UserDefinedFilterItem>(u => u.UserDefinedFilterId);
         }
     }
 }
