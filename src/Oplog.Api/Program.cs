@@ -51,9 +51,11 @@ builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
 builder.Services.AddTransient<ILogsRepository, LogsRepository>();
 builder.Services.AddTransient<IOperationsAreasRepository, OperationAreasRepository>();
 builder.Services.AddTransient<IConfiguredTypesRepository, ConfiguredTypesRepository>();
+builder.Services.AddTransient<IUserDefinedFilterRepository, UserDefinedFilterRepository>();
 builder.Services.AddTransient<ILogsQueries, LogsQueries>();
 builder.Services.AddTransient<IOperationAreasQueries, OperationAreasQueries>();
 builder.Services.AddTransient<IConfiguredTypesQueries, ConfiguredTypesQueries>();
+builder.Services.AddTransient<IUserDefinedFilterQueries, UserDefinedFilterQueries>();
 
 //Add command handlers
 CommandHandlersSetup.AddCommandHandlers(builder.Services, typeof(ICommandHandler<>));
