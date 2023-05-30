@@ -36,5 +36,12 @@ namespace Oplog.Api.Controllers
             var results = await _userDefinedFilterQueries.GetByCreatedUser(HttpContext.User.Identity.Name);
             return Ok(results);
         }
+
+        [HttpDelete("id")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _commandDispatcher.Dispatch(new DeleteUserDefinedFilterCommand(id));
+            return Ok();
+        }
     }
 }

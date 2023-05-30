@@ -8,6 +8,7 @@ namespace Oplog.Persistence.Repositories
     {
         Task Insert(UserDefinedFilter filter);
         Task<List<UserDefinedFilter>> GetByCreatedUser(string createdBy);
+        Task Delete(int id);
         Task Save();
     }
 }
