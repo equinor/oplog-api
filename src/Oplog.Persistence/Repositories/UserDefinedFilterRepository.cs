@@ -26,6 +26,16 @@ namespace Oplog.Persistence.Repositories
             return await _dbContext.UserDefinedFilters.Where(u => u.CreatedBy == createdBy).Include(u => u.UserDefinedFilterItems).ToListAsync();
         }
 
+        public async Task Delete(int id)
+        {
+            var filter = await _dbContext.UserDefinedFilters.Where(u=>u.Id ==id).FirstOrDefaultAsync();
+
+            if (filter != null)
+            {
+                _dbContext.UserDefinedFilters.Remove(filter);
+            }
+        }
+
         public async Task Save()
         {
             await _dbContext.SaveChangesAsync();
