@@ -28,7 +28,7 @@ namespace Oplog.Persistence.Repositories
 
         public async Task Delete(int id)
         {
-            var filter = await _dbContext.UserDefinedFilters.Where(u=>u.Id ==id).FirstOrDefaultAsync();
+            var filter = await _dbContext.UserDefinedFilters.SingleOrDefaultAsync(u => u.Id == id);
 
             if (filter != null)
             {

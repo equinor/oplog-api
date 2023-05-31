@@ -12,6 +12,7 @@ namespace Oplog.Persistence
         public DbSet<LogsView> LogsView { get; set; }
         public DbSet<UserDefinedFilter> UserDefinedFilters { get; set; }
         public DbSet<UserDefinedFilterItem> UserDefinedFilterItems { get; set; }
+        public DbSet<LogTemplate> LogTemplates { get; set; }
 
         public OplogDbContext(DbContextOptions<OplogDbContext> context) : base(context)
         {
