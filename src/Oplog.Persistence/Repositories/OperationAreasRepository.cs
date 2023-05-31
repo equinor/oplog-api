@@ -13,6 +13,11 @@ namespace Oplog.Persistence.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task<OperationArea> Get(int id)
+        {
+            return await _dbContext.OperationAreas.SingleOrDefaultAsync(x => x.Id == id);
+        }
+
         public async Task<List<OperationArea>> GetAllAreas()
         {
             return await _dbContext.OperationAreas.ToListAsync();
