@@ -7,5 +7,6 @@ namespace Oplog.Persistence.Repositories
     public interface IOperationsAreasRepository
     {
         Task<List<OperationArea>> GetAllAreas();
+        Task<OperationArea> Get(int id);
     }
 }

@@ -15,7 +15,8 @@ namespace Oplog.Core.Queries
 
     public class UserDefinedFilterItemsResult
     {
-        public int Id { get; set; }       
+        public int Id { get; set; }
+        public string Name { get; set; }
         public int? CategoryId { get; set; }
     }
 }
