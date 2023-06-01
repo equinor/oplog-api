@@ -24,7 +24,7 @@ namespace Oplog.Core.Commands
                 LogTypeId = command.LogTypeId,
                 OperationAreaId = command.OperationAreaId,
                 Text = command.Text,
-                Author = command.Authour,
+                Author = command.Author,
                 Unit = command.Unit,
                 Subtype = command.Subtype,
                 IsCritical = command.IsCritical,
