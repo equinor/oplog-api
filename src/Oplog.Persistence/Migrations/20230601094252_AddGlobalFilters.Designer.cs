@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Oplog.Persistence;
 
@@ -11,9 +12,11 @@ using Oplog.Persistence;
 namespace Oplog.Persistence.Migrations
 {
     [DbContext(typeof(OplogDbContext))]
-    partial class OplogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230601094252_AddGlobalFilters")]
+    partial class AddGlobalFilters
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,7 +107,7 @@ namespace Oplog.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsGlobalFilter")
+                    b.Property<bool?>("IsGlobalFilter")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
