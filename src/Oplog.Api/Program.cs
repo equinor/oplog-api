@@ -15,7 +15,10 @@ using System.Net.Http;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(optionsA =>
