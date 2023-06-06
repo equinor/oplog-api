@@ -2,13 +2,14 @@
 {
     public class LogsFilter
     {
-        public LogsFilter(int[] logTypeIds, int[] areaIds, int[] subTypeIds, int[] unitIds, string searchText, DateTime fromDate, DateTime toDate)
+        public LogsFilter(int[] logTypeIds, int[] areaIds, int[] subTypeIds, int[] unitIds, string searchText, bool? isCritical, DateTime fromDate, DateTime toDate)
         {
             LogTypeIds = logTypeIds;
             AreaIds = areaIds;
             SubTypeIds = subTypeIds;
             UnitIds = unitIds;
             SearchText = searchText;
+            IsCritical = isCritical;
             FromDate = fromDate;
             ToDate = toDate;
         }
@@ -19,5 +20,6 @@
         public int[] AreaIds { get; set; }
         public int[] SubTypeIds { get; set; }
         public int[] UnitIds { get; set; }
+        public bool? IsCritical { get; set; }
     }
 }

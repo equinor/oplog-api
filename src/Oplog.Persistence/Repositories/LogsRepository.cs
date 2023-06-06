@@ -44,7 +44,7 @@ namespace Oplog.Persistence.Repositories
             return await _dbContext.LogsView.Where(l => l.CreatedDate >= fromDate && l.CreatedDate <= toDate).OrderByDescending(l => l.CreatedDate).Take(1000).ToListAsync();
         }
 
-        public async Task<List<LogsView>> GetFilteredLogs(int[] logTypeIds, int[] areaIds, int[] subTypeIds, int[] unitIds, string searchText, DateTime fromDate, DateTime toDate)
+        public async Task<List<LogsView>> GetFilteredLogs(int[] logTypeIds, int[] areaIds, int[] subTypeIds, int[] unitIds, string searchText, bool? isCritical, DateTime fromDate, DateTime toDate)
         {
             return await _dbContext.LogsView
                        .Where(l => l.CreatedDate >= fromDate && l.CreatedDate <= toDate
@@ -53,6 +53,7 @@ namespace Oplog.Persistence.Repositories
                        && (subTypeIds.Contains(l.Subtype.Value) || subTypeIds == null)
                        && (unitIds.Contains(l.Unit.Value) || unitIds == null)
                        && (logTypeIds.Contains(l.LogTypeId.Value) || logTypeIds == null)
+                       && (l.IsCritical == l.IsCritical || isCritical == null)
                        && (l.Text.Contains(searchText) || string.IsNullOrWhiteSpace(searchText)))
                        .OrderByDescending(l => l.CreatedDate).ToListAsync();
         }

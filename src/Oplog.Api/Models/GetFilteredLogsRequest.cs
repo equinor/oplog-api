@@ -11,6 +11,6 @@ namespace Oplog.Api.Models
         public string SearchText { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-
+        public bool IsCritical { get; set; }
     }
 }
