@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -64,5 +65,13 @@ namespace Oplog.Api.Controllers
         {
             return HttpContext.User.Identity.Name;
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(IEnumerable<int> ids)
+        {
+            await _commandDispatcher.Dispatch(new DeleteLogCommand(ids));
+            return Ok();
+        }
+
     }
 }
