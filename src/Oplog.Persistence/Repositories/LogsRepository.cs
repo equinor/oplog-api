@@ -23,6 +23,15 @@ namespace Oplog.Persistence.Repositories
         {
             await _dbContext.Logs.AddAsync(log);
         }
+        public async Task Delete(int id)
+        {
+            var log = await _dbContext.Logs.SingleOrDefaultAsync(l => l.Id == id);
+
+            if (log != null)
+            {
+                _dbContext.Logs.Remove(log);
+            }
+        }
 
         public void Update(Log log)
         {
