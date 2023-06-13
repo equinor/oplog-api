@@ -61,7 +61,8 @@ builder.Services.AddTransient<IOperationAreasQueries, OperationAreasQueries>();
 builder.Services.AddTransient<IConfiguredTypesQueries, ConfiguredTypesQueries>();
 builder.Services.AddTransient<ICustomFilterQueries, CustomFilterQueries>();
 builder.Services.AddTransient<ILogTemplateQueries, LogTemplateQueries>();
-
+// The following line enables Application Insights telemetry collection.
+builder.Services.AddApplicationInsightsTelemetry();
 //Add command handlers
 CommandHandlersSetup.AddCommandHandlers(builder.Services, typeof(ICommandHandler<>));
 CommandHandlersSetup.AddCommandHandlers(builder.Services, typeof(ICommandHandler<,>));
