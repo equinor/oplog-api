@@ -94,6 +94,8 @@ namespace Oplog.Core.Queries
                 results.Add(result);
             }
 
+            results.Sort((a, b) => string.Compare(a.Name, b.Name));
+
             return results;
         }
         private async Task<string> GetAreaNameById(int id)

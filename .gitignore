@@ -5,3 +5,4 @@ obj
 /src/Oplog.Api/*.user
 /src/Oplog.Api/.dockerignore
 /src/Oplog.Api/appsettings.Development.json
+/src/Oplog.Api/appsettings.json
