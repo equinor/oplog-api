@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Oplog.Api;
+using Oplog.Api.Middleware;
 using Oplog.Core.Infrastructure;
 using Oplog.Core.Queries;
 using Oplog.Persistence;
@@ -90,6 +91,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 SwaggerSetup.Configure(configuration, app);
+app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 app.MapControllers();
 app.Run();
 
