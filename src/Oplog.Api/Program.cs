@@ -21,7 +21,7 @@ string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 var keyVaultUrl = configuration["KeyVaultEndpoint"];
 var clientId = configuration["AzureAd:ClientId"];
-var clientSecret = configuration["AzureAd:ClientSecret"];
+var clientSecret = configuration["azure:ClientSecret"];
 builder.Configuration.AddAzureKeyVault(keyVaultUrl, clientId, clientSecret);
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
