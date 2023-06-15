@@ -20,8 +20,9 @@ var configuration = builder.Configuration;
 string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 var keyVaultUrl = configuration["KeyVaultEndpoint"];
-builder.Configuration.AddAzureKeyVault(keyVaultUrl);
-
+var clientId = configuration["AzureAd:ClientId"];
+var clientSecret = configuration["AzureAd:ClientSecret"];
+builder.Configuration.AddAzureKeyVault(keyVaultUrl, clientId, clientSecret);
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
     options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
