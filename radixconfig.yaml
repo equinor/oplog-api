@@ -16,8 +16,8 @@ spec:
           port: 5000
       publicPort: http
       secrets:
-        - azure__ClientSecret
-        - azure__ClientId
+        - AzureAd__ClientSecret
+        - AzureAd__ClientId
         - KeyVaultEndpoint
       environmentConfig:
         - environment: dev
