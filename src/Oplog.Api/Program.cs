@@ -70,10 +70,10 @@ builder.Services.AddTransient<IConfiguredTypesQueries, ConfiguredTypesQueries>()
 builder.Services.AddTransient<ICustomFilterQueries, CustomFilterQueries>();
 builder.Services.AddTransient<ILogTemplateQueries, LogTemplateQueries>();
 // The following line enables Application Insights telemetry collection.
-//var appinsightConnStr = configuration["ApplicationInsights:ConnectionString"];
-//var optionsAppInsight = new ApplicationInsightsServiceOptions { ConnectionString = configuration["ApplicationInsights:ConnectionString"] };
+var appinsightConnStr = configuration["ApplicationInsights:ConnectionString"];
+var optionsAppInsight = new ApplicationInsightsServiceOptions { ConnectionString = configuration["ApplicationInsights:ConnectionString"] };
 
-//builder.Services.AddApplicationInsightsTelemetry(options: optionsAppInsight);
+builder.Services.AddApplicationInsightsTelemetry(options: optionsAppInsight);
 //Add command handlers
 CommandHandlersSetup.AddCommandHandlers(builder.Services, typeof(ICommandHandler<>));
 CommandHandlersSetup.AddCommandHandlers(builder.Services, typeof(ICommandHandler<,>));
@@ -101,7 +101,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 SwaggerSetup.Configure(configuration, app);
-//app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 app.MapControllers();
 app.Run();
 
