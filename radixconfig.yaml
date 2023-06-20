@@ -24,7 +24,21 @@ spec:
           runAsNonRoot: true
           variables:
             ASPNETCORE_URLS: "http://*:5000"
-            AllowCorsDomains: "http://localhost:3000"
+            AllowCorsDomains: "http://localhost:3000, https://frontend-oplog-web-dev.radix.equinor.com"
+          replicas: 2
+          monitoring: true
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "200m"
+        - environment: prod
+          runAsNonRoot: true
+          variables:
+            ASPNETCORE_URLS: "http://*:5000"
+            AllowCorsDomains: "http://localhost:3000, https://frontend-oplog-web-prod.radix.equinor.com, https://oplog.equinor.com"
           replicas: 2
           monitoring: true
           resources:
