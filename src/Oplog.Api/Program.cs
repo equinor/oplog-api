@@ -57,7 +57,7 @@ builder.Services.AddCors(options =>
             "http://localhost:5173",
             "https://oplog.equinor.com"
         };
-        builder.WithOrigins()
+        builder.WithOrigins(origins)
         .AllowAnyHeader()
         .AllowAnyMethod();
     });
