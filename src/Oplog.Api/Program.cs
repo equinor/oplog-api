@@ -52,8 +52,8 @@ builder.Services.AddCors(options =>
         //builder.WithOrigins(domainsAsArray);
         var origins = new string[]
         {
-            "https://frontend-oplog-dev.radix.equinor.com",
-            "https://frontend-oplog-prod.radix.equinor.com",
+            "https://frontend-oplog-web-dev.radix.equinor.com",
+            "https://frontend-oplog-web-prod.radix.equinor.com",
             "http://localhost:5173",
             "https://oplog.equinor.com"
         };
