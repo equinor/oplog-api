@@ -50,8 +50,14 @@ builder.Services.AddCors(options =>
         //corsDomainsFromConfig.CopyTo(domainsAsArray);
 
         //builder.WithOrigins(domainsAsArray);
-        builder.AllowAnyOrigin()
-        .SetIsOriginAllowedToAllowWildcardSubdomains()
+        var origins = new string[]
+        {
+            "https://frontend-oplog-dev.radix.equinor.com",
+            "https://frontend-oplog-prod.radix.equinor.com",
+            "http://localhost:5173",
+            "https://oplog.equinor.com"
+        };
+        builder.WithOrigins()
         .AllowAnyHeader()
         .AllowAnyMethod();
     });
