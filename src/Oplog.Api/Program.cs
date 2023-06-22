@@ -66,7 +66,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddDbContext<OplogDbContext>(x => x.UseSqlServer("Server=PF2RXR9D\\MSSQLSERVER01;Database=Oplog;Trusted_Connection=True;MultipleActiveResultSets=False;Integrated Security=true;Connection Timeout=30;TrustServerCertificate=True"));
+builder.Services.AddDbContext<OplogDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("Oplog")));
 builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
 builder.Services.AddTransient<ILogsRepository, LogsRepository>();
 builder.Services.AddTransient<IOperationsAreasRepository, OperationAreasRepository>();
