@@ -22,7 +22,10 @@ string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var keyVaultUrl = configuration["KeyVaultEndpoint"];
 var clientId = configuration["AzureAd:ClientId"];
 var clientSecret = configuration["AzureAd:ClientSecret"];
-builder.Configuration.AddAzureKeyVault(keyVaultUrl, clientId, clientSecret);
+if (!builder.Environment.IsDevelopment())
+{
+    builder.Configuration.AddAzureKeyVault(keyVaultUrl, clientId, clientSecret);
+}
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
     options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
@@ -63,7 +66,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddDbContext<OplogDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("Oplog")));
+builder.Services.AddDbContext<OplogDbContext>(x => x.UseSqlServer("Server=PF2RXR9D\\MSSQLSERVER01;Database=Oplog;Trusted_Connection=True;MultipleActiveResultSets=False;Integrated Security=true;Connection Timeout=30;TrustServerCertificate=True"));
 builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
 builder.Services.AddTransient<ILogsRepository, LogsRepository>();
 builder.Services.AddTransient<IOperationsAreasRepository, OperationAreasRepository>();
