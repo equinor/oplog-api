@@ -25,6 +25,9 @@ namespace Oplog.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Log>()
+                .HasIndex(l => l.CreatedDate);
+
             modelBuilder.Entity<LogsView>()
                 .ToView(nameof(LogsView))
                 .HasKey(l => l.Id);
