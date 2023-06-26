@@ -26,7 +26,7 @@ namespace Oplog.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(CreateCustomFilterRequest request)
         {
-            await _commandDispatcher.Dispatch(new CreateCustomFilterCommand(request.Name, HttpContext.User.Identity.Name, request.IsGlobalFilter, request.FilterItems));
+            await _commandDispatcher.Dispatch(new CreateCustomFilterCommand(request.Name, HttpContext.User.Identity.Name, request.IsGlobalFilter, request.SearchText, request.FilterItems));
             return Ok();
         }
 

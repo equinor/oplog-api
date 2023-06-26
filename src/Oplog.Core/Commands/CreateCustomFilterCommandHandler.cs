@@ -28,7 +28,7 @@ namespace Oplog.Core.Commands
             }
 
             var isGlobalFilter = command.IsGlobalFilter != null && command.IsGlobalFilter.Value;
-            var customFilter = new CustomFilter { Name = command.Name, CreatedBy = command.CreatedBy, IsGlobalFilter = isGlobalFilter, CustomFilterItems = customFilterItems };
+            var customFilter = new CustomFilter { Name = command.Name, CreatedBy = command.CreatedBy, IsGlobalFilter = isGlobalFilter, SearchText = command.SearchText, CustomFilterItems = customFilterItems };
             await _customFilterRepository.Insert(customFilter);
             await _customFilterRepository.Save();
         }

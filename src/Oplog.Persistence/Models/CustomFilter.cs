@@ -9,5 +9,6 @@ namespace Oplog.Persistence.Models
         public List<CustomFilterItem> CustomFilterItems { get; set; }
         public string CreatedBy { get; set; }
         public bool IsGlobalFilter { get; set; }
+        public string SearchText { get; set; }
     }
 }
