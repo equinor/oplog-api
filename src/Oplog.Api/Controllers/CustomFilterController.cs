@@ -45,9 +45,12 @@ namespace Oplog.Api.Controllers
         }
 
         [HttpDelete("id")]
+        
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await _commandDispatcher.Dispatch<DeleteCustomFilterCommand, DeleteCustomFilterResult>(new DeleteCustomFilterCommand(id));
+            var isAdmin = User.IsInRole("Permission.Admin"); 
+  
+            var result = await _commandDispatcher.Dispatch<DeleteCustomFilterCommand, DeleteCustomFilterResult>(new DeleteCustomFilterCommand(id, isAdmin));
 
             if (result.ResultType == ResultType.NotFound)
             {
