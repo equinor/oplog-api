@@ -4,15 +4,16 @@ using Oplog.Persistence.Repositories;
 
 namespace Oplog.Core.Commands
 {
-    public class CreateCustomFilterCommandHandler : ICommandHandler<CreateCustomFilterCommand>
+    public class CreateCustomFilterCommandHandler : ICommandHandler<CreateCustomFilterCommand, CreateCustomFilterResult>
     {
         private readonly ICustomFilterRepository _customFilterRepository;
         public CreateCustomFilterCommandHandler(ICustomFilterRepository customFilterRepository)
         {
             _customFilterRepository = customFilterRepository;
         }
-        public async Task Handle(CreateCustomFilterCommand command)
+        public async Task<CreateCustomFilterResult> Handle(CreateCustomFilterCommand command)
         {
+            var result = new CreateCustomFilterResult();
             //Add validation
             var customFilterItems = new List<CustomFilterItem>();
             if (command.FilterItems.Any())
@@ -28,9 +29,15 @@ namespace Oplog.Core.Commands
             }
 
             var isGlobalFilter = command.IsGlobalFilter != null && command.IsGlobalFilter.Value;
+            if (isGlobalFilter && !command.IsAdmin) 
+            {
+
+                return result.GlobalFiltercCreatedNotAllowed(); 
+            }
             var customFilter = new CustomFilter { Name = command.Name, CreatedBy = command.CreatedBy, IsGlobalFilter = isGlobalFilter, SearchText = command.SearchText, CustomFilterItems = customFilterItems };
             await _customFilterRepository.Insert(customFilter);
             await _customFilterRepository.Save();
+            return result.CustomFilterCreated();
         }
     }
 }
