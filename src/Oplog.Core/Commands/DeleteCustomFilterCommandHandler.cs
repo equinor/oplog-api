@@ -21,7 +21,7 @@ namespace Oplog.Core.Commands
                 return result.CustomFilterNotFound();
             }
 
-            if (customFilter.IsGlobalFilter == true)
+            if (customFilter.IsGlobalFilter && !command.IsAdmin)
             {
                 return result.GlobalFilterDeleteNotAllowed();
             }
@@ -30,7 +30,5 @@ namespace Oplog.Core.Commands
             await _customFilterRepository.Save();
             return result.CustomFilterDeleted();
         }
-
-
     }
 }

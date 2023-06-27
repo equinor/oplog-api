@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Oplog.Api.Models;
 using Oplog.Core.Commands;
@@ -26,8 +27,14 @@ namespace Oplog.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(CreateCustomFilterRequest request)
         {
-            await _commandDispatcher.Dispatch(new CreateCustomFilterCommand(request.Name, HttpContext.User.Identity.Name, request.IsGlobalFilter, request.FilterItems));
-            return Ok();
+            var isAdmin = User.IsInRole("Permission.Admin");
+            var result = await _commandDispatcher.Dispatch<CreateCustomFilterCommand, CreateCustomFilterResult>(new CreateCustomFilterCommand(request.Name, HttpContext.User.Identity.Name, request.IsGlobalFilter, request.SearchText, isAdmin, request.FilterItems));
+            if (result.ResultType == ResultType.NotFound)
+            {
+                return NotFound(result.Message);
+            }
+
+            return Ok(result.Message);
         }
 
         [HttpGet]
@@ -45,10 +52,11 @@ namespace Oplog.Api.Controllers
         }
 
         [HttpDelete("id")]
+        
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await _commandDispatcher.Dispatch<DeleteCustomFilterCommand, DeleteCustomFilterResult>(new DeleteCustomFilterCommand(id));
-
+            var isAdmin = User.IsInRole("Permission.Admin"); 
+            var result = await _commandDispatcher.Dispatch<DeleteCustomFilterCommand, DeleteCustomFilterResult>(new DeleteCustomFilterCommand(id, isAdmin));
             if (result.ResultType == ResultType.NotFound)
             {
                 return NotFound(result.Message);

@@ -31,6 +31,7 @@ namespace Oplog.Core.Queries
                 {
                     Id = item.Id,
                     Name = item.Name,
+                    SearchText= item.SearchText,
                     Filters = new List<CustomFilterItemsResult>()
                 };
 
@@ -73,6 +74,7 @@ namespace Oplog.Core.Queries
                     Id = item.Id,
                     Name = item.Name,
                     IsGlobalFilter = item.IsGlobalFilter,
+                    SearchText= item.SearchText,
                     Filters = new List<CustomFilterItemsResult>()
                 };
 
