@@ -34,7 +34,7 @@ namespace Oplog.Api.Controllers
         [HttpPost("filter")]
         public async Task<IActionResult> Post(GetFilteredLogsRequest request)
         {
-            var filter = new LogsFilter(request.LogTypeIds, request.AreaIds, request.SubTypeIds, request.UnitIds, request.SearchText, request.FromDate, request.ToDate);
+            var filter = new LogsFilter(request.LogTypeIds, request.AreaIds, request.SubTypeIds, request.UnitIds, request.SearchText, request.FromDate, request.ToDate, request.SortField, request.SortDirection);
             var result = await _queries.GetFilteredLogs(filter);
             return Ok(result);
         }
