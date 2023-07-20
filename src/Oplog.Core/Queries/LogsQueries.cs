@@ -100,7 +100,7 @@ namespace Oplog.Core.Queries
 
         public async Task<List<GetFilteredLogsResult>> GetFilteredLogs(LogsFilter filter)
         {
-            var logs = await _logsRepository.GetFilteredLogs(filter.LogTypeIds, filter.AreaIds, filter.SubTypeIds, filter.UnitIds, filter.SearchText, filter.FromDate, filter.ToDate);
+            var logs = await _logsRepository.GetFilteredLogs(filter.LogTypeIds, filter.AreaIds, filter.SubTypeIds, filter.UnitIds, filter.SearchText, filter.FromDate, filter.ToDate, filter.SortField, filter.SortDirection);
 
             if (logs == null)
             {

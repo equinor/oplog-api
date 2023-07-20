@@ -11,6 +11,7 @@ namespace Oplog.Api.Models
         public string SearchText { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-
+        public string SortField { get; set; }
+        public string SortDirection { get; set; }
     }
 }

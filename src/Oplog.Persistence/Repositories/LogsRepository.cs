@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Oplog.Persistence.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -53,21 +55,60 @@ namespace Oplog.Persistence.Repositories
             return await _dbContext.LogsView.Where(l => l.CreatedDate >= fromDate && l.CreatedDate <= toDate).OrderByDescending(l => l.CreatedDate).Take(1000).ToListAsync();
         }
 
-        public async Task<List<LogsView>> GetFilteredLogs(int[] logTypeIds, int[] areaIds, int[] subTypeIds, int[] unitIds, string searchText, DateTime fromDate, DateTime toDate)
+        public async Task<List<LogsView>> GetFilteredLogs(int[] logTypeIds, int[] areaIds, int[] subTypeIds, int[] unitIds, string searchText, DateTime fromDate, DateTime toDate, string sortField, string sortDirection)
         {
-            return await _dbContext.LogsView
-                       .Where(l => 
-                       (l.CreatedDate >= fromDate && l.CreatedDate <= toDate) && ((
-                            (logTypeIds.Contains(l.LogTypeId.Value) || logTypeIds == null)
-                            && (areaIds.Contains(l.OperationAreaId.Value) || areaIds == null)
-                            && (subTypeIds.Contains(l.Subtype.Value) || subTypeIds == null)
-                            && (unitIds.Contains(l.Unit.Value) || unitIds == null)
-                            && (logTypeIds.Contains(l.LogTypeId.Value) || logTypeIds == null)
-                            && (l.Text.Contains(searchText) || string.IsNullOrWhiteSpace(searchText)))
-                            || (l.IsCritical == true)
-                        )
-                    ).OrderByDescending(l => l.CreatedDate).ToListAsync();
+            var fromDateParam = new SqlParameter("@FromDate", fromDate);
+            var toDateParam = new SqlParameter("@ToDate", toDate);
+
+            var searchTextParam = new SqlParameter("@SearchText", searchText ?? (object)DBNull.Value);
+            var logTypeIdsParam = new SqlParameter("@LogTypeIds", SqlDbType.Structured)
+            {
+                Value = ConvertFromAnArray(logTypeIds),
+                TypeName = "dbo.Ids"
+            };
+
+            var areaIdsParam = new SqlParameter("@AreaIds", SqlDbType.Structured)
+            {
+                Value = ConvertFromAnArray(areaIds),
+                TypeName = "dbo.Ids"
+            };
+
+            var subTypeIdsParam = new SqlParameter("@SubTypeIds", SqlDbType.Structured)
+            {
+                Value = ConvertFromAnArray(subTypeIds),
+                TypeName = "dbo.Ids"
+            };
+
+            var unitIdsParam = new SqlParameter("@UnitIds", SqlDbType.Structured)
+            {
+                Value = ConvertFromAnArray(unitIds),
+                TypeName = "dbo.Ids"
+            };
+
+            var sortFieldParam = new SqlParameter("@SortField", sortField ?? (object)DBNull.Value);
+            var sortDirectionParam = new SqlParameter("@SortDirection", sortDirection ?? (object)DBNull.Value);
+            return await _dbContext.LogsView.FromSqlRaw
+                ("GetFilteredLogs @FromDate, @ToDate, @SearchText, @LogTypeIds, @AreaIds, @SubTypeIds, @UnitIds, @SortField, @SortDirection",
+                    fromDateParam, toDateParam, searchTextParam, logTypeIdsParam, areaIdsParam, subTypeIdsParam, unitIdsParam, sortFieldParam, sortDirectionParam)
+                    .ToListAsync();
         }
 
+
+        //TODO: Move to Utils
+        private DataTable ConvertFromAnArray(int[] ids)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Id", typeof(int));
+
+            if (ids != null)
+            {
+                foreach (int id in ids)
+                {
+                    dt.Rows.Add(id);
+                }
+            }
+
+            return dt;
+        }
     }
 }
