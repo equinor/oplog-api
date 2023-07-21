@@ -1,7 +1,10 @@
-﻿namespace Oplog.Api.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Oplog.Api.Models
 {
     public class CreateLogTemplateRequest
     {
+        [Required]
         public string Name { get; set; }
         public int? LogTypeId { get; set; }
         public int? OperationAreaId { get; set; }

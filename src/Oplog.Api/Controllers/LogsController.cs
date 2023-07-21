@@ -34,7 +34,7 @@ namespace Oplog.Api.Controllers
         [HttpPost("filter")]
         public async Task<IActionResult> Post(GetFilteredLogsRequest request)
         {
-            var filter = new LogsFilter(request.LogTypeIds, request.AreaIds, request.SubTypeIds, request.UnitIds, request.SearchText, request.FromDate, request.ToDate, request.SortField, request.SortDirection);
+            var filter = new LogsFilter(request.LogTypeIds, request.AreaIds, request.SubTypeIds, request.UnitIds, request.SearchText, request.FromDate.Value, request.ToDate.Value, request.SortField, request.SortDirection);
             var result = await _queries.GetFilteredLogs(filter);
             return Ok(result);
         }
@@ -50,14 +50,14 @@ namespace Oplog.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(CreateLogRequest request)
         {
-            await _commandDispatcher.Dispatch(new CreateLogCommand(request.LogType, request.SubType, request.Comment, request.OperationsAreaId, request.Author, request.Unit, request.EffectiveTime, GetUserName(), request.IsCritical));
+            await _commandDispatcher.Dispatch(new CreateLogCommand(request.LogType.Value, request.SubType, request.Comment, request.OperationsAreaId.Value, request.Author, request.Unit.Value, request.EffectiveTime.Value, GetUserName(), request.IsCritical));
             return Ok();
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] UpdateLogRequest request)
         {
-            await _commandDispatcher.Dispatch(new UpdateLogCommand(id, request.LogType, request.SubType, request.Comment, request.OperationsAreaId, request.Author, request.Unit, request.EffectiveTime, GetUserName(), request.IsCritical));
+            await _commandDispatcher.Dispatch(new UpdateLogCommand(id, request.LogType.Value, request.SubType, request.Comment, request.OperationsAreaId.Value, request.Author, request.Unit.Value, request.EffectiveTime.Value, GetUserName(), request.IsCritical));
             return Ok();
         }
 
