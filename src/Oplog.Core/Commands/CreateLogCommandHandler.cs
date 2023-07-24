@@ -4,7 +4,7 @@ using Oplog.Persistence.Repositories;
 
 namespace Oplog.Core.Commands
 {
-    public class CreateLogCommandHandler : ICommandHandler<CreateLogCommand>
+    public class CreateLogCommandHandler : ICommandHandler<CreateLogCommand, CreateLogResult>
     {
         private readonly ILogsRepository _logsRepository;
 
@@ -12,8 +12,9 @@ namespace Oplog.Core.Commands
         {
             _logsRepository = logsRepository;
         }
-        public async Task Handle(CreateLogCommand command)
+        public async Task<CreateLogResult> Handle(CreateLogCommand command)
         {
+            var result = new CreateLogResult();
             var log = new Log
             {
                 LogTypeId = command.LogType,
@@ -30,6 +31,7 @@ namespace Oplog.Core.Commands
 
             await _logsRepository.Insert(log);
             await _logsRepository.Save();
+            return result.LogCreated();
         }
     }
 }

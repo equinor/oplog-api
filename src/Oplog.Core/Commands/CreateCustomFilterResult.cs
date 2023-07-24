@@ -15,7 +15,7 @@ namespace Oplog.Core.Commands
         public CreateCustomFilterResult GlobalFiltercCreatedNotAllowed()
         {
             ResultType = ResultType.NotAllowed;
-            Message = "Cannot create global filters!";
+            Message = "Only admins can create global filters!";
             return this;
         }
     }

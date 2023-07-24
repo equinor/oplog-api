@@ -4,15 +4,16 @@ using Oplog.Persistence.Repositories;
 
 namespace Oplog.Core.Commands
 {
-    public class CreateLogTemplateCommandHandler : ICommandHandler<CreateLogTemplateCommand>
+    public class CreateLogTemplateCommandHandler : ICommandHandler<CreateLogTemplateCommand, CreateLogTemplateResult>
     {
         private readonly ILogTemplateRepository _templateRepository;
         public CreateLogTemplateCommandHandler(ILogTemplateRepository templateRepository)
         {
             _templateRepository = templateRepository;
         }
-        public async Task Handle(CreateLogTemplateCommand command)
+        public async Task<CreateLogTemplateResult> Handle(CreateLogTemplateCommand command)
         {
+            var result = new CreateLogTemplateResult();
             var newLogTemplate = new LogTemplate
             {
                 Name = command.Name,
@@ -29,6 +30,7 @@ namespace Oplog.Core.Commands
 
             await _templateRepository.Insert(newLogTemplate);
             await _templateRepository.Save();
+            return result.LogTemplateCreated();
         }
     }
 }
