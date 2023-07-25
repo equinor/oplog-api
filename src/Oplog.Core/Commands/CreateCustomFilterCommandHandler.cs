@@ -31,7 +31,6 @@ namespace Oplog.Core.Commands
             var isGlobalFilter = command.IsGlobalFilter != null && command.IsGlobalFilter.Value;
             if (isGlobalFilter && !command.IsAdmin) 
             {
-
                 return result.GlobalFiltercCreatedNotAllowed(); 
             }
             var customFilter = new CustomFilter { Name = command.Name, CreatedBy = command.CreatedBy, IsGlobalFilter = isGlobalFilter, SearchText = command.SearchText, CustomFilterItems = customFilterItems };

@@ -95,9 +95,9 @@ namespace Oplog.Persistence.Repositories
 
 
         //TODO: Move to Utils
-        private DataTable ConvertFromAnArray(int[] ids)
+        private static DataTable ConvertFromAnArray(int[] ids)
         {
-            DataTable dt = new DataTable();
+            DataTable dt = new();
             dt.Columns.Add("Id", typeof(int));
 
             if (ids != null)

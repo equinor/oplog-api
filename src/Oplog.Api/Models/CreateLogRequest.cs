@@ -11,8 +11,7 @@ namespace Oplog.Api.Models
         [Required]
         public string Comment { get; set; }
         [Required]
-        public int? OperationsAreaId { get; set; }
-        public string Author { get; set; }
+        public int? OperationsAreaId { get; set; }       
         [Required]
         public int? Unit { get; set; }
         [Required]

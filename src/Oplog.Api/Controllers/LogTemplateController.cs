@@ -26,8 +26,8 @@ namespace Oplog.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(CreateLogTemplateRequest request)
         {
-            await _commandDispatcher.Dispatch(new CreateLogTemplateCommand(request.Name, request.LogTypeId, request.OperationAreaId, request.Text, request.Author, request.Unit, request.Subtype, request.IsCritical, HttpContext.User.Identity.Name));
-            return Ok();
+            var result = await _commandDispatcher.Dispatch<CreateLogTemplateCommand, CreateLogTemplateResult>(new CreateLogTemplateCommand(request.Name, request.LogTypeId, request.OperationAreaId, request.Text, request.Author, request.Unit, request.Subtype, request.IsCritical, HttpContext.User.Identity.Name));
+            return Ok(result.Message);
         }
 
         [HttpGet]

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,6 @@ namespace Oplog.Api.Controllers
             return Ok(result);
         }
 
-
         [HttpPost("filter")]
         public async Task<IActionResult> Post(GetFilteredLogsRequest request)
         {
@@ -46,24 +46,25 @@ namespace Oplog.Api.Controllers
             return Ok(result);
         }
 
-        //TODO: do model validation
         [HttpPost]
         public async Task<IActionResult> Post(CreateLogRequest request)
         {
-            await _commandDispatcher.Dispatch(new CreateLogCommand(request.LogType.Value, request.SubType, request.Comment, request.OperationsAreaId.Value, request.Author, request.Unit.Value, request.EffectiveTime.Value, GetUserName(), request.IsCritical));
-            return Ok();
+            var result = await _commandDispatcher.Dispatch<CreateLogCommand, CreateLogResult>(new CreateLogCommand(request.LogType.Value, request.SubType, request.Comment, request.OperationsAreaId.Value, GetFullName(), request.Unit.Value, request.EffectiveTime.Value, HttpContext.User.Identity.Name, request.IsCritical));
+            return Ok(result.Message);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] UpdateLogRequest request)
         {
-            await _commandDispatcher.Dispatch(new UpdateLogCommand(id, request.LogType.Value, request.SubType, request.Comment, request.OperationsAreaId.Value, request.Author, request.Unit.Value, request.EffectiveTime.Value, GetUserName(), request.IsCritical));
+            await _commandDispatcher.Dispatch(new UpdateLogCommand(id, request.LogType.Value, request.SubType, request.Comment, request.OperationsAreaId.Value, request.Author, request.Unit.Value, request.EffectiveTime.Value, HttpContext.User.Identity.Name, request.IsCritical));
             return Ok();
         }
 
-        private string GetUserName()
+        private string GetFullName()
         {
-            return HttpContext.User.Identity.Name;
+            var givenName = HttpContext.User.FindFirstValue(ClaimTypes.GivenName);
+            var surname = HttpContext.User.FindFirstValue(ClaimTypes.Surname);
+            return $"{givenName} {surname}";
         }
 
         [HttpDelete]
