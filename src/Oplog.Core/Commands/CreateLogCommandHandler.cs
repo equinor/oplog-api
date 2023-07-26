@@ -31,7 +31,7 @@ namespace Oplog.Core.Commands
 
             await _logsRepository.Insert(log);
             await _logsRepository.Save();
-            return result.LogCreated();
+            return result.LogCreated(log.Id);
         }
     }
 }

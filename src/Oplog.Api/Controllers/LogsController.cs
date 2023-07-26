@@ -56,8 +56,8 @@ namespace Oplog.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] UpdateLogRequest request)
         {
-            await _commandDispatcher.Dispatch(new UpdateLogCommand(id, request.LogType.Value, request.SubType, request.Comment, request.OperationsAreaId.Value, request.Author, request.Unit.Value, request.EffectiveTime.Value, HttpContext.User.Identity.Name, request.IsCritical));
-            return Ok();
+            var result = await _commandDispatcher.Dispatch<UpdateLogCommand, UpdateLogResult>(new UpdateLogCommand(id, request.LogType.Value, request.SubType, request.Comment, request.OperationsAreaId.Value, request.Author, request.Unit.Value, request.EffectiveTime.Value, HttpContext.User.Identity.Name, request.IsCritical));
+            return Ok(result.Message);
         }
 
         private string GetFullName()

@@ -3,7 +3,7 @@ using Oplog.Persistence.Repositories;
 
 namespace Oplog.Core.Commands
 {
-    public class UpdateLogCommandHandler : ICommandHandler<UpdateLogCommand>
+    public class UpdateLogCommandHandler : ICommandHandler<UpdateLogCommand, UpdateLogResult>
     {
         private readonly ILogsRepository _logsRepository;
 
@@ -11,10 +11,10 @@ namespace Oplog.Core.Commands
         {
             _logsRepository = logsRepository;
         }
-        public async Task Handle(UpdateLogCommand command)
+        public async Task<UpdateLogResult> Handle(UpdateLogCommand command)
         {
+            var result = new UpdateLogResult();
             var log = await _logsRepository.Get(command.Id);
-
             log.LogTypeId = command.LogType;
             log.OperationAreaId = command.OperationsAreaId;
             log.Author = command.Author;
@@ -28,6 +28,7 @@ namespace Oplog.Core.Commands
 
             _logsRepository.Update(log);
             await _logsRepository.Save();
+            return result.LogUpdated(log.Id);
         }
     }
 }
