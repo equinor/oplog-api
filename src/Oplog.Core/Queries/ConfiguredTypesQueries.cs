@@ -54,5 +54,30 @@ namespace Oplog.Core.Queries
 
             return result;
         }
+
+        public async Task<AllConfiguredTypesResultGrouped> GetGroupedActiveConfiguredTypes()
+        {
+            var configuredTypes = await _configuredTypesRepository.GetAllActive();
+
+            var types = configuredTypes.Where(c => c.CategoryId == (int)CategoryId.Type);
+            var subTypes = configuredTypes.Where(c => c.CategoryId == (int)CategoryId.SubType);
+            var units = configuredTypes.Where(c => c.CategoryId == (int)CategoryId.Unit);
+
+            var result = new AllConfiguredTypesResultGrouped();
+            foreach (var type in types)
+            {
+                result.Types.Add(new ConfiguredTypeResult(type.Id, type.Name, type.Description, type.CategoryId));
+            }
+            foreach (var subType in subTypes)
+            {
+                result.SubTypes.Add(new ConfiguredTypeResult(subType.Id, subType.Name, subType.Description, subType.CategoryId));
+            }
+            foreach (var unit in units)
+            {
+                result.Units.Add(new ConfiguredTypeResult(unit.Id, unit.Name, unit.Description, unit.CategoryId));
+            }
+
+            return result;
+        }
     }
 }
