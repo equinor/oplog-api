@@ -9,5 +9,6 @@ namespace Oplog.Persistence.Repositories
         Task<List<ConfiguredType>> GetByCategory(int categoryId);
         Task<ConfiguredType> Get(int id);
         Task<List<ConfiguredType>> GetAll();
+        Task<List<ConfiguredType>> GetAllActive();
     }
 }

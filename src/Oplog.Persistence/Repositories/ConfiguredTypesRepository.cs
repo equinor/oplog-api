@@ -30,5 +30,10 @@ namespace Oplog.Persistence.Repositories
         {
             return await _dbContext.ConfiguredTypes.ToListAsync();
         }
+
+        public async Task<List<ConfiguredType>> GetAllActive()
+        {
+            return await _dbContext.ConfiguredTypes.Where(c => c.IsActive == true).ToListAsync();
+        }
     }
 }

@@ -40,7 +40,7 @@ namespace Oplog.Api.Controllers
         [HttpGet("grouped")]
         public async Task<IActionResult> GetAllGrouped()
         {
-            var result = await _configuredTypesQueries.GetAllGrouped();
+            var result = await _configuredTypesQueries.GetGroupedActiveConfiguredTypes();
             return Ok(result);
         }
 
