@@ -1,15 +1,15 @@
 ﻿namespace Oplog.Core.Commands
 {
-    public class CreateLogResult
+    public class UpdateLogResult
     {
         public int LogId { get; set; }
         public string Message { get; set; }
         public ResultType ResultType { get; set; }
 
-        public CreateLogResult LogCreated(int logId)
+        public UpdateLogResult LogUpdated(int logId)
         {
             ResultType = ResultType.Success;
-            Message = "New log created";
+            Message = "Log updated";
             LogId = logId;
             return this;
         }
