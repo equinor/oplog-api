@@ -19,13 +19,13 @@ namespace Oplog.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var results = await _areasQueries.GetAllAreas();
+            var results = await _areasQueries.GetActiveAreas();
 
             if (results == null)
             {
                 return NotFound();
             }
             return Ok(results);
-        }
+        }        
     }
 }

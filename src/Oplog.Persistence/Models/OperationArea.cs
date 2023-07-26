@@ -10,5 +10,6 @@ namespace Oplog.Persistence.Models
         //Note: use tag from the legacy database
         public string Name { get; set; }
         public string Description { get; set; }
+        public bool? IsActive { get; set; }
     }
 }

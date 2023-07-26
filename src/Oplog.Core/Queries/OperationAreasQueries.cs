@@ -27,5 +27,24 @@ namespace Oplog.Core.Queries
 
             return results;
         }
+
+        public async Task<List<GetAllAreasResult>> GetActiveAreas()
+        {
+            var areas = await _areasRepository.GetActiveAreas();
+
+            if (areas == null)
+            {
+                return null;
+            }
+
+            var results = new List<GetAllAreasResult>();
+
+            foreach (var area in areas)
+            {
+                results.Add(new GetAllAreasResult(area.Id, area.Name, area.Description));
+            }
+
+            return results;
+        }
     }
 }

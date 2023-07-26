@@ -8,5 +8,6 @@ namespace Oplog.Persistence.Repositories
     {
         Task<List<OperationArea>> GetAllAreas();
         Task<OperationArea> Get(int id);
+        Task<List<OperationArea>> GetActiveAreas();
     }
 }

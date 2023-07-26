@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Oplog.Persistence.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Oplog.Persistence.Repositories
@@ -21,6 +22,11 @@ namespace Oplog.Persistence.Repositories
         public async Task<List<OperationArea>> GetAllAreas()
         {
             return await _dbContext.OperationAreas.ToListAsync();
+        }
+
+        public async Task<List<OperationArea>> GetActiveAreas()
+        {
+            return await _dbContext.OperationAreas.Where(o => o.IsActive == true).ToListAsync();
         }
     }
 }
