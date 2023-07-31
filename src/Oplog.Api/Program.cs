@@ -47,11 +47,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(MyAllowSpecificOrigins,
     builder =>
-    {
-        //var domainsAsArray = new string[corsDomainsFromConfig.Count];
-        //corsDomainsFromConfig.CopyTo(domainsAsArray);
-
-        //builder.WithOrigins(domainsAsArray);
+    {        
         var origins = new string[]
         {
             "https://frontend-oplog-web-dev.radix.equinor.com",
@@ -101,6 +97,10 @@ app.UseCors(MyAllowSpecificOrigins);
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
+
+}
+else
+{
     app.UseHsts();
 }
 
