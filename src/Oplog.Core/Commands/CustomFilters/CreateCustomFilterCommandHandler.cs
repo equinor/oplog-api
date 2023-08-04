@@ -2,7 +2,7 @@
 using Oplog.Persistence.Models;
 using Oplog.Persistence.Repositories;
 
-namespace Oplog.Core.Commands
+namespace Oplog.Core.Commands.CustomFilters
 {
     public class CreateCustomFilterCommandHandler : ICommandHandler<CreateCustomFilterCommand, CreateCustomFilterResult>
     {
@@ -29,9 +29,9 @@ namespace Oplog.Core.Commands
             }
 
             var isGlobalFilter = command.IsGlobalFilter != null && command.IsGlobalFilter.Value;
-            if (isGlobalFilter && !command.IsAdmin) 
+            if (isGlobalFilter && !command.IsAdmin)
             {
-                return result.GlobalFiltercCreatedNotAllowed(); 
+                return result.GlobalFiltercCreatedNotAllowed();
             }
             var customFilter = new CustomFilter { Name = command.Name, CreatedBy = command.CreatedBy, IsGlobalFilter = isGlobalFilter, SearchText = command.SearchText, CustomFilterItems = customFilterItems };
             await _customFilterRepository.Insert(customFilter);

@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Oplog.Api.Models;
-using Oplog.Core.Commands;
+using Oplog.Core.Commands.LogTemplates;
+using Oplog.Core.Enums;
 using Oplog.Core.Infrastructure;
 using Oplog.Core.Queries;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace Oplog.Api.Controllers
         public async Task<IActionResult> Post(CreateLogTemplateRequest request)
         {
             var result = await _commandDispatcher.Dispatch<CreateLogTemplateCommand, CreateLogTemplateResult>(new CreateLogTemplateCommand(request.Name, request.LogTypeId, request.OperationAreaId, request.Text, request.Author, request.Unit, request.Subtype, request.IsCritical, HttpContext.User.Identity.Name));
-            return Ok(result.Message);
+            return Ok(result);
         }
 
         [HttpGet]
@@ -38,10 +39,16 @@ namespace Oplog.Api.Controllers
         }
 
         [HttpDelete("id")]
-        public async Task<IActionResult> Delete(int Id)
+        public async Task<IActionResult> Delete(int id)
         {
-            await _commandDispatcher.Dispatch(new DeleteLogTemplateCommand(Id));
-            return Ok();
+            var result = await _commandDispatcher.Dispatch<DeleteLogTemplateCommand, DeleteLogTemplateResult>(new DeleteLogTemplateCommand(id));
+
+            if (result.ResultType == ResultType.NotFound)
+            {
+                return NotFound(result);
+            }
+
+            return Ok(result);
         }
     }
 }

@@ -35,6 +35,11 @@ namespace Oplog.Persistence.Repositories
             }
         }
 
+        public void DeleteBulk(IEnumerable<Log> logs)
+        {
+            _dbContext.Logs.RemoveRange(logs);
+        }
+
         public void Update(Log log)
         {
             _dbContext.Logs.Update(log);

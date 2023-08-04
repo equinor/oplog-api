@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Oplog.Api.Models;
-using Oplog.Core.Commands;
+using Oplog.Core.Commands.Logs;
 using Oplog.Core.Infrastructure;
 using Oplog.Core.Queries;
 
@@ -68,10 +68,11 @@ namespace Oplog.Api.Controllers
         }
 
         [HttpDelete]
+        //TODO: Mark as soft delete
         public async Task<IActionResult> Delete(IEnumerable<int> ids)
         {
-            await _commandDispatcher.Dispatch(new DeleteLogCommand(ids));
-            return Ok();
+            var result = await _commandDispatcher.Dispatch<DeleteLogsCommand, DeleteLogsResult>(new DeleteLogsCommand(ids));
+            return Ok(result);
         }
 
     }

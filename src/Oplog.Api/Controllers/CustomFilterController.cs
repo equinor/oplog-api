@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Oplog.Api.Models;
-using Oplog.Core.Commands;
+using Oplog.Core.Commands.CustomFilters;
+using Oplog.Core.Enums;
 using Oplog.Core.Infrastructure;
 using Oplog.Core.Queries;
 using System.Threading.Tasks;
@@ -26,14 +28,17 @@ namespace Oplog.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(CreateCustomFilterRequest request)
         {
-            var isAdmin = User.IsInRole("Permission.Admin");
+            var isAdmin = User.IsInRole("Permission.Admin"); ;
             var result = await _commandDispatcher.Dispatch<CreateCustomFilterCommand, CreateCustomFilterResult>(new CreateCustomFilterCommand(request.Name, HttpContext.User.Identity.Name, request.IsGlobalFilter, request.SearchText, isAdmin, request.FilterItems));
 
             if (result.ResultType == ResultType.NotAllowed)
             {
-                return Unauthorized(result.Message);
+                var authenticationProperties = new AuthenticationProperties();
+                authenticationProperties.SetString("message", result.Message);
+                return Forbid(authenticationProperties);
             }
-            return Ok(result.Message);
+
+            return Ok(result);
         }
 
         [HttpGet]
@@ -55,12 +60,20 @@ namespace Oplog.Api.Controllers
         {
             var isAdmin = User.IsInRole("Permission.Admin");
             var result = await _commandDispatcher.Dispatch<DeleteCustomFilterCommand, DeleteCustomFilterResult>(new DeleteCustomFilterCommand(id, isAdmin));
+
             if (result.ResultType == ResultType.NotFound)
             {
-                return NotFound(result.Message);
+                return NotFound(result);
             }
 
-            return Ok(result.Message);
+            if (result.ResultType == ResultType.NotAllowed)
+            {
+                var authenticationProperties = new AuthenticationProperties();
+                authenticationProperties.SetString("message", result.Message);
+                return Forbid(authenticationProperties);
+            }
+
+            return Ok(result);
         }
     }
 }

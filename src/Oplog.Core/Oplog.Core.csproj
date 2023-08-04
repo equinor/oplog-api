@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Oplog.Persistence\Oplog.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Commands\OperationAreas\" />
+  </ItemGroup>
+
 </Project>

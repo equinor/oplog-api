@@ -1,7 +1,8 @@
 ﻿using NUnit.Framework;
-using Oplog.Core.Commands;
+using Oplog.Core.Commands.Logs;
+using Oplog.Core.Enums;
 
-namespace Oplog.IntegrationTests.Tests
+namespace Oplog.IntegrationTests.Tests.Logs
 {
     public class CreateLogCommandTests : TestBase
     {

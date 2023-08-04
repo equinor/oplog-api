@@ -1,5 +1,6 @@
-﻿
-namespace Oplog.Core.Commands
+﻿using Oplog.Core.Enums;
+
+namespace Oplog.Core.Commands.CustomFilters
 {
     public class CreateCustomFilterResult
     {

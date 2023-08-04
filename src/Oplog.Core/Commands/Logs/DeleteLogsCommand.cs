@@ -1,10 +1,10 @@
 ﻿using Oplog.Core.Infrastructure;
 
-namespace Oplog.Core.Commands
+namespace Oplog.Core.Commands.Logs
 {
-    public class DeleteLogCommand : ICommand
+    public class DeleteLogsCommand : ICommand
     {
-        public DeleteLogCommand(IEnumerable<int> ids)
+        public DeleteLogsCommand(IEnumerable<int> ids)
         {
             Ids = ids.ToList();
         }
