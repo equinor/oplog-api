@@ -1,10 +1,9 @@
 ﻿using Oplog.Core.Infrastructure;
 
-namespace Oplog.Core.Commands
+namespace Oplog.Core.Commands.Logs
 {
-    public class UpdateLogCommand : ICommand
+    public class CreateLogCommand : ICommand
     {
-        public int Id { get; set; }
         public int LogType { get; set; }
         public int SubType { get; set; }
         public string Comment { get; set; }
@@ -12,12 +11,11 @@ namespace Oplog.Core.Commands
         public string Author { get; set; }
         public int Unit { get; set; }
         public DateTime EffectiveTime { get; set; }
-        public string UpdatedBy { get; set; }
+        public string CreatedBy { get; set; }
         public bool? IsCritical { get; set; }
 
-        public UpdateLogCommand(int id, int logType, int subType, string comment, int operationsArea, string author, int unit, DateTime effectiveTime, string updatedBy, bool? isCritical)
+        public CreateLogCommand(int logType, int subType, string comment, int operationsArea, string author, int unit, DateTime effectiveTime, string createdBy, bool? isCritical)
         {
-            Id = id;
             LogType = logType;
             SubType = subType;
             Comment = comment;
@@ -25,7 +23,7 @@ namespace Oplog.Core.Commands
             Author = author;
             Unit = unit;
             EffectiveTime = effectiveTime;
-            UpdatedBy = updatedBy;
+            CreatedBy = createdBy;
             IsCritical = isCritical;
         }
     }

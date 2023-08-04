@@ -2,7 +2,7 @@
 using Oplog.Persistence.Models;
 using Oplog.Persistence.Repositories;
 
-namespace Oplog.Core.Commands
+namespace Oplog.Core.Commands.Logs
 {
     public class CreateLogCommandHandler : ICommandHandler<CreateLogCommand, CreateLogResult>
     {

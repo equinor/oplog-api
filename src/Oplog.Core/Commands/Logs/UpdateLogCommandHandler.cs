@@ -1,7 +1,7 @@
 ﻿using Oplog.Core.Infrastructure;
 using Oplog.Persistence.Repositories;
 
-namespace Oplog.Core.Commands
+namespace Oplog.Core.Commands.Logs
 {
     public class UpdateLogCommandHandler : ICommandHandler<UpdateLogCommand, UpdateLogResult>
     {
@@ -15,6 +15,12 @@ namespace Oplog.Core.Commands
         {
             var result = new UpdateLogResult();
             var log = await _logsRepository.Get(command.Id);
+
+            if (log == null)
+            {
+                return result.NotFound();
+            }
+
             log.LogTypeId = command.LogType;
             log.OperationAreaId = command.OperationsAreaId;
             log.Author = command.Author;
@@ -28,7 +34,7 @@ namespace Oplog.Core.Commands
 
             _logsRepository.Update(log);
             await _logsRepository.Save();
-            return result.LogUpdated(log.Id);
+            return result.LogUpdated();
         }
     }
 }

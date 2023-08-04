@@ -1,7 +1,7 @@
 ﻿using Oplog.Core.Infrastructure;
 using Oplog.Persistence.Repositories;
 
-namespace Oplog.Core.Commands
+namespace Oplog.Core.Commands.CustomFilters
 {
     public class DeleteCustomFilterCommandHandler : ICommandHandler<DeleteCustomFilterCommand, DeleteCustomFilterResult>
     {

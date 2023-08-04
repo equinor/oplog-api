@@ -1,4 +1,6 @@
-﻿namespace Oplog.Core.Commands
+﻿using Oplog.Core.Enums;
+
+namespace Oplog.Core.Commands.CustomFilters
 {
     public class DeleteCustomFilterResult
     {
@@ -22,7 +24,7 @@
         public DeleteCustomFilterResult GlobalFilterDeleteNotAllowed()
         {
             ResultType = ResultType.NotAllowed;
-            Message = "Cannot delete global filters!";
+            Message = "Only admins can delete global filtyer!";
             return this;
         }
     }

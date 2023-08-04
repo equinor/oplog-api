@@ -1,4 +1,4 @@
-﻿using Oplog.Core.Commands;
+﻿using Oplog.Core.Commands.CustomFilters;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 

@@ -1,6 +1,6 @@
 ﻿using Oplog.Core.Infrastructure;
 
-namespace Oplog.Core.Commands
+namespace Oplog.Core.Commands.CustomFilters
 {
     public class DeleteCustomFilterCommand : ICommand
     {

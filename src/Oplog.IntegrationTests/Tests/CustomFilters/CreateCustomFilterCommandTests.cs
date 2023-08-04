@@ -1,7 +1,8 @@
 ﻿using NUnit.Framework;
-using Oplog.Core.Commands;
+using Oplog.Core.Commands.CustomFilters;
+using Oplog.Core.Enums;
 
-namespace Oplog.IntegrationTests.Tests
+namespace Oplog.IntegrationTests.Tests.CustomFilters
 {
     public class CreateCustomFilterCommandTests : TestBase
     {

@@ -15,5 +15,6 @@ namespace Oplog.Persistence.Repositories
         Task<List<LogsView>> GetLogsBydate(DateTime fromDate, DateTime toDate);
         Task<List<LogsView>> GetFilteredLogs(int[] logTypeIds, int[] areaIds, int[] subTypeIds, int[] unitIds, string searchText, DateTime fromDate, DateTime toDate, string sortField, string sortDirection);
         Task Save();
+        void DeleteBulk(IEnumerable<Log> logs);
     }
 }

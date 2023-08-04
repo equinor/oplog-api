@@ -1,6 +1,6 @@
 ﻿using Oplog.Core.Infrastructure;
 
-namespace Oplog.Core.Commands
+namespace Oplog.Core.Commands.CustomFilters
 {
     public class CreateCustomFilterCommand : ICommand
     {
@@ -20,6 +20,6 @@ namespace Oplog.Core.Commands
         public string CreatedBy { get; set; }
         public bool IsAdmin { get; set; }
         public List<CreateCustomFilterItem> FilterItems { get; set; }
-       
+
     }
 }

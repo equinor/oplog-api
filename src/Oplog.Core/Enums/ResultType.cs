@@ -1,4 +1,4 @@
-﻿namespace Oplog.Core.Commands
+﻿namespace Oplog.Core.Enums
 {
     public enum ResultType
     {
