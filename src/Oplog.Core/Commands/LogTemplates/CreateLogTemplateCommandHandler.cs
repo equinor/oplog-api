@@ -30,7 +30,7 @@ namespace Oplog.Core.Commands.LogTemplates
 
             await _templateRepository.Insert(newLogTemplate);
             await _templateRepository.Save();
-            return result.LogTemplateCreated();
+            return result.LogTemplateCreated(newLogTemplate.Id);
         }
     }
 }

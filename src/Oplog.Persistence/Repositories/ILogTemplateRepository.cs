@@ -10,7 +10,7 @@ namespace Oplog.Persistence.Repositories
         Task<LogTemplate> GetById(int id);
         Task<List<LogTemplate>> GetByUser(string userName);
         Task Insert(LogTemplate template);
-        Task Delete(int id);
+        void Delete(LogTemplate logTemplate);
         Task Save();
     }
 }
