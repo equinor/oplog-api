@@ -35,11 +35,9 @@ namespace Oplog.Persistence.Repositories
             return await _dbContext.LogTemplates.Where(t => t.CreatedBy == userName).ToListAsync();
         }
 
-        public async Task Delete(int id)
+        public void Delete(LogTemplate logTemplate)
         {
-            var logTemplate = await _dbContext.LogTemplates.SingleOrDefaultAsync(l => l.Id == id);
-
-            if(logTemplate!=null)
+            if (logTemplate != null)
             {
                 _dbContext.LogTemplates.Remove(logTemplate);
             }

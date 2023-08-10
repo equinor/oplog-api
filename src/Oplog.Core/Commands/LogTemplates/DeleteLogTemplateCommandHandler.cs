@@ -3,17 +3,24 @@ using Oplog.Persistence.Repositories;
 
 namespace Oplog.Core.Commands.LogTemplates
 {
-    public class DeleteLogTemplateCommandHandler : ICommandHandler<DeleteLogTemplateCommand>
+    public class DeleteLogTemplateCommandHandler : ICommandHandler<DeleteLogTemplateCommand, DeleteLogTemplateResult>
     {
         private readonly ILogTemplateRepository _templateRepository;
         public DeleteLogTemplateCommandHandler(ILogTemplateRepository templateRepository)
         {
             _templateRepository = templateRepository;
         }
-        public async Task Handle(DeleteLogTemplateCommand command)
+        public async Task<DeleteLogTemplateResult> Handle(DeleteLogTemplateCommand command)
         {
-            await _templateRepository.Delete(command.Id);
+            var result = new DeleteLogTemplateResult();
+            var logtemplate = await _templateRepository.GetById(command.Id);
+            if (logtemplate == null)
+            {
+                return result.LogtemplateNotFound();
+            }
+            _templateRepository.Delete(logtemplate);
             await _templateRepository.Save();
+            return result.LogtemplateDeleted();
         }
     }
 }

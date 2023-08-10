@@ -9,7 +9,7 @@ namespace Oplog.Core.Commands.Logs
 
         public UpdateLogResult NotFound()
         {
-            ResultType = ResultType.Success;
+            ResultType = ResultType.NotFound;
             Message = "Log not found";
             return this;
         }

@@ -16,11 +16,11 @@ namespace Oplog.Core.Commands.Logs
             return this;
         }
 
-        public DeleteLogsResult LogsDeletedWithIncompleteResults(Dictionary<int, string> logsNotDeleted)
+        public DeleteLogsResult LogsDeletedWithSomeLogsNotFound(Dictionary<int, string> logsNotDeleted)
         {
             ResultType = ResultType.Success;
             LogsNotDeleted = logsNotDeleted;
-            Message = "Could not delete some or all of the logs!";
+            Message = "Could not delete all of the logs. Some logs were not found!";
             return this;
         }
     }

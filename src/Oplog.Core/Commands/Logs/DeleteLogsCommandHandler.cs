@@ -36,7 +36,7 @@ namespace Oplog.Core.Commands.Logs
 
             if (logsNotDeleted.Any())
             {
-                return deleteLogsResult.LogsDeletedWithIncompleteResults(logsNotDeleted);
+                return deleteLogsResult.LogsDeletedWithSomeLogsNotFound(logsNotDeleted);
             }
 
             return deleteLogsResult.AllRequestedLogsDeleted();
