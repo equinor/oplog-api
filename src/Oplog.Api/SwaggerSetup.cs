@@ -24,9 +24,7 @@ namespace Oplog.Api
                             TokenUrl = new Uri($"https://login.microsoftonline.com/{configuration["AzureAd:TenantId"]}/oauth2/v2.0/token"),
                             AuthorizationUrl = new Uri($"https://login.microsoftonline.com/{configuration["AzureAd:TenantId"]}/oauth2/v2.0/authorize"),
                             Scopes = new Dictionary<string, string> {
-                                { $"api://{configuration["AzureAd:ClientId"]}/User.Impersonation", "Oplog API" },
-                                { $"api://{configuration["AzureAd:ClientId"]}/.default", "Oplog API" },
-                                { $"api://{configuration["AzureAd:ClientId"]}/oplog.read", "Oplog API" }
+                                { $"api://{configuration["AzureAd:ClientId"]}/User.Impersonation", "Oplog API" }
                             },
                         }
                     },
@@ -49,10 +47,8 @@ namespace Oplog.Api
                                 Name = "Bearer",
                                 In = ParameterLocation.Header
                             },
-                            new List<string> { 
-                                $"{configuration["AzureAd:ClientId"]}/User.Impersonation",
-                                $"{configuration["AzureAd:ClientId"]}/.default",
-                                $"{configuration["AzureAd:ClientId"]}/oplog.read"
+                            new List<string> {
+                                $"{configuration["AzureAd:ClientId"]}/User.Impersonation"
                             }
 
                         }
@@ -61,7 +57,7 @@ namespace Oplog.Api
         }
 
         public static void Configure(IConfiguration configuration, IApplicationBuilder app)
-        {           
+        {
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
