@@ -1,6 +1,10 @@
+using Azure.Extensions.AspNetCore.Configuration.Secrets;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +16,7 @@ using Oplog.Core.Infrastructure;
 using Oplog.Core.Queries;
 using Oplog.Persistence;
 using Oplog.Persistence.Repositories;
+using System;
 using System.Net.Http;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,9 +26,12 @@ string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var keyVaultUrl = configuration["KeyVaultEndpoint"];
 var clientId = configuration["AzureAd:ClientId"];
 var clientSecret = configuration["AzureAd:ClientSecret"];
+var tenantId = configuration["AzureAd:TenantId"];
 if (!builder.Environment.IsDevelopment())
 {
-    builder.Configuration.AddAzureKeyVault(keyVaultUrl, clientId, clientSecret);
+    var clientSecretCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
+    var secretClient = new SecretClient(new Uri(keyVaultUrl), clientSecretCredential);
+    builder.Configuration.AddAzureKeyVault(secretClient, new KeyVaultSecretManager());
 }
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
@@ -47,7 +55,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(MyAllowSpecificOrigins,
     builder =>
-    {        
+    {
         var origins = new string[]
         {
             "https://frontend-oplog-web-dev.radix.equinor.com",
@@ -73,6 +81,7 @@ builder.Services.AddTransient<IOperationAreasQueries, OperationAreasQueries>();
 builder.Services.AddTransient<IConfiguredTypesQueries, ConfiguredTypesQueries>();
 builder.Services.AddTransient<ICustomFilterQueries, CustomFilterQueries>();
 builder.Services.AddTransient<ILogTemplateQueries, LogTemplateQueries>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 // The following line enables Application Insights telemetry collection.
 var appinsightConnStr = configuration["ApplicationInsights:ConnectionString"];
 var optionsAppInsight = new ApplicationInsightsServiceOptions { ConnectionString = configuration["ApplicationInsights:ConnectionString"] };

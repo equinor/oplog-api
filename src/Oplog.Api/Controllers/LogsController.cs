@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Oplog.Api.Models;
 using Oplog.Core.Commands.Logs;
@@ -18,10 +19,12 @@ namespace Oplog.Api.Controllers
     {
         private readonly ICommandDispatcher _commandDispatcher;
         private readonly ILogsQueries _queries;
-        public LogsController(ICommandDispatcher commandDispatcher, ILogsQueries queries)
+        private readonly IHttpContextAccessor _contextAccessor;
+        public LogsController(ICommandDispatcher commandDispatcher, ILogsQueries queries, IHttpContextAccessor contextAccessor)
         {
             _commandDispatcher = commandDispatcher;
             _queries = queries;
+            _contextAccessor = contextAccessor;
         }
 
         [HttpGet]
@@ -49,22 +52,15 @@ namespace Oplog.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(CreateLogRequest request)
         {
-            var result = await _commandDispatcher.Dispatch<CreateLogCommand, CreateLogResult>(new CreateLogCommand(request.LogType.Value, request.SubType, request.Comment, request.OperationsAreaId.Value, GetFullName(), request.Unit.Value, request.EffectiveTime.Value, HttpContext.User.Identity.Name, request.IsCritical));
+            var result = await _commandDispatcher.Dispatch<CreateLogCommand, CreateLogResult>(new CreateLogCommand(request.LogType.Value, request.SubType, request.Comment, request.OperationsAreaId.Value, GetFullName(), request.Unit.Value, request.EffectiveTime.Value, GetUserName(), request.IsCritical));
             return Ok(result.Message);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] UpdateLogRequest request)
         {
-            var result = await _commandDispatcher.Dispatch<UpdateLogCommand, UpdateLogResult>(new UpdateLogCommand(id, request.LogType.Value, request.SubType, request.Comment, request.OperationsAreaId.Value, request.Author, request.Unit.Value, request.EffectiveTime.Value, HttpContext.User.Identity.Name, request.IsCritical));
+            var result = await _commandDispatcher.Dispatch<UpdateLogCommand, UpdateLogResult>(new UpdateLogCommand(id, request.LogType.Value, request.SubType, request.Comment, request.OperationsAreaId.Value, request.Author, request.Unit.Value, request.EffectiveTime.Value, GetUserName(), request.IsCritical));
             return Ok(result.Message);
-        }
-
-        private string GetFullName()
-        {
-            var givenName = HttpContext.User.FindFirstValue(ClaimTypes.GivenName);
-            var surname = HttpContext.User.FindFirstValue(ClaimTypes.Surname);
-            return $"{givenName} {surname}";
         }
 
         [HttpDelete]
@@ -73,6 +69,18 @@ namespace Oplog.Api.Controllers
         {
             var result = await _commandDispatcher.Dispatch<DeleteLogsCommand, DeleteLogsResult>(new DeleteLogsCommand(ids));
             return Ok(result);
+        }
+
+        private string GetFullName()
+        {
+            var givenName = _contextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.GivenName);
+            var surname = _contextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Surname);
+            return $"{givenName} {surname}";
+        }
+
+        private string GetUserName()
+        {
+            return _contextAccessor.HttpContext.User.Identity.Name;
         }
 
     }
