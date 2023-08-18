@@ -18,18 +18,20 @@ namespace Oplog.Api.Controllers
     {
         private readonly ICommandDispatcher _commandDispatcher;
         private readonly ICustomFilterQueries _customFilterQueries;
-        public CustomFilterController(ICommandDispatcher commandDispatcher, ICustomFilterQueries customFilterQueries)
+        private readonly IHttpContextAccessor _contextAccessor;
+        public CustomFilterController(ICommandDispatcher commandDispatcher, ICustomFilterQueries customFilterQueries, IHttpContextAccessor contextAccessor)
         {
             _commandDispatcher = commandDispatcher;
             _customFilterQueries = customFilterQueries;
+            _contextAccessor = contextAccessor;
         }
 
 
         [HttpPost]
         public async Task<IActionResult> Post(CreateCustomFilterRequest request)
         {
-            var isAdmin = User.IsInRole("Permission.Admin"); ;
-            var result = await _commandDispatcher.Dispatch<CreateCustomFilterCommand, CreateCustomFilterResult>(new CreateCustomFilterCommand(request.Name, HttpContext.User.Identity.Name, request.IsGlobalFilter, request.SearchText, isAdmin, request.FilterItems));
+            var isAdmin = _contextAccessor.HttpContext.User.IsInRole("Permission.Admin");
+            var result = await _commandDispatcher.Dispatch<CreateCustomFilterCommand, CreateCustomFilterResult>(new CreateCustomFilterCommand(request.Name, GetUserName(), request.IsGlobalFilter, request.SearchText, isAdmin, request.FilterItems));
 
             if (result.ResultType == ResultType.NotAllowed)
             {
@@ -44,7 +46,7 @@ namespace Oplog.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var results = await _customFilterQueries.GetByCreatedUser(HttpContext.User.Identity.Name);
+            var results = await _customFilterQueries.GetByCreatedUser(GetUserName());
             return Ok(results);
         }
 
@@ -58,7 +60,7 @@ namespace Oplog.Api.Controllers
         [HttpDelete("id")]
         public async Task<IActionResult> Delete(int id)
         {
-            var isAdmin = User.IsInRole("Permission.Admin");
+            var isAdmin = _contextAccessor.HttpContext.User.IsInRole("Permission.Admin");
             var result = await _commandDispatcher.Dispatch<DeleteCustomFilterCommand, DeleteCustomFilterResult>(new DeleteCustomFilterCommand(id, isAdmin));
 
             if (result.ResultType == ResultType.NotFound)
@@ -74,6 +76,11 @@ namespace Oplog.Api.Controllers
             }
 
             return Ok(result);
+        }
+
+        private string GetUserName()
+        {
+            return _contextAccessor.HttpContext.User.Identity.Name;
         }
     }
 }

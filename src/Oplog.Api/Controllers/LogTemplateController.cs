@@ -17,17 +17,19 @@ namespace Oplog.Api.Controllers
     {
         private readonly ICommandDispatcher _commandDispatcher;
         private readonly ILogTemplateQueries _logTempleQueries;
+        private readonly IHttpContextAccessor _contextAccessor;
 
-        public LogTemplateController(ICommandDispatcher commandDispatcher, ILogTemplateQueries logTempleQueries)
+        public LogTemplateController(ICommandDispatcher commandDispatcher, ILogTemplateQueries logTempleQueries, IHttpContextAccessor contextAccessor)
         {
             _commandDispatcher = commandDispatcher;
             _logTempleQueries = logTempleQueries;
+            _contextAccessor = contextAccessor;
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(CreateLogTemplateRequest request)
         {
-            var result = await _commandDispatcher.Dispatch<CreateLogTemplateCommand, CreateLogTemplateResult>(new CreateLogTemplateCommand(request.Name, request.LogTypeId, request.OperationAreaId, request.Text, request.Author, request.Unit, request.Subtype, request.IsCritical, HttpContext.User.Identity.Name));
+            var result = await _commandDispatcher.Dispatch<CreateLogTemplateCommand, CreateLogTemplateResult>(new CreateLogTemplateCommand(request.Name, request.LogTypeId, request.OperationAreaId, request.Text, request.Author, request.Unit, request.Subtype, request.IsCritical, _contextAccessor.HttpContext.User.Identity.Name));
             return Ok(result);
         }
 
