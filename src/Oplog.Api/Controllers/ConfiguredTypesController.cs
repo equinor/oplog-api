@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Oplog.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/configuredtypes")]
     [ApiController]
     [Authorize]
     public class ConfiguredTypesController : ControllerBase
@@ -44,20 +44,15 @@ namespace Oplog.Api.Controllers
             return Ok(result);
         }
 
-        private CategoryId? ExtractCategoryId(string categoryName)
+        private static CategoryId? ExtractCategoryId(string categoryName)
         {
-            switch (categoryName)
+            return categoryName switch
             {
-                case "type":
-                    return CategoryId.Type;
-                case "subtype":
-                    return CategoryId.SubType;
-                case "unit":
-                    return CategoryId.Unit;
-
-                default:
-                    return null;
-            }
+                "type" => (CategoryId?)CategoryId.Type,
+                "subtype" => (CategoryId?)CategoryId.SubType,
+                "unit" => (CategoryId?)CategoryId.Unit,
+                _ => null,
+            };
         }
     }
 }

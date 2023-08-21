@@ -1,4 +1,4 @@
-﻿namespace Oplog.Core.Queries
+﻿namespace Oplog.Core.Queries.ConfiguredTypes
 {
     public class AllConfiguredTypesResultGrouped
     {

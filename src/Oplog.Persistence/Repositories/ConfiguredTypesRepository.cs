@@ -18,7 +18,7 @@ namespace Oplog.Persistence.Repositories
         //TODO: Use cancellation tokens
         public async Task<List<ConfiguredType>> GetByCategory(int categoryId)
         {
-            return await _dbContext.ConfiguredTypes.Where(c => c.CategoryId == categoryId).ToListAsync();
+            return await _dbContext.ConfiguredTypes.Where(c => c.CategoryId == categoryId && c.IsActive == true).ToListAsync();
         }
 
         public async Task<ConfiguredType> Get(int id)

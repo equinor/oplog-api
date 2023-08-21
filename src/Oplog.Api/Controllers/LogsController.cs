@@ -12,7 +12,7 @@ using Oplog.Core.Queries;
 
 namespace Oplog.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/logs")]
     [ApiController]
     [Authorize]
     public class LogsController : ControllerBase

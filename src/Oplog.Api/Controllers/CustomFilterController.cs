@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Oplog.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/customfilter")]
     [ApiController]
     [Authorize]
     public class CustomFilterController : ControllerBase

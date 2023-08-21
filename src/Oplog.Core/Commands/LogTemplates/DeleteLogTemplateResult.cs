@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Oplog.Core.Enums;
+﻿using Oplog.Core.Enums;
 
 namespace Oplog.Core.Commands.LogTemplates
 {
