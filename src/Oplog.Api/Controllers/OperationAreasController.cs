@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Oplog.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/operationareas")]
     [ApiController]
     [Authorize]
     public class OperationAreasController : ControllerBase

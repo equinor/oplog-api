@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Oplog.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/logtemplate")]
     [ApiController]
     [Authorize]
     public class LogTemplateController : ControllerBase
