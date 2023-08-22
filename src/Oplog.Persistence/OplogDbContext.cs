@@ -13,6 +13,7 @@ namespace Oplog.Persistence
         public DbSet<CustomFilter> CustomFilters { get; set; }
         public DbSet<CustomFilterItem> CustomFilterItems { get; set; }
         public DbSet<LogTemplate> LogTemplates { get; set; }
+        public DbSet<Unit> Units { get; set; }
 
         public OplogDbContext(DbContextOptions<OplogDbContext> context) : base(context)
         {

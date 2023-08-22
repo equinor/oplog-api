@@ -8,6 +8,5 @@ namespace Oplog.Core.Queries
         Task<List<ConfiguredTypesByCategoryResult>> GetConfiguredTypesByCategory(CategoryId categoryId);
         Task<AllConfiguredTypesResultGrouped> GetAllGrouped();
         Task<AllConfiguredTypesResultGrouped> GetGroupedActiveConfiguredTypes();
-        Task<List<GetUnitsByAreaName>> GetUnitsByAreaName(string areaName);
     }
 }
