@@ -27,7 +27,7 @@ var keyVaultUrl = configuration["KeyVaultEndpoint"];
 var clientId = configuration["AzureAd:ClientId"];
 var clientSecret = configuration["AzureAd:ClientSecret"];
 var tenantId = configuration["AzureAd:TenantId"];
-if (builder.Environment.IsDevelopment())
+if (!builder.Environment.IsDevelopment())
 {
     var clientSecretCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
     var secretClient = new SecretClient(new Uri(keyVaultUrl), clientSecretCredential);
@@ -99,7 +99,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var dbContext = services.GetRequiredService<OplogDbContext>();
-    //dbContext.Database.Migrate();
+    dbContext.Database.Migrate();
 }
 app.UseCors(MyAllowSpecificOrigins);
 // Configure the HTTP request pipeline.
