@@ -26,7 +26,7 @@ namespace Oplog.Persistence.Repositories
 
         public async Task<List<OperationArea>> GetActiveAreas()
         {
-            return await _dbContext.OperationAreas.Where(o => o.IsActive == true).ToListAsync();
+            return await _dbContext.OperationAreas.Include(o => o.Units.Where(u => u.IsActive)).Where(o => o.IsActive == true).ToListAsync();
         }
     }
 }

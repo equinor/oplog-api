@@ -41,7 +41,13 @@ namespace Oplog.Core.Queries
 
             foreach (var area in areas)
             {
-                results.Add(new GetAllAreasResult(area.Id, area.Name, area.Description));
+                var units = new List<UnitResult>();
+                foreach (var unit in area.Units)
+                {
+                    units.Add(new UnitResult(unit.Id, unit.Name, unit.Description, unit.CategoryId));
+                }
+
+                results.Add(new GetAllAreasResult(area.Id, area.Name, area.Description, units));
             }
 
             return results;

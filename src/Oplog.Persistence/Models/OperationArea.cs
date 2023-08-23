@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Oplog.Persistence.Models
 {
@@ -7,9 +8,10 @@ namespace Oplog.Persistence.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
-        //Note: use tag from the legacy database
+        //Note: use tag column from the legacy database
         public string Name { get; set; }
         public string Description { get; set; }
         public bool? IsActive { get; set; }
+        public List<Unit> Units { get; } = new();
     }
 }
