@@ -1,7 +1,6 @@
 ﻿using Oplog.Core.Enums;
 using Oplog.Core.Queries.ConfiguredTypes;
 using Oplog.Persistence.Repositories;
-using System.Text.RegularExpressions;
 
 namespace Oplog.Core.Queries
 {

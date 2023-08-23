@@ -53,14 +53,14 @@ namespace Oplog.Api.Controllers
         public async Task<IActionResult> Post(CreateLogRequest request)
         {
             var result = await _commandDispatcher.Dispatch<CreateLogCommand, CreateLogResult>(new CreateLogCommand(request.LogType.Value, request.SubType, request.Comment, request.OperationsAreaId.Value, GetFullName(), request.Unit.Value, request.EffectiveTime.Value, GetUserName(), request.IsCritical));
-            return Ok(result.Message);
+            return Ok(result);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] UpdateLogRequest request)
         {
             var result = await _commandDispatcher.Dispatch<UpdateLogCommand, UpdateLogResult>(new UpdateLogCommand(id, request.LogType.Value, request.SubType, request.Comment, request.OperationsAreaId.Value, request.Author, request.Unit.Value, request.EffectiveTime.Value, GetUserName(), request.IsCritical));
-            return Ok(result.Message);
+            return Ok(result);
         }
 
         [HttpDelete]

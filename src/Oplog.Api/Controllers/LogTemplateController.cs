@@ -33,6 +33,13 @@ namespace Oplog.Api.Controllers
             return Ok(result);
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, [FromBody] CreateLogTemplateRequest request)
+        {
+            var result = await _commandDispatcher.Dispatch<UpdateLogTemplateCommand, UpdateLogTemplateResult>(new UpdateLogTemplateCommand(id, request.Name, request.LogTypeId, request.OperationAreaId, request.Text, request.Author, request.Unit, request.Subtype, request.IsCritical, _contextAccessor.HttpContext.User.Identity.Name));
+            return Ok(result);
+        }
+
         [HttpGet]
         public async Task<IActionResult> Get()
         {
