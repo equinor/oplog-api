@@ -20,6 +20,11 @@ namespace Oplog.Persistence.Repositories
             await _dbContext.LogTemplates.AddAsync(template);
         }
 
+        public void Update(LogTemplate logTemplate)
+        {
+            _dbContext.LogTemplates.Update(logTemplate);
+        }
+
         public async Task<LogTemplate> GetById(int id)
         {
             return await _dbContext.LogTemplates.SingleOrDefaultAsync(t => t.Id == id);

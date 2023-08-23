@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Oplog.Persistence;
 
@@ -11,9 +12,11 @@ using Oplog.Persistence;
 namespace Oplog.Persistence.Migrations
 {
     [DbContext(typeof(OplogDbContext))]
-    partial class OplogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230823112515_AddLogTemplateUpdateColumns")]
+    partial class AddLogTemplateUpdateColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -249,6 +252,9 @@ namespace Oplog.Persistence.Migrations
                     b.Property<int?>("LogTypeId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("MyProperty")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -266,9 +272,6 @@ namespace Oplog.Persistence.Migrations
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
