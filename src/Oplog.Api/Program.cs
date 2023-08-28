@@ -82,6 +82,7 @@ builder.Services.AddTransient<IConfiguredTypesQueries, ConfiguredTypesQueries>()
 builder.Services.AddTransient<ICustomFilterQueries, CustomFilterQueries>();
 builder.Services.AddTransient<ILogTemplateQueries, LogTemplateQueries>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddMemoryCache();
 // The following line enables Application Insights telemetry collection.
 var appinsightConnStr = configuration["ApplicationInsights:ConnectionString"];
 var optionsAppInsight = new ApplicationInsightsServiceOptions { ConnectionString = configuration["ApplicationInsights:ConnectionString"] };
