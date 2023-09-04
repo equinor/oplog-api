@@ -1,9 +1,5 @@
 ﻿using Azure.Search.Documents;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Oplog.Core.AzureSearch
 {
@@ -40,7 +36,7 @@ namespace Oplog.Core.AzureSearch
         {
             if (string.IsNullOrEmpty(searchText)) return;
 
-            _filter.Append("");
+            _filter.Append($"and (search.ismatch('{searchText.ToLower()}*', 'Text'))");
         }
 
         public void AddLogTypeFilter(int[] logTypeIds)

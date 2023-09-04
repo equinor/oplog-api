@@ -1,5 +1,4 @@
-﻿using Oplog.Core.AzureSearch;
-using Oplog.Persistence.Repositories;
+﻿using Oplog.Persistence.Repositories;
 
 namespace Oplog.Core.Queries
 {
