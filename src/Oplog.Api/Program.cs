@@ -12,8 +12,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Oplog.Api;
 using Oplog.Api.Middleware;
+using Oplog.Core.AzureSearch;
 using Oplog.Core.Infrastructure;
 using Oplog.Core.Queries;
+using Oplog.Core.Queries.Logs;
 using Oplog.Persistence;
 using Oplog.Persistence.Repositories;
 using System;
@@ -71,6 +73,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddDbContext<OplogDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("Oplog")));
 builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
+builder.Services.AddScoped<IEventDispatcher, EventDispatcher>();
 builder.Services.AddTransient<ILogsRepository, LogsRepository>();
 builder.Services.AddTransient<IOperationsAreasRepository, OperationAreasRepository>();
 builder.Services.AddTransient<IConfiguredTypesRepository, ConfiguredTypesRepository>();
@@ -83,6 +86,10 @@ builder.Services.AddTransient<ICustomFilterQueries, CustomFilterQueries>();
 builder.Services.AddTransient<ILogTemplateQueries, LogTemplateQueries>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddMemoryCache();
+builder.Services.Configure<SearchConfiguration>(builder.Configuration.GetSection("AzureCognitiveSearch"));
+builder.Services.AddScoped<IIndexDocumentClient, IndexDocumentClient>();
+builder.Services.AddScoped<IIndexSearchClient, IndexSearchClient>();
+builder.Services.AddTransient<ISearchLogsQueries, SearchLogsQueries>();
 // The following line enables Application Insights telemetry collection.
 var appinsightConnStr = configuration["ApplicationInsights:ConnectionString"];
 var optionsAppInsight = new ApplicationInsightsServiceOptions { ConnectionString = configuration["ApplicationInsights:ConnectionString"] };
@@ -91,6 +98,7 @@ builder.Services.AddApplicationInsightsTelemetry(options: optionsAppInsight);
 //Add command handlers
 CommandHandlersSetup.AddCommandHandlers(builder.Services, typeof(ICommandHandler<>));
 CommandHandlersSetup.AddCommandHandlers(builder.Services, typeof(ICommandHandler<,>));
+EventHandlersSetup.AddEventHandlers(builder.Services, typeof(IEventHandler<>));
 
 SwaggerSetup.ConfigureServices(configuration, builder.Services);
 

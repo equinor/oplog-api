@@ -8,6 +8,7 @@ namespace Oplog.Persistence.Repositories
     public interface ILogsRepository
     {
         Task<Log> Get(int Id);
+        Task<LogsView> GetDetailedLogById(int Id);
         Task Insert(Log log);
         Task Delete(int id);
         void Update(Log log);

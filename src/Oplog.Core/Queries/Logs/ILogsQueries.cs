@@ -2,8 +2,8 @@
 {
     public interface ILogsQueries
     {
-        Task<List<GetAllLogsResult>> GetAllLogs();
-        Task<List<GetLogsByDateResult>> GetLogsByDate(DateTime fromDate, DateTime toDate);
-        Task<List<GetFilteredLogsResult>> GetFilteredLogs(LogsFilter filter);
+        Task<List<LogsResult>> GetAllLogs();
+        Task<List<LogsResult>> GetLogsByDate(DateTime fromDate, DateTime toDate);
+        Task<List<LogsResult>> GetFilteredLogs(LogsFilter filter);
     }
 }

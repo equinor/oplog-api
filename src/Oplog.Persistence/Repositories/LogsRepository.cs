@@ -98,6 +98,20 @@ namespace Oplog.Persistence.Repositories
                     .ToListAsync();
         }
 
+        public async Task<LogsView> GetDetailedLogById(int Id)
+        {
+            try
+            {
+                return await _dbContext.LogsView.SingleOrDefaultAsync(l => l.Id == Id);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+        }
+
 
         //TODO: Move to Utils
         private static DataTable ConvertFromAnArray(int[] ids)

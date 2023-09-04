@@ -1,8 +1,8 @@
-﻿namespace Oplog.Core.Queries
+﻿namespace Oplog.Core.AzureSearch
 {
-    public class GetLogsByDateResult
+    public class LogDocument
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int? LogTypeId { get; set; }
         public int? ParentId { get; set; }
         public int? LastChangeUserId { get; set; }

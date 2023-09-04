@@ -1,4 +1,5 @@
-﻿using Oplog.Persistence.Repositories;
+﻿using Oplog.Core.AzureSearch;
+using Oplog.Persistence.Repositories;
 
 namespace Oplog.Core.Queries
 {
@@ -10,7 +11,7 @@ namespace Oplog.Core.Queries
             _logsRepository = logsRepository;
         }
 
-        public async Task<List<GetAllLogsResult>> GetAllLogs()
+        public async Task<List<LogsResult>> GetAllLogs()
         {
             var logs = await _logsRepository.GetAll();
 
@@ -19,10 +20,10 @@ namespace Oplog.Core.Queries
                 return null;
             }
 
-            var result = new List<GetAllLogsResult>();
+            var result = new List<LogsResult>();
             foreach (var item in logs)
             {
-                var log = new GetAllLogsResult
+                var log = new LogsResult
                 {
                     Id = item.Id,
                     LogTypeId = item.LogTypeId,
@@ -54,7 +55,7 @@ namespace Oplog.Core.Queries
             return result;
         }
 
-        public async Task<List<GetLogsByDateResult>> GetLogsByDate(DateTime fromDate, DateTime toDate)
+        public async Task<List<LogsResult>> GetLogsByDate(DateTime fromDate, DateTime toDate)
         {
             var logs = await _logsRepository.GetLogsBydate(fromDate, toDate);
 
@@ -63,10 +64,10 @@ namespace Oplog.Core.Queries
                 return null;
             }
 
-            var result = new List<GetLogsByDateResult>();
+            var result = new List<LogsResult>();
             foreach (var item in logs)
             {
-                var log = new GetLogsByDateResult
+                var log = new LogsResult
                 {
                     Id = item.Id,
                     LogTypeId = item.LogTypeId,
@@ -98,7 +99,7 @@ namespace Oplog.Core.Queries
             return result;
         }
 
-        public async Task<List<GetFilteredLogsResult>> GetFilteredLogs(LogsFilter filter)
+        public async Task<List<LogsResult>> GetFilteredLogs(LogsFilter filter)
         {
             var logs = await _logsRepository.GetFilteredLogs(filter.LogTypeIds, filter.AreaIds, filter.SubTypeIds, filter.UnitIds, filter.SearchText, filter.FromDate, filter.ToDate, filter.SortField, filter.SortDirection);
 
@@ -107,10 +108,10 @@ namespace Oplog.Core.Queries
                 return null;
             }
 
-            var result = new List<GetFilteredLogsResult>();
+            var result = new List<LogsResult>();
             foreach (var item in logs)
             {
-                var log = new GetFilteredLogsResult
+                var log = new LogsResult
                 {
                     Id = item.Id,
                     LogTypeId = item.LogTypeId,
