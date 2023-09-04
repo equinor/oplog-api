@@ -1,6 +1,6 @@
 ﻿namespace Oplog.Core.Queries
 {
-    public class GetFilteredLogsResult
+    public class LogsResult
     {
         public int Id { get; set; }
         public int? LogTypeId { get; set; }

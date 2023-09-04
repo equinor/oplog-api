@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Azure;
+using Azure.Search.Documents;
+using Azure.Search.Documents.Indexes;
+using Azure.Search.Documents.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +13,7 @@ using Oplog.Api.Models;
 using Oplog.Core.Commands.Logs;
 using Oplog.Core.Infrastructure;
 using Oplog.Core.Queries;
+using Oplog.Core.Queries.Logs;
 
 namespace Oplog.Api.Controllers
 {
@@ -20,10 +25,12 @@ namespace Oplog.Api.Controllers
         private readonly ICommandDispatcher _commandDispatcher;
         private readonly ILogsQueries _queries;
         private readonly IHttpContextAccessor _contextAccessor;
-        public LogsController(ICommandDispatcher commandDispatcher, ILogsQueries queries, IHttpContextAccessor contextAccessor)
+        private readonly ISearchLogsQueries _searchLogsQueries;
+        public LogsController(ICommandDispatcher commandDispatcher, ILogsQueries queries, ISearchLogsQueries searchLogsQueries, IHttpContextAccessor contextAccessor)
         {
             _commandDispatcher = commandDispatcher;
             _queries = queries;
+            _searchLogsQueries = searchLogsQueries;
             _contextAccessor = contextAccessor;
         }
 
@@ -62,6 +69,14 @@ namespace Oplog.Api.Controllers
             var result = await _commandDispatcher.Dispatch<UpdateLogCommand, UpdateLogResult>(new UpdateLogCommand(id, request.LogType.Value, request.SubType, request.Comment, request.OperationsAreaId.Value, request.Author, request.Unit.Value, request.EffectiveTime.Value, GetUserName(), request.IsCritical));
             return Ok(result);
         }
+
+        [HttpPost("search")]
+        public async Task<IActionResult> Search([FromBody] GetSearchLogsRequest request)
+        {
+            SearchLogsResult result = await _searchLogsQueries.Search(new Core.AzureSearch.SearchRequest(request.LogTypeIds, request.AreaIds, request.SubTypeIds, request.UnitIds, request.SearchText, request.FromDate, request.ToDate, request.SortBy, request.PageSize, request.PageNumber));
+            return Ok(result);
+        }
+
 
         [HttpDelete]
         //TODO: Mark as soft delete
