@@ -1,5 +1,4 @@
-﻿using Azure;
-using Azure.Search.Documents.Models;
+﻿using Azure.Search.Documents.Models;
 
 namespace Oplog.Core.AzureSearch
 {

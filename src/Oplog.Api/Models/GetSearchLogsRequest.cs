@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Oplog.Api.Models
 {
@@ -12,7 +13,9 @@ namespace Oplog.Api.Models
         public int[] SubTypeIds { get; set; }
         public int[] UnitIds { get; set; }
         public string SearchText { get; set; }
+        [Required]
         public DateTime FromDate { get; set; }
+        [Required]
         public DateTime ToDate { get; set; }
         public List<string> SortBy { get; set; }
         public int PageSize { get; set; } = DefaultPageSize;
