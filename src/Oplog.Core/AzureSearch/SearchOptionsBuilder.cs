@@ -1,4 +1,5 @@
 ﻿using Azure.Search.Documents;
+using Oplog.Core.Utils;
 using System.Text;
 
 namespace Oplog.Core.AzureSearch
@@ -30,10 +31,12 @@ namespace Oplog.Core.AzureSearch
                 _searchOptions.OrderBy.Add("EffectiveTime desc");
                 return;
             }
-
-            foreach (var fieldWithOrder in sortFields)
+            else
             {
-                _searchOptions.OrderBy.Add(fieldWithOrder);
+                foreach (var fieldWithDirection in sortFields)
+                {
+                    _searchOptions.OrderBy.Add(StringUtils.ConvertFirstLetterToUpper(fieldWithDirection));
+                }
             }
         }
 
