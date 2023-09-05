@@ -25,7 +25,12 @@ namespace Oplog.Core.AzureSearch
 
         public void AddSortFields(List<string> sortFields)
         {
-            if (sortFields == null) return;
+            if (sortFields == null)
+            {
+                _searchOptions.OrderBy.Add("EffectiveTime desc");
+                return;
+            }
+
             foreach (var fieldWithOrder in sortFields)
             {
                 _searchOptions.OrderBy.Add(fieldWithOrder);
