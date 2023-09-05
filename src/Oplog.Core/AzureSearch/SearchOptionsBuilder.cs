@@ -6,13 +6,16 @@ namespace Oplog.Core.AzureSearch
 {
     public class SearchOptionsBuilder
     {
-        private readonly SearchOptions _searchOptions;
-        private readonly StringBuilder _filter;
+        private readonly SearchOptions _searchOptions = new();
+        private StringBuilder _filter = new();
+        private StringBuilder _fieldsFilter = new();
         private const string DateTimeFormat = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'";
-        public SearchOptionsBuilder(DateTime fromDate, DateTime toDate, int pageSize, int pageNumber)
+        private readonly bool _isDateOnlySearch = false;
+        private const string FilterPlaceHolderValue = "[]";
+
+        public SearchOptionsBuilder(DateTime fromDate, DateTime toDate, int pageSize, int pageNumber, bool isDateOnlySearch)
         {
-            _searchOptions = new SearchOptions();
-            _filter = new StringBuilder();
+            _isDateOnlySearch = isDateOnlySearch;
             _searchOptions.IncludeTotalCount = true;
             _searchOptions.Size = pageSize;
 
@@ -21,7 +24,14 @@ namespace Oplog.Core.AzureSearch
                 _searchOptions.Skip = (pageNumber - 1) * pageSize;
             }
 
-            _filter.Append($"(CreatedDate ge {fromDate.ToString(DateTimeFormat)} and CreatedDate le {toDate.ToString(DateTimeFormat)})");
+            if (_isDateOnlySearch)
+            {
+                _filter.Append($"CreatedDate ge {fromDate.ToString(DateTimeFormat)} and CreatedDate le {toDate.ToString(DateTimeFormat)}");
+            }
+            else
+            {
+                _filter.Append($"(CreatedDate ge {fromDate.ToString(DateTimeFormat)} and CreatedDate le {toDate.ToString(DateTimeFormat)}) and ({FilterPlaceHolderValue})");
+            }
         }
 
         public void AddSortFields(List<string> sortFields)
@@ -42,15 +52,28 @@ namespace Oplog.Core.AzureSearch
 
         public void AddSearchTextFilter(string searchText)
         {
-            if (string.IsNullOrEmpty(searchText)) return;
+            if (string.IsNullOrWhiteSpace(searchText)) return;
 
-            _filter.Append($"and (search.ismatch('{searchText.ToLower()}*', 'Text'))");
+            _fieldsFilter.Append($" and search.ismatch('{searchText.ToLower()}*', 'Text')");
         }
 
         public void AddLogTypeFilter(int[] logTypeIds)
         {
-            if (logTypeIds == null) return;
+            if (logTypeIds == null || logTypeIds.Count() < 1) return;
 
+            StringBuilder stringBuilder = new();
+
+            foreach (int logTypeId in logTypeIds)
+            {
+                stringBuilder.Append(@$"LogTypeId eq {logTypeId.ToString()} or ");
+            }
+
+            string logTypeFilter = stringBuilder.ToString();
+
+            //Note: remove any trailing "or" operators
+            logTypeFilter = logTypeFilter.Remove(logTypeFilter.Length - 4);
+
+            _fieldsFilter.Append($" and ({logTypeFilter})");
         }
 
         public void AddAreaFilter(int[] areaIds)
@@ -70,7 +93,20 @@ namespace Oplog.Core.AzureSearch
 
         public SearchOptions Build()
         {
-            _searchOptions.Filter = _filter.ToString();
+            if (_isDateOnlySearch)
+            {
+                _searchOptions.Filter = _filter.ToString();
+            }
+            else
+            {
+                //Note: remove the "and" operator
+                _fieldsFilter = _fieldsFilter.Remove(0, 5);
+
+                string filter = _filter.ToString();
+                filter = filter.Replace("[]", _fieldsFilter.ToString());
+                _searchOptions.Filter = filter;
+            }
+
             return _searchOptions;
         }
     }
