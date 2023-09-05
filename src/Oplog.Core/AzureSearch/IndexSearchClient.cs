@@ -17,8 +17,8 @@ namespace Oplog.Core.AzureSearch
             try
             {
                 var searchClient = GetSearchClient(isAdminKey: false);
-
-                SearchOptionsBuilder searchOptionsBuilder = new(searchRequest.FromDate, searchRequest.ToDate, searchRequest.PageSize, searchRequest.PageNumber);
+                bool isDateOnlySearch = IsDateOnlySearch(searchRequest);
+                SearchOptionsBuilder searchOptionsBuilder = new(searchRequest.FromDate, searchRequest.ToDate, searchRequest.PageSize, searchRequest.PageNumber, isDateOnlySearch);
                 searchOptionsBuilder.AddSortFields(searchRequest.SortBy);
                 searchOptionsBuilder.AddSearchTextFilter(searchRequest.SearchText);
                 searchOptionsBuilder.AddLogTypeFilter(searchRequest.LogTypeIds);
@@ -64,7 +64,17 @@ namespace Oplog.Core.AzureSearch
             }
         }
 
-        public string CreateGetByIdsFilter(List<int> ids)
+        private bool IsDateOnlySearch(SearchRequest searchRequest)
+        {
+            bool isDateOnlySearch = searchRequest.LogTypeIds == null &&
+                                        searchRequest.UnitIds == null &&
+                                        searchRequest.AreaIds == null &&
+                                        string.IsNullOrWhiteSpace(searchRequest.SearchText) &&
+                                        searchRequest.SubTypeIds == null;
+            return isDateOnlySearch;
+        }
+
+        private string CreateGetByIdsFilter(List<int> ids)
         {
             StringBuilder stringBuilder = new StringBuilder();
             foreach (var id in ids)
