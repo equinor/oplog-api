@@ -1,4 +1,4 @@
-﻿using Oplog.Core.Events.Logs;
+﻿using Oplog.Core.AzureSearch;
 using Oplog.Core.Infrastructure;
 using Oplog.Persistence.Models;
 using Oplog.Persistence.Repositories;
@@ -9,10 +9,11 @@ namespace Oplog.Core.Commands.Logs
     {
         private readonly ILogsRepository _logsRepository;
         private readonly IEventDispatcher _eventDispatcher;
-        public DeleteLogsCommandHandler(ILogsRepository logsRepository, IEventDispatcher eventDispatcher)
+        private readonly IIndexDocumentClient _documentClient;
+        public DeleteLogsCommandHandler(ILogsRepository logsRepository, IIndexDocumentClient documentClient)
         {
             _logsRepository = logsRepository;
-            _eventDispatcher = eventDispatcher;
+            _documentClient = documentClient;
         }
 
         public async Task<DeleteLogsResult> Handle(DeleteLogsCommand command)
@@ -36,8 +37,12 @@ namespace Oplog.Core.Commands.Logs
 
             _logsRepository.DeleteBulk(logsToDelete);
             await _logsRepository.Save();
-           
-            await _eventDispatcher.RaiseEvent(new LogsDeletedEvent(logsToDelete.Select(log => log.Id).ToList()));
+
+            foreach (var logId in logsToDelete.Select(log => log.Id).ToList())
+            {
+                await _documentClient.Delete(logId.ToString());
+            }
+
             if (logsNotDeleted.Any())
             {
                 return deleteLogsResult.LogsDeletedWithSomeLogsNotFound(logsNotDeleted);

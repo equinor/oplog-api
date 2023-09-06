@@ -1,4 +1,4 @@
-﻿using Oplog.Core.Events.Logs;
+﻿using Oplog.Core.AzureSearch;
 using Oplog.Core.Infrastructure;
 using Oplog.Persistence.Models;
 using Oplog.Persistence.Repositories;
@@ -8,12 +8,12 @@ namespace Oplog.Core.Commands.Logs
     public class CreateLogCommandHandler : ICommandHandler<CreateLogCommand, CreateLogResult>
     {
         private readonly ILogsRepository _logsRepository;
-        private readonly IEventDispatcher _eventDispatcher;
+        private readonly IIndexDocumentClient _documentClient;
 
-        public CreateLogCommandHandler(ILogsRepository logsRepository, IEventDispatcher eventDispatcher)
+        public CreateLogCommandHandler(ILogsRepository logsRepository, IIndexDocumentClient documentClient)
         {
             _logsRepository = logsRepository;
-            _eventDispatcher = eventDispatcher;
+            _documentClient = documentClient;
         }
         public async Task<CreateLogResult> Handle(CreateLogCommand command)
         {
@@ -34,7 +34,28 @@ namespace Oplog.Core.Commands.Logs
 
             await _logsRepository.Insert(newLog);
             await _logsRepository.Save();
-            await _eventDispatcher.RaiseEvent(new LogCreatedEvent(newLog.Id));
+
+            var log = await _logsRepository.GetDetailedLogById(newLog.Id);
+            await _documentClient.Create(new LogDocument
+            {
+                Id = log.Id.ToString(),
+                LogTypeId = log.LogTypeId,
+                UpdatedBy = log.UpdatedBy,
+                UpdatedDate = log.UpdatedDate,
+                CreatedBy = log.CreatedBy,
+                Author = log.Author,
+                CreatedDate = log.CreatedDate,
+                Text = log.Text,
+                OperationAreaId = log.OperationAreaId,
+                EffectiveTime = log.EffectiveTime,
+                Unit = log.Unit,
+                Subtype = log.Subtype,
+                IsCritical = log.IsCritical,
+                AreaName = log.AreaName,
+                LogTypeName = log.LogTypeName,
+                SubTypeName = log.SubTypeName,
+                UnitName = log.UnitName,
+            });
 
             return result.LogCreated(newLog.Id);
         }

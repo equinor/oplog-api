@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Commands\OperationAreas\**" />
+    <EmbeddedResource Remove="Commands\OperationAreas\**" />
+    <None Remove="Commands\OperationAreas\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Azure.Search.Documents" Version="11.4.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
   </ItemGroup>
@@ -15,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\OperationAreas\" />
+    <Folder Include="Events\" />
   </ItemGroup>
 
 </Project>
