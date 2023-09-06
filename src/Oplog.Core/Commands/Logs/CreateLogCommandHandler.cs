@@ -36,7 +36,7 @@ namespace Oplog.Core.Commands.Logs
             await _logsRepository.Save();
 
             var log = await _logsRepository.GetDetailedLogById(newLog.Id);
-            await _documentClient.Create(new LogDocument
+            bool succeeded = await _documentClient.Create(new LogDocument
             {
                 Id = log.Id.ToString(),
                 LogTypeId = log.LogTypeId,
@@ -57,7 +57,15 @@ namespace Oplog.Core.Commands.Logs
                 UnitName = log.UnitName,
             });
 
-            return result.LogCreated(newLog.Id);
+            if (succeeded)
+            {
+                return result.LogCreated(newLog.Id);
+            }
+            else
+            {
+                return result.LogCreatedWithFailures(newLog.Id);
+            }
+
         }
     }
 }

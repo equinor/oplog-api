@@ -15,5 +15,13 @@ namespace Oplog.Core.Commands.Logs
             LogId = logId;
             return this;
         }
+
+        public CreateLogResult LogCreatedWithFailures(int logId)
+        {
+            ResultType = ResultType.Failed;
+            Message = "New log created, but failed the data to index in search";
+            LogId = logId;
+            return this;
+        }
     }
 }
