@@ -4,22 +4,34 @@ namespace Oplog.IntegrationTests.Fakes.AzureSearch
 {
     public class FakeIndexDocumentClient : IIndexDocumentClient
     {
-        public async Task<bool> Create(LogDocument log)
+        public Task<bool> Create(LogDocument log)
         {
-            bool value = false;
-            var task = new Task<bool>(() => value = true);
-            await task;
-            return value;
+            Task<bool> task = Task.Run(() =>
+            {
+                return true;
+            });
+
+            return task;
         }
 
         public Task<bool> Delete(string logId)
         {
-            throw new NotImplementedException();
+            Task<bool> task = Task.Run(() =>
+            {
+                return true;
+            });
+
+            return task;
         }
 
         public Task<bool> Update(LogDocument log)
         {
-            throw new NotImplementedException();
+            Task<bool> task = Task.Run(() =>
+            {
+                return true;
+            });
+
+            return task;
         }
     }
 }

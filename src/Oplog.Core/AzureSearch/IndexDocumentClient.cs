@@ -76,7 +76,8 @@ namespace Oplog.Core.AzureSearch
             }
             catch (Exception)
             {
-                throw;
+               //Note: Do not throw the error.Operation should continue for multiple deletes without breaking on exception. 
+               return false;
             }
         }
     }
