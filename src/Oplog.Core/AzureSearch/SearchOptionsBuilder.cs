@@ -70,24 +70,24 @@ namespace Oplog.Core.AzureSearch
         {
             if (areaIds == null || areaIds.Length == 0) return;
 
-            string logTypeFilter = CreateFieldsFilter(areaIds, AreaIdFieldName);
-            _fieldsFilter.Append($" and ({logTypeFilter})");
+            string areaFilter = CreateFieldsFilter(areaIds, AreaIdFieldName);
+            _fieldsFilter.Append($" and ({areaFilter})");
         }
 
         public void AddSubTypeFilter(int[] subTypeIds)
         {
             if (subTypeIds == null || subTypeIds.Length == 0) return;
 
-            string logTypeFilter = CreateFieldsFilter(subTypeIds, SubTypeIdFieldName);
-            _fieldsFilter.Append($" and ({logTypeFilter})");
+            string subTypeFilter = CreateFieldsFilter(subTypeIds, SubTypeIdFieldName);
+            _fieldsFilter.Append($" and ({subTypeFilter})");
         }
 
         public void AddUnitFilter(int[] unitIds)
         {
             if (unitIds == null || unitIds.Length == 0) return;
 
-            string logTypeFilter = CreateFieldsFilter(unitIds, UnitIdFieldName);
-            _fieldsFilter.Append($" and ({logTypeFilter})");
+            string unitFilter = CreateFieldsFilter(unitIds, UnitIdFieldName);
+            _fieldsFilter.Append($" and ({unitFilter})");
         }
 
         public SearchOptions Build()
