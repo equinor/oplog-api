@@ -76,7 +76,7 @@ namespace Oplog.Core.AzureSearch
 
         private string CreateGetByIdsFilter(List<int> ids)
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new ();
             foreach (var id in ids)
             {
                 stringBuilder.Append(@$"Id eq '{id.ToString()}' or ");

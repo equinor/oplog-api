@@ -100,16 +100,7 @@ namespace Oplog.Persistence.Repositories
 
         public async Task<LogsView> GetDetailedLogById(int Id)
         {
-            try
-            {
-                return await _dbContext.LogsView.SingleOrDefaultAsync(l => l.Id == Id);
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-
+            return await _dbContext.LogsView.SingleOrDefaultAsync(l => l.Id == Id);
         }
 
 

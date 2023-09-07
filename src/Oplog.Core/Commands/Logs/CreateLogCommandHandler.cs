@@ -57,6 +57,7 @@ namespace Oplog.Core.Commands.Logs
                 UnitName = log.UnitName,
             });
 
+
             if (succeeded)
             {
                 return result.LogCreated(newLog.Id);
@@ -65,7 +66,6 @@ namespace Oplog.Core.Commands.Logs
             {
                 return result.LogCreatedWithFailures(newLog.Id);
             }
-
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Oplog.Core.Enums;
+﻿using Oplog.Core.Common;
 
 namespace Oplog.Core.Commands.Logs
 {
@@ -6,11 +6,11 @@ namespace Oplog.Core.Commands.Logs
     {
         public int LogId { get; set; }
         public string Message { get; set; }
-        public ResultType ResultType { get; set; }
+        public string ResultType { get; set; }
 
         public CreateLogResult LogCreated(int logId)
         {
-            ResultType = ResultType.Success;
+            ResultType = ResultTypeConstants.Success;
             Message = "New log created";
             LogId = logId;
             return this;
@@ -18,7 +18,7 @@ namespace Oplog.Core.Commands.Logs
 
         public CreateLogResult LogCreatedWithFailures(int logId)
         {
-            ResultType = ResultType.Failed;
+            ResultType = ResultTypeConstants.Failed;
             Message = "New log created, but failed the data to index in search";
             LogId = logId;
             return this;

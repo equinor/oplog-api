@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
-using Oplog.Core.Enums;
+using Oplog.Core.Common;
 using Oplog.Core.Queries.ConfiguredTypes;
 using Oplog.Persistence.Repositories;
 

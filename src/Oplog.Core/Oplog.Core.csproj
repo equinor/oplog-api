@@ -7,8 +7,11 @@
 
   <ItemGroup>
     <Compile Remove="Commands\OperationAreas\**" />
+    <Compile Remove="Events\**" />
     <EmbeddedResource Remove="Commands\OperationAreas\**" />
+    <EmbeddedResource Remove="Events\**" />
     <None Remove="Commands\OperationAreas\**" />
+    <None Remove="Events\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,10 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Oplog.Persistence\Oplog.Persistence.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Events\" />
   </ItemGroup>
 
 </Project>

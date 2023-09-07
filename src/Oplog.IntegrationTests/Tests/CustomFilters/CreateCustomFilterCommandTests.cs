@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using Oplog.Core.Commands.CustomFilters;
-using Oplog.Core.Enums;
+using Oplog.Core.Common;
 
 namespace Oplog.IntegrationTests.Tests.CustomFilters
 {
@@ -18,7 +18,7 @@ namespace Oplog.IntegrationTests.Tests.CustomFilters
             var createCustomFilterCommad = new CreateCustomFilterCommand("Test Filter", "bonm@equinor.com", false, "Test", false, filterItems);
 
             var result = await CommandDispatcher.Dispatch<CreateCustomFilterCommand, CreateCustomFilterResult>(createCustomFilterCommad);
-            Assert.IsTrue(result.ResultType == ResultType.Success);
+            Assert.IsTrue(result.ResultType == ResultTypeConstants.Success);
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace Oplog.IntegrationTests.Tests.CustomFilters
             var createCustomFilterCommad = new CreateCustomFilterCommand("Test Filter", "bonm@equinor.com", isGlobalFilter, "Test", isAdmin, filterItems);
 
             var result = await CommandDispatcher.Dispatch<CreateCustomFilterCommand, CreateCustomFilterResult>(createCustomFilterCommad);
-            Assert.IsTrue(result.ResultType == ResultType.Success);
+            Assert.IsTrue(result.ResultType == ResultTypeConstants.Success);
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace Oplog.IntegrationTests.Tests.CustomFilters
             var createCustomFilterCommad = new CreateCustomFilterCommand("Test Filter", "bonm@equinor.com", isGlobalFilter, "Test", isAdmin, filterItems);
 
             var result = await CommandDispatcher.Dispatch<CreateCustomFilterCommand, CreateCustomFilterResult>(createCustomFilterCommad);
-            Assert.IsTrue(result.ResultType == ResultType.NotAllowed);
+            Assert.IsTrue(result.ResultType == ResultTypeConstants.NotAllowed);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Oplog.Core.Enums
+﻿namespace Oplog.Core.Common
 {
     public enum CategoryId
     {

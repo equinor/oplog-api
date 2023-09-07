@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Oplog.Api.Models;
 using Oplog.Core.Commands.CustomFilters;
-using Oplog.Core.Enums;
+using Oplog.Core.Common;
 using Oplog.Core.Infrastructure;
 using Oplog.Core.Queries;
 using System.Threading.Tasks;
@@ -33,7 +33,7 @@ namespace Oplog.Api.Controllers
             var isAdmin = _contextAccessor.HttpContext.User.IsInRole("Permission.Admin");
             var result = await _commandDispatcher.Dispatch<CreateCustomFilterCommand, CreateCustomFilterResult>(new CreateCustomFilterCommand(request.Name, GetUserName(), request.IsGlobalFilter, request.SearchText, isAdmin, request.FilterItems));
 
-            if (result.ResultType == ResultType.NotAllowed)
+            if (result.ResultType == ResultTypeConstants.NotAllowed)
             {
                 var authenticationProperties = new AuthenticationProperties();
                 authenticationProperties.SetString("message", result.Message);
@@ -63,12 +63,12 @@ namespace Oplog.Api.Controllers
             var isAdmin = _contextAccessor.HttpContext.User.IsInRole("Permission.Admin");
             var result = await _commandDispatcher.Dispatch<DeleteCustomFilterCommand, DeleteCustomFilterResult>(new DeleteCustomFilterCommand(id, isAdmin));
 
-            if (result.ResultType == ResultType.NotFound)
+            if (result.ResultType == ResultTypeConstants.NotFound)
             {
                 return NotFound(result);
             }
 
-            if (result.ResultType == ResultType.NotAllowed)
+            if (result.ResultType == ResultTypeConstants.NotAllowed)
             {
                 var authenticationProperties = new AuthenticationProperties();
                 authenticationProperties.SetString("message", result.Message);
