@@ -38,6 +38,9 @@ namespace Oplog.Core.Commands.Logs
                 await _documentClient.Delete(logId.ToString());
             }
 
+            //Note: Cognitive search index takes time to update. Adding a delay to reflect it
+            await Task.Delay(2500);
+
             return deleteLogsResult.AllRequestedLogsDeleted();
         }
     }
