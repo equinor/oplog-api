@@ -15,13 +15,5 @@ namespace Oplog.Core.Commands.Logs
             Message = "All requested logs deleted!";
             return this;
         }
-
-        public DeleteLogsResult LogsDeletedWithSomeLogsNotFound(Dictionary<int, string> logsNotDeleted)
-        {
-            ResultType = ResultTypeConstants.Success;
-            LogsNotDeleted = logsNotDeleted;
-            Message = "Could not delete all of the logs. Some logs were not found!";
-            return this;
-        }
     }
 }
