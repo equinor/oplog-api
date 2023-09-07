@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Oplog.Core.Enums;
+using Oplog.Core.Common;
 using Oplog.Core.Queries;
 using System.Threading.Tasks;
 

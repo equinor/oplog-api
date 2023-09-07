@@ -6,6 +6,8 @@ namespace Oplog.Core.AzureSearch
 {
     public class IndexDocumentClient : SearchClientBase, IIndexDocumentClient
     {
+        private const int ToTalTryCount = 5;
+
         public IndexDocumentClient(IOptions<SearchConfiguration> configurationOptions) : base(configurationOptions)
         {
         }
@@ -23,15 +25,42 @@ namespace Oplog.Core.AzureSearch
 
                 if (result.Value.Results.FirstOrDefault().Succeeded)
                 {
-                    return true;
-                };
-
-                return false;
+                    bool isIndexed = await IsLogDocumentIndexed(log.Id);
+                    return isIndexed;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception)
             {
                 throw;
             }
+        }
+
+        private async Task<bool> IsLogDocumentIndexed(string logId)
+        {
+            //Note: This is to confirm the document is indexed
+            int numberOfTries = 0;
+            var searchClient = GetSearchClient(isAdminKey: true);
+            while (numberOfTries < ToTalTryCount)
+            {
+                try
+                {
+                    var logDocument = await searchClient.GetDocumentAsync<LogDocument>(logId);
+
+                    //Note: No need to check for null log document. GetDocumentAsync method throws an exception if the document is not found
+                    return true;
+                }
+                catch (Exception)
+                {
+                    //Note: Ignore the exception. Just keep trying.
+                    numberOfTries++;
+                }
+            }
+
+            return false;
         }
 
         public async Task<bool> Update(LogDocument log)
@@ -43,6 +72,10 @@ namespace Oplog.Core.AzureSearch
                 IndexDocumentsOptions options = new() { ThrowOnAnyError = true };
 
                 var result = await searchClient.IndexDocumentsAsync(batch, options);
+
+                //Note: Delay the return to update the indexed document
+                await Task.Delay(500);
+
                 if (result.Value.Results.FirstOrDefault().Succeeded)
                 {
                     return true;
@@ -68,6 +101,10 @@ namespace Oplog.Core.AzureSearch
                 IndexDocumentsOptions options = new() { ThrowOnAnyError = true };
 
                 var result = await searchClient.IndexDocumentsAsync(batch, options);
+
+                //Note: Delay the return to update the indexed document
+                await Task.Delay(1000);
+
                 if (result.Value.Results.FirstOrDefault().Succeeded)
                 {
                     return true;
@@ -76,8 +113,8 @@ namespace Oplog.Core.AzureSearch
             }
             catch (Exception)
             {
-               //Note: Do not throw the error.Operation should continue for multiple deletes without breaking on exception. 
-               return false;
+                //Note: Do not throw the error.Operation should continue for multiple deletes without breaking on exception. 
+                return false;
             }
         }
     }

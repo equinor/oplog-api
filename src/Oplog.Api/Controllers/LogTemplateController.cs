@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Oplog.Api.Models;
 using Oplog.Core.Commands.LogTemplates;
-using Oplog.Core.Enums;
+using Oplog.Core.Common;
 using Oplog.Core.Infrastructure;
 using Oplog.Core.Queries;
 using System.Threading.Tasks;
@@ -52,7 +52,7 @@ namespace Oplog.Api.Controllers
         {
             var result = await _commandDispatcher.Dispatch<DeleteLogTemplateCommand, DeleteLogTemplateResult>(new DeleteLogTemplateCommand(id));
 
-            if (result.ResultType == ResultType.NotFound)
+            if (result.ResultType == ResultTypeConstants.NotFound)
             {
                 return NotFound(result);
             }

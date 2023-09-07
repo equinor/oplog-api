@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using Oplog.Core.Commands.LogTemplates;
-using Oplog.Core.Enums;
+using Oplog.Core.Common;
 
 namespace Oplog.IntegrationTests.Tests.LogTemplates
 {
@@ -17,7 +17,7 @@ namespace Oplog.IntegrationTests.Tests.LogTemplates
                                                     (result.LogTemplateId, "Test template", null, null, null, "test template", null, null, null, "bonm@equinor.com");
 
             var updateResult = await CommandDispatcher.Dispatch<UpdateLogTemplateCommand, UpdateLogTemplateResult>(updateLogTemplateCommand);
-            Assert.IsTrue(updateResult.ResultType == ResultType.Success);
+            Assert.IsTrue(updateResult.ResultType == ResultTypeConstants.Success);
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace Oplog.IntegrationTests.Tests.LogTemplates
                                                    (id: 5, "Test template", null, null, null, "test template", null, null, null, "bonm@equinor.com");
 
             var updateResult = await CommandDispatcher.Dispatch<UpdateLogTemplateCommand, UpdateLogTemplateResult>(updateLogTemplateCommand);
-            Assert.IsTrue(updateResult.ResultType == ResultType.NotFound);
+            Assert.IsTrue(updateResult.ResultType == ResultTypeConstants.NotFound);
         }
     }
 }

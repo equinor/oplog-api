@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using Oplog.Core.Commands.Logs;
-using Oplog.Core.Enums;
+using Oplog.Core.Common;
 
 namespace Oplog.IntegrationTests.Tests.Logs
 {
@@ -15,7 +15,7 @@ namespace Oplog.IntegrationTests.Tests.Logs
             var updateCommand = new UpdateLogCommand(createResult.LogId, logType: 415, subType: 1079, comment: "Update comment", operationsArea: 10000, author: "Donald Trump", unit: 1086, effectiveTime: DateTime.Now, updatedBy: "bonm@equinor.com", isCritical: false);
             var updateResult = await CommandDispatcher.Dispatch<UpdateLogCommand, UpdateLogResult>(updateCommand);
 
-            Assert.IsTrue(updateResult.ResultType == ResultType.Success);
+            Assert.IsTrue(updateResult.ResultType == ResultTypeConstants.Success);
         }
 
         [Test]
@@ -24,7 +24,7 @@ namespace Oplog.IntegrationTests.Tests.Logs
             var updateCommand = new UpdateLogCommand(10, logType: 415, subType: 1079, comment: "Update comment", operationsArea: 10000, author: "Donald Trump", unit: 1086, effectiveTime: DateTime.Now, updatedBy: "bonm@equinor.com", isCritical: false);
             var updateResult = await CommandDispatcher.Dispatch<UpdateLogCommand, UpdateLogResult>(updateCommand);
 
-            Assert.IsTrue(updateResult.ResultType == ResultType.NotFound);
+            Assert.IsTrue(updateResult.ResultType == ResultTypeConstants.NotFound);
         }
     }
 }

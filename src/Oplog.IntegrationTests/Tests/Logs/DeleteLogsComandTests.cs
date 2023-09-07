@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using Oplog.Core.Commands.Logs;
-using Oplog.Core.Enums;
+using Oplog.Core.Common;
 
 namespace Oplog.IntegrationTests.Tests.Logs
 {
@@ -23,7 +23,7 @@ namespace Oplog.IntegrationTests.Tests.Logs
 
             var deleteResult = await CommandDispatcher.Dispatch<DeleteLogsCommand, DeleteLogsResult>(new DeleteLogsCommand(ids));
 
-            Assert.IsTrue(deleteResult.ResultType == ResultType.Success);
+            Assert.IsTrue(deleteResult.ResultType == ResultTypeConstants.Success);
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace Oplog.IntegrationTests.Tests.Logs
 
             var deleteResult = await CommandDispatcher.Dispatch<DeleteLogsCommand, DeleteLogsResult>(new DeleteLogsCommand(ids));
 
-            Assert.IsTrue((deleteResult.ResultType == ResultType.Success) && deleteResult.LogsNotDeleted.Any());
+            Assert.IsTrue((deleteResult.ResultType == ResultTypeConstants.Success) && deleteResult.LogsNotDeleted.Any());
         }
     }
 }
