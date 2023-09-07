@@ -101,10 +101,7 @@ namespace Oplog.Core.AzureSearch
                 IndexDocumentsOptions options = new() { ThrowOnAnyError = true };
 
                 var result = await searchClient.IndexDocumentsAsync(batch, options);
-
-                //Note: Delay the return to update the indexed document
-                await Task.Delay(700);
-
+                      
                 if (result.Value.Results.FirstOrDefault().Succeeded)
                 {
                     return true;
