@@ -25,22 +25,5 @@ namespace Oplog.IntegrationTests.Tests.Logs
 
             Assert.IsTrue(deleteResult.ResultType == ResultTypeConstants.Success);
         }
-
-        [Test]
-        public async Task Dispatch_ShouldDeleteLogsWithSomeLogsNotFound()
-        {
-            var createLogCommandA = new CreateLogCommand(logType: 415, subType: 1079, comment: "Test comment", operationsArea: 10000, author: "", unit: 1086, effectiveTime: DateTime.Now, createdBy: "bonm@equinor.com", isCritical: false);
-            var createResultA = await CommandDispatcher.Dispatch<CreateLogCommand, CreateLogResult>(createLogCommandA);
-
-            var ids = new List<int>
-            {
-                createResultA.LogId,
-                10
-            };
-
-            var deleteResult = await CommandDispatcher.Dispatch<DeleteLogsCommand, DeleteLogsResult>(new DeleteLogsCommand(ids));
-
-            Assert.IsTrue((deleteResult.ResultType == ResultTypeConstants.Success) && deleteResult.LogsNotDeleted.Any());
-        }
     }
 }

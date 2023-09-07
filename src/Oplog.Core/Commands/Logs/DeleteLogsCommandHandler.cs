@@ -20,16 +20,11 @@ namespace Oplog.Core.Commands.Logs
         {
             var deleteLogsResult = new DeleteLogsResult();
             var logsToDelete = new List<Log>();
-            var logsNotDeleted = new Dictionary<int, string>();
             foreach (var id in command.Ids)
             {
                 var log = await _logsRepository.Get(id);
 
-                if (log == null)
-                {
-                    logsNotDeleted.Add(id, "Not found!");
-                }
-                else
+                if (log != null)
                 {
                     logsToDelete.Add(log);
                 }
@@ -38,14 +33,9 @@ namespace Oplog.Core.Commands.Logs
             _logsRepository.DeleteBulk(logsToDelete);
             await _logsRepository.Save();
 
-            foreach (var logId in logsToDelete.Select(log => log.Id).ToList())
+            foreach (var logId in command.Ids)
             {
                 await _documentClient.Delete(logId.ToString());
-            }
-
-            if (logsNotDeleted.Any())
-            {
-                return deleteLogsResult.LogsDeletedWithSomeLogsNotFound(logsNotDeleted);
             }
 
             return deleteLogsResult.AllRequestedLogsDeleted();

@@ -74,7 +74,7 @@ namespace Oplog.Core.AzureSearch
                 var result = await searchClient.IndexDocumentsAsync(batch, options);
 
                 //Note: Delay the return to update the indexed document
-                await Task.Delay(500);
+                await Task.Delay(1000);
 
                 if (result.Value.Results.FirstOrDefault().Succeeded)
                 {
@@ -103,7 +103,7 @@ namespace Oplog.Core.AzureSearch
                 var result = await searchClient.IndexDocumentsAsync(batch, options);
 
                 //Note: Delay the return to update the indexed document
-                await Task.Delay(1000);
+                await Task.Delay(700);
 
                 if (result.Value.Results.FirstOrDefault().Succeeded)
                 {
