@@ -7,8 +7,6 @@ namespace Oplog.Core.Commands.Logs
         public string Message { get; private set; }
         public string ResultType { get; private set; }
 
-        public Dictionary<int, string> LogsNotDeleted { get; private set; }
-
         public DeleteLogsResult AllRequestedLogsDeleted()
         {
             ResultType = ResultTypeConstants.Success;
