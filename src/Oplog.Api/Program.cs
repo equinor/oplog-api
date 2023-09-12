@@ -108,7 +108,6 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var dbContext = services.GetRequiredService<OplogDbContext>();
-    dbContext.Database.SetCommandTimeout(TimeSpan.FromSeconds(300));
     dbContext.Database.Migrate();
 }
 app.UseCors(MyAllowSpecificOrigins);
