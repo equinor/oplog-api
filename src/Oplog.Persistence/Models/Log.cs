@@ -23,9 +23,5 @@ namespace Oplog.Persistence.Models
         public int? Unit { get; set; }
         public int? Subtype { get; set; }
         public bool? IsCritical { get; set; }
-
-        [Timestamp]
-        public byte[] RowVersion { get; set; }
-
     }
 }
