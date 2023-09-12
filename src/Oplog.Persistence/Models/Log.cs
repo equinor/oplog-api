@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Oplog.Persistence.Models
 {
@@ -23,9 +24,8 @@ namespace Oplog.Persistence.Models
         public int? Subtype { get; set; }
         public bool? IsCritical { get; set; }
 
-        //public int? Cat2TypId { get; set; }
-        //public int? Cat3TypId { get; set; }
-        //public int? Cat4TypId { get; set; }
-        //public int? Cat5TypId { get; set; }
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
     }
 }
