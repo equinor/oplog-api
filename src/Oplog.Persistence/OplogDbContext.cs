@@ -29,10 +29,6 @@ namespace Oplog.Persistence
             modelBuilder.Entity<Log>()
                 .HasIndex(l => l.CreatedDate);
 
-            modelBuilder.Entity<Log>()
-                .Property(p => p.RowVersion)
-                .IsRowVersion();
-
             modelBuilder.Entity<LogsView>()
                 .ToView(nameof(LogsView))
                 .HasKey(l => l.Id);
