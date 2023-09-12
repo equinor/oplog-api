@@ -27,11 +27,11 @@ namespace Oplog.Core.AzureSearch
 
             if (_isDateOnlySearch)
             {
-                _filter.Append($"CreatedDate ge {fromDate.ToString(DateTimeFormat)} and CreatedDate le {toDate.ToString(DateTimeFormat)}");
+                _filter.Append($"EffectiveTime ge {fromDate.ToString(DateTimeFormat)} and EffectiveTime le {toDate.ToString(DateTimeFormat)}");
             }
             else
             {
-                _filter.Append($"(CreatedDate ge {fromDate.ToString(DateTimeFormat)} and CreatedDate le {toDate.ToString(DateTimeFormat)}) and ({FilterPlaceHolderValue})");
+                _filter.Append($"(EffectiveTime ge {fromDate.ToString(DateTimeFormat)} and EffectiveTime le {toDate.ToString(DateTimeFormat)}) and ({FilterPlaceHolderValue})");
             }
         }
 
