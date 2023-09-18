@@ -26,11 +26,10 @@ jobs:
       - name: "Run az commands"
         run: az account show
 
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Docker login
       - uses: azure/docker-login@v1
+        name: Docker login
         with:
           login-server: ${{ secrets.ACR_URL }}
           username: ${{ secrets.ACR_USERNAME }}
