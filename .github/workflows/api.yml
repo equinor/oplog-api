@@ -24,7 +24,7 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID_DEV }}
 
       - name: "Run az commands"
-        run: az account show
+        run: az account set -s ${{ secrets.AZURE_SUBSCRIPTION_ID_DEV }}
 
       - uses: actions/checkout@v3
 
