@@ -1,34 +1,33 @@
 ﻿using Oplog.Core.Infrastructure;
 using Oplog.Persistence.Repositories;
 
-namespace Oplog.Core.Commands.CustomFilters
+namespace Oplog.Core.Commands.CustomFilters;
+
+public sealed class DeleteCustomFilterCommandHandler : ICommandHandler<DeleteCustomFilterCommand, DeleteCustomFilterResult>
 {
-    public class DeleteCustomFilterCommandHandler : ICommandHandler<DeleteCustomFilterCommand, DeleteCustomFilterResult>
+    private readonly ICustomFilterRepository _customFilterRepository;
+    public DeleteCustomFilterCommandHandler(ICustomFilterRepository customFilterRepository)
     {
-        private readonly ICustomFilterRepository _customFilterRepository;
-        public DeleteCustomFilterCommandHandler(ICustomFilterRepository customFilterRepository)
+        _customFilterRepository = customFilterRepository;
+    }
+
+    public async Task<DeleteCustomFilterResult> Handle(DeleteCustomFilterCommand command)
+    {
+        var customFilter = await _customFilterRepository.GetById(command.FilterId);
+
+        var result = new DeleteCustomFilterResult();
+        if (customFilter == null)
         {
-            _customFilterRepository = customFilterRepository;
+            return result.CustomFilterNotFound();
         }
 
-        public async Task<DeleteCustomFilterResult> Handle(DeleteCustomFilterCommand command)
+        if (customFilter.IsGlobalFilter && !command.IsAdmin)
         {
-            var customFilter = await _customFilterRepository.GetById(command.FilterId);
-
-            var result = new DeleteCustomFilterResult();
-            if (customFilter == null)
-            {
-                return result.CustomFilterNotFound();
-            }
-
-            if (customFilter.IsGlobalFilter && !command.IsAdmin)
-            {
-                return result.GlobalFilterDeleteNotAllowed();
-            }
-
-            _customFilterRepository.Delete(customFilter);
-            await _customFilterRepository.Save();
-            return result.CustomFilterDeleted();
+            return result.GlobalFilterDeleteNotAllowed();
         }
+
+        _customFilterRepository.Delete(customFilter);
+        await _customFilterRepository.Save();
+        return result.CustomFilterDeleted();
     }
 }

@@ -1,9 +1,8 @@
-﻿namespace Oplog.Core.Common
+﻿namespace Oplog.Core.Common;
+
+public enum CategoryId
 {
-    public enum CategoryId
-    {
-        Type = 1,
-        SubType = 2,
-        Unit = 3
-    }
+    Type = 1,
+    SubType = 2,
+    Unit = 3
 }

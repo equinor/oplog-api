@@ -1,7 +1,6 @@
-﻿namespace Oplog.Core.Queries
+﻿namespace Oplog.Core.Queries;
+
+public interface ILogTemplateQueries
 {
-    public interface ILogTemplateQueries
-    {
-        Task<List<GetAllLogTemplateResult>> GetAll();
-    }
+    Task<List<GetAllLogTemplateResult>> GetAll();
 }

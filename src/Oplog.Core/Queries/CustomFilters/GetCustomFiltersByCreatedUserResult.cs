@@ -1,10 +1,9 @@
-﻿namespace Oplog.Core.Queries
+﻿namespace Oplog.Core.Queries;
+
+public class GetCustomFiltersByCreatedUserResult
 {
-    public class GetCustomFiltersByCreatedUserResult
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string SearchText { get; set; }
-        public List<CustomFilterItemsResult> Filters { get; set; }
-    }
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string SearchText { get; set; }
+    public List<CustomFilterItemsResult> Filters { get; set; }
 }

@@ -1,13 +1,12 @@
 ﻿using Oplog.Core.Infrastructure;
 
-namespace Oplog.Core.Commands.LogTemplates
+namespace Oplog.Core.Commands.LogTemplates;
+
+public sealed record DeleteLogTemplateCommand : ICommand
 {
-    public class DeleteLogTemplateCommand : ICommand
+    public DeleteLogTemplateCommand(int id)
     {
-        public DeleteLogTemplateCommand(int id)
-        {
-            Id = id;
-        }
-        public int Id { get; set; }
+        Id = id;
     }
+    public int Id { get; set; }
 }

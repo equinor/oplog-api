@@ -1,87 +1,86 @@
 ﻿using Oplog.Core.AzureSearch;
 
-namespace Oplog.Core.Queries.Logs
+namespace Oplog.Core.Queries.Logs;
+
+public class SearchLogsQueries : ISearchLogsQueries
 {
-    public class SearchLogsQueries : ISearchLogsQueries
+    private readonly IIndexSearchClient _indexSearchClient;
+    public SearchLogsQueries(IIndexSearchClient indexSearchClient)
     {
-        private readonly IIndexSearchClient _indexSearchClient;
-        public SearchLogsQueries(IIndexSearchClient indexSearchClient)
+        _indexSearchClient = indexSearchClient;
+    }
+
+    public async Task<SearchLogsResult> Search(SearchRequest searchRequest)
+    {
+        var result = await _indexSearchClient.Search(searchRequest);
+
+        SearchLogsResult searchLogsResult = new()
         {
-            _indexSearchClient = indexSearchClient;
+            RecordsCount = result.TotalCount
+        };
+
+        if (searchLogsResult.RecordsCount != null)
+        {
+            searchLogsResult.TotalPages = (int)Math.Ceiling((decimal)(searchLogsResult.RecordsCount / searchRequest.PageSize));
         }
 
-        public async Task<SearchLogsResult> Search(SearchRequest searchRequest)
+        foreach (var item in result.GetResults())
         {
-            var result = await _indexSearchClient.Search(searchRequest);
-
-            SearchLogsResult searchLogsResult = new()
+            searchLogsResult.Logs.Add(new LogsResult()
             {
-                RecordsCount = result.TotalCount
-            };
-
-            if (searchLogsResult.RecordsCount != null)
-            {
-                searchLogsResult.TotalPages = (int)Math.Ceiling((decimal)(searchLogsResult.RecordsCount / searchRequest.PageSize));
-            }
-
-            foreach (var item in result.GetResults())
-            {
-                searchLogsResult.Logs.Add(new LogsResult()
-                {
-                    Id = int.Parse(item.Document.Id),
-                    LogTypeId = item.Document.LogTypeId,
-                    UpdatedBy = item.Document.UpdatedBy,
-                    UpdatedDate = item.Document.UpdatedDate,
-                    CreatedBy = item.Document.CreatedBy,
-                    Author = item.Document.Author,
-                    CreatedDate = item.Document.CreatedDate,
-                    Text = item.Document.Text,
-                    OperationAreaId = item.Document.OperationAreaId,
-                    EffectiveTime = item.Document.EffectiveTime,
-                    Unit = item.Document.Unit,
-                    Subtype = item.Document.Subtype,
-                    IsCritical = item.Document.IsCritical,
-                    AreaName = item.Document.AreaName,
-                    LogTypeName = item.Document.LogTypeName,
-                    SubTypeName = item.Document.SubTypeName,
-                    UnitName = item.Document.UnitName,
-                });
-            }
-
-            return searchLogsResult;
+                Id = int.Parse(item.Document.Id),
+                LogTypeId = item.Document.LogTypeId,
+                UpdatedBy = item.Document.UpdatedBy,
+                UpdatedDate = item.Document.UpdatedDate,
+                CreatedBy = item.Document.CreatedBy,
+                Author = item.Document.Author,
+                CreatedDate = item.Document.CreatedDate,
+                Text = item.Document.Text,
+                OperationAreaId = item.Document.OperationAreaId,
+                EffectiveTime = item.Document.EffectiveTime,
+                Unit = item.Document.Unit,
+                Subtype = item.Document.Subtype,
+                IsCritical = item.Document.IsCritical,
+                AreaName = item.Document.AreaName,
+                LogTypeName = item.Document.LogTypeName,
+                SubTypeName = item.Document.SubTypeName,
+                UnitName = item.Document.UnitName,
+            });
         }
 
-        public async Task<GetLogsByIdsSearchResult> GetLogsByIds(List<int> ids, List<string> sortBy)
+        return searchLogsResult;
+    }
+
+    public async Task<GetLogsByIdsSearchResult> GetLogsByIds(List<int> ids, List<string> sortBy)
+    {
+        var result = await _indexSearchClient.GetLogDocumentsByIds(ids, sortBy);
+
+        GetLogsByIdsSearchResult getLogsByIdsSearchResult = new();
+
+        foreach (var item in result.GetResults())
         {
-            var result = await _indexSearchClient.GetLogDocumentsByIds(ids, sortBy);
-
-            GetLogsByIdsSearchResult getLogsByIdsSearchResult = new();
-
-            foreach (var item in result.GetResults())
+            getLogsByIdsSearchResult.Logs.Add(new LogsResult()
             {
-                getLogsByIdsSearchResult.Logs.Add(new LogsResult()
-                {
-                    Id = int.Parse(item.Document.Id),
-                    LogTypeId = item.Document.LogTypeId,
-                    UpdatedBy = item.Document.UpdatedBy,
-                    UpdatedDate = item.Document.UpdatedDate,
-                    CreatedBy = item.Document.CreatedBy,
-                    Author = item.Document.Author,
-                    CreatedDate = item.Document.CreatedDate,
-                    Text = item.Document.Text,
-                    OperationAreaId = item.Document.OperationAreaId,
-                    EffectiveTime = item.Document.EffectiveTime,
-                    Unit = item.Document.Unit,
-                    Subtype = item.Document.Subtype,
-                    IsCritical = item.Document.IsCritical,
-                    AreaName = item.Document.AreaName,
-                    LogTypeName = item.Document.LogTypeName,
-                    SubTypeName = item.Document.SubTypeName,
-                    UnitName = item.Document.UnitName,
-                });
-            }
-
-            return getLogsByIdsSearchResult;
+                Id = int.Parse(item.Document.Id),
+                LogTypeId = item.Document.LogTypeId,
+                UpdatedBy = item.Document.UpdatedBy,
+                UpdatedDate = item.Document.UpdatedDate,
+                CreatedBy = item.Document.CreatedBy,
+                Author = item.Document.Author,
+                CreatedDate = item.Document.CreatedDate,
+                Text = item.Document.Text,
+                OperationAreaId = item.Document.OperationAreaId,
+                EffectiveTime = item.Document.EffectiveTime,
+                Unit = item.Document.Unit,
+                Subtype = item.Document.Subtype,
+                IsCritical = item.Document.IsCritical,
+                AreaName = item.Document.AreaName,
+                LogTypeName = item.Document.LogTypeName,
+                SubTypeName = item.Document.SubTypeName,
+                UnitName = item.Document.UnitName,
+            });
         }
+
+        return getLogsByIdsSearchResult;
     }
 }

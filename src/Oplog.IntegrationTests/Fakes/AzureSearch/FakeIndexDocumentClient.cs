@@ -1,37 +1,36 @@
 ﻿using Oplog.Core.AzureSearch;
 
-namespace Oplog.IntegrationTests.Fakes.AzureSearch
+namespace Oplog.IntegrationTests.Fakes.AzureSearch;
+
+public class FakeIndexDocumentClient : IIndexDocumentClient
 {
-    public class FakeIndexDocumentClient : IIndexDocumentClient
+    public Task<bool> Create(LogDocument log)
     {
-        public Task<bool> Create(LogDocument log)
+        Task<bool> task = Task.Run(() =>
         {
-            Task<bool> task = Task.Run(() =>
-            {
-                return true;
-            });
+            return true;
+        });
 
-            return task;
-        }
+        return task;
+    }
 
-        public Task<bool> Delete(string logId)
+    public Task<bool> Delete(string logId)
+    {
+        Task<bool> task = Task.Run(() =>
         {
-            Task<bool> task = Task.Run(() =>
-            {
-                return true;
-            });
+            return true;
+        });
 
-            return task;
-        }
+        return task;
+    }
 
-        public Task<bool> Update(LogDocument log)
+    public Task<bool> Update(LogDocument log)
+    {
+        Task<bool> task = Task.Run(() =>
         {
-            Task<bool> task = Task.Run(() =>
-            {
-                return true;
-            });
+            return true;
+        });
 
-            return task;
-        }
+        return task;
     }
 }

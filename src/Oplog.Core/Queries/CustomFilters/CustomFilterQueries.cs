@@ -1,126 +1,125 @@
 ﻿using Oplog.Persistence.Repositories;
 
-namespace Oplog.Core.Queries
+namespace Oplog.Core.Queries;
+
+public class CustomFilterQueries : ICustomFilterQueries
 {
-    public class CustomFilterQueries : ICustomFilterQueries
+    private readonly ICustomFilterRepository _customFilterRepository;
+    private readonly IOperationsAreasRepository _operationsAreasRepository;
+    private readonly IConfiguredTypesRepository _configuredTypesRepository;
+    public CustomFilterQueries(ICustomFilterRepository customFilterRepository, IOperationsAreasRepository operationsAreasRepository, IConfiguredTypesRepository configuredTypesRepository)
     {
-        private readonly ICustomFilterRepository _customFilterRepository;
-        private readonly IOperationsAreasRepository _operationsAreasRepository;
-        private readonly IConfiguredTypesRepository _configuredTypesRepository;
-        public CustomFilterQueries(ICustomFilterRepository customFilterRepository, IOperationsAreasRepository operationsAreasRepository, IConfiguredTypesRepository configuredTypesRepository)
+        _customFilterRepository = customFilterRepository;
+        _operationsAreasRepository = operationsAreasRepository;
+        _configuredTypesRepository = configuredTypesRepository;
+    }
+
+    public async Task<List<GetCustomFiltersByCreatedUserResult>> GetByCreatedUser(string createdBy)
+    {
+        var customFilters = await _customFilterRepository.GetByCreatedUser(createdBy);
+
+        if (customFilters == null)
         {
-            _customFilterRepository = customFilterRepository;
-            _operationsAreasRepository = operationsAreasRepository;
-            _configuredTypesRepository = configuredTypesRepository;
+            return null;
         }
 
-        public async Task<List<GetCustomFiltersByCreatedUserResult>> GetByCreatedUser(string createdBy)
+        var results = new List<GetCustomFiltersByCreatedUserResult>();
+
+        foreach (var item in customFilters)
         {
-            var customFilters = await _customFilterRepository.GetByCreatedUser(createdBy);
-
-            if (customFilters == null)
+            var result = new GetCustomFiltersByCreatedUserResult
             {
-                return null;
-            }
+                Id = item.Id,
+                Name = item.Name,
+                SearchText= item.SearchText,
+                Filters = new List<CustomFilterItemsResult>()
+            };
 
-            var results = new List<GetCustomFiltersByCreatedUserResult>();
-
-            foreach (var item in customFilters)
+            foreach (var filterItem in item.CustomFilterItems)
             {
-                var result = new GetCustomFiltersByCreatedUserResult
+                string filterName;
+                if (filterItem.CategoryId == null)
                 {
-                    Id = item.Id,
-                    Name = item.Name,
-                    SearchText= item.SearchText,
-                    Filters = new List<CustomFilterItemsResult>()
-                };
-
-                foreach (var filterItem in item.CustomFilterItems)
+                    filterName = await GetAreaNameById(filterItem.FilterId);
+                }
+                else
                 {
-                    string filterName;
-                    if (filterItem.CategoryId == null)
-                    {
-                        filterName = await GetAreaNameById(filterItem.FilterId);
-                    }
-                    else
-                    {
-                        filterName = await GetConfiguredTypeNameById(filterItem.FilterId);
-                    }
-
-                    result.Filters.Add(new CustomFilterItemsResult { Id = filterItem.FilterId, CategoryId = filterItem.CategoryId, Name = filterName });
+                    filterName = await GetConfiguredTypeNameById(filterItem.FilterId);
                 }
 
-                results.Add(result);
+                result.Filters.Add(new CustomFilterItemsResult { Id = filterItem.FilterId, CategoryId = filterItem.CategoryId, Name = filterName });
             }
 
-            return results;
+            results.Add(result);
         }
 
-        public async Task<List<GetGlobalCustomFiltersResult>> GetGlobalCustomFilters()
+        return results;
+    }
+
+    public async Task<List<GetGlobalCustomFiltersResult>> GetGlobalCustomFilters()
+    {
+        var customFilters = await _customFilterRepository.GetGlobalCustomFilters();
+
+        if (customFilters == null)
         {
-            var customFilters = await _customFilterRepository.GetGlobalCustomFilters();
+            return null;
+        }
 
-            if (customFilters == null)
+        var results = new List<GetGlobalCustomFiltersResult>();
+
+        foreach (var item in customFilters)
+        {
+            var result = new GetGlobalCustomFiltersResult
             {
-                return null;
-            }
+                Id = item.Id,
+                Name = item.Name,
+                IsGlobalFilter = item.IsGlobalFilter,
+                SearchText= item.SearchText,
+                Filters = new List<CustomFilterItemsResult>()
+            };
 
-            var results = new List<GetGlobalCustomFiltersResult>();
-
-            foreach (var item in customFilters)
+            foreach (var filterItem in item.CustomFilterItems)
             {
-                var result = new GetGlobalCustomFiltersResult
+                string filterName;
+                if (filterItem.CategoryId == null)
                 {
-                    Id = item.Id,
-                    Name = item.Name,
-                    IsGlobalFilter = item.IsGlobalFilter,
-                    SearchText= item.SearchText,
-                    Filters = new List<CustomFilterItemsResult>()
-                };
-
-                foreach (var filterItem in item.CustomFilterItems)
+                    filterName = await GetAreaNameById(filterItem.FilterId);
+                }
+                else
                 {
-                    string filterName;
-                    if (filterItem.CategoryId == null)
-                    {
-                        filterName = await GetAreaNameById(filterItem.FilterId);
-                    }
-                    else
-                    {
-                        filterName = await GetConfiguredTypeNameById(filterItem.FilterId);
-                    }
-
-                    result.Filters.Add(new CustomFilterItemsResult { Id = filterItem.FilterId, CategoryId = filterItem.CategoryId, Name = filterName });
+                    filterName = await GetConfiguredTypeNameById(filterItem.FilterId);
                 }
 
-                results.Add(result);
+                result.Filters.Add(new CustomFilterItemsResult { Id = filterItem.FilterId, CategoryId = filterItem.CategoryId, Name = filterName });
             }
 
-            results.Sort((a, b) => string.Compare(a.Name, b.Name));
-
-            return results;
+            results.Add(result);
         }
-        private async Task<string> GetAreaNameById(int id)
+
+        results.Sort((a, b) => string.Compare(a.Name, b.Name));
+
+        return results;
+    }
+    private async Task<string> GetAreaNameById(int id)
+    {
+        var area = await _operationsAreasRepository.Get(id);
+        if (area == null)
         {
-            var area = await _operationsAreasRepository.Get(id);
-            if (area == null)
-            {
-                return null;
-            }
-
-            return area.Name;
+            return null;
         }
 
-        private async Task<string> GetConfiguredTypeNameById(int id)
+        return area.Name;
+    }
+
+    private async Task<string> GetConfiguredTypeNameById(int id)
+    {
+        var configuredType = await _configuredTypesRepository.Get(id);
+
+        if (configuredType == null)
         {
-            var configuredType = await _configuredTypesRepository.Get(id);
-
-            if (configuredType == null)
-            {
-                return null;
-            }
-
-            return configuredType.Name;
+            return null;
         }
+
+        return configuredType.Name;
     }
 }

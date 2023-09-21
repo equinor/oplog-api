@@ -11,74 +11,73 @@ using Oplog.IntegrationTests.Fakes.Infrastructure;
 using Oplog.Persistence;
 using Oplog.Persistence.Repositories;
 
-namespace Oplog.IntegrationTests
+namespace Oplog.IntegrationTests;
+
+public class TestBase
 {
-    public class TestBase
+    protected IHost Host { get; set; }
+    protected ICommandDispatcher CommandDispatcher { get; private set; }
+    protected FakeEventDispatcher EventDispatcher { get; private set; }
+
+    [SetUp]
+    public void SetUp()
     {
-        protected IHost Host { get; set; }
-        protected ICommandDispatcher CommandDispatcher { get; private set; }
-        protected FakeEventDispatcher EventDispatcher { get; private set; }
-
-        [SetUp]
-        public void SetUp()
-        {
-            Host = new HostBuilder()
-                .UseEnvironment("Development")
-                .ConfigureHostConfiguration(config => config.AddConfiguration(TestRunSetUp.Configuration))
-                .ConfigureServices(services =>
-                {
-                    services.
-                        AddDbContext<OplogDbContext>(options =>
-                        {
-                            options.UseSqlServer(TestRunSetUp.ConnectionString);
-                            options.EnableSensitiveDataLogging();
-                        });
-                    services.AddScoped<ICommandDispatcher, CommandDispatcher>();
-                    services.AddScoped<IEventDispatcher, FakeEventDispatcher>();
-                    services.AddTransient<ILogsRepository, LogsRepository>();
-                    services.AddTransient<IOperationsAreasRepository, OperationAreasRepository>();
-                    services.AddTransient<IConfiguredTypesRepository, ConfiguredTypesRepository>();
-                    services.AddTransient<ICustomFilterRepository, CustomFilterRepository>();
-                    services.AddTransient<ILogTemplateRepository, LogTemplateRepository>();
-                    services.AddTransient<ILogsQueries, LogsQueries>();
-                    services.AddTransient<IOperationAreasQueries, OperationAreasQueries>();
-                    services.AddTransient<IConfiguredTypesQueries, ConfiguredTypesQueries>();
-                    services.AddTransient<ICustomFilterQueries, CustomFilterQueries>();
-                    services.AddTransient<ILogTemplateQueries, LogTemplateQueries>();
-                    services.AddSingleton<IIndexDocumentClient, FakeIndexDocumentClient>();
-                    AddCommandHandlers(services, typeof(ICommandHandler<>));
-                    AddCommandHandlers(services, typeof(ICommandHandler<,>));
-                    AddEventHandlers(services, typeof(IEventHandler<>));
-                })
-                .Build();
-
-            CommandDispatcher = Host.Services.GetService(typeof(ICommandDispatcher)) as ICommandDispatcher;
-            EventDispatcher = Host.Services.GetService(typeof(IEventDispatcher)) as FakeEventDispatcher;
-        }
-
-        private static void AddCommandHandlers(IServiceCollection services, Type interfaceType)
-        {
-            var types = interfaceType.Assembly.GetTypes().Where(t =>
-                t.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == interfaceType));
-            foreach (var type in types)
+        Host = new HostBuilder()
+            .UseEnvironment("Development")
+            .ConfigureHostConfiguration(config => config.AddConfiguration(TestRunSetUp.Configuration))
+            .ConfigureServices(services =>
             {
-                type.GetInterfaces().Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == interfaceType)
-                    .ToList().ForEach(i => services.AddScoped(i, type));
-            }
-        }
+                services.
+                    AddDbContext<OplogDbContext>(options =>
+                    {
+                        options.UseSqlServer(TestRunSetUp.ConnectionString);
+                        options.EnableSensitiveDataLogging();
+                    });
+                services.AddScoped<ICommandDispatcher, CommandDispatcher>();
+                services.AddScoped<IEventDispatcher, FakeEventDispatcher>();
+                services.AddTransient<ILogsRepository, LogsRepository>();
+                services.AddTransient<IOperationsAreasRepository, OperationAreasRepository>();
+                services.AddTransient<IConfiguredTypesRepository, ConfiguredTypesRepository>();
+                services.AddTransient<ICustomFilterRepository, CustomFilterRepository>();
+                services.AddTransient<ILogTemplateRepository, LogTemplateRepository>();
+                services.AddTransient<ILogsQueries, LogsQueries>();
+                services.AddTransient<IOperationAreasQueries, OperationAreasQueries>();
+                services.AddTransient<IConfiguredTypesQueries, ConfiguredTypesQueries>();
+                services.AddTransient<ICustomFilterQueries, CustomFilterQueries>();
+                services.AddTransient<ILogTemplateQueries, LogTemplateQueries>();
+                services.AddSingleton<IIndexDocumentClient, FakeIndexDocumentClient>();
+                AddCommandHandlers(services, typeof(ICommandHandler<>));
+                AddCommandHandlers(services, typeof(ICommandHandler<,>));
+                AddEventHandlers(services, typeof(IEventHandler<>));
+            })
+            .Build();
 
-        private void AddEventHandlers(IServiceCollection services, Type handlerInterface)
+        CommandDispatcher = Host.Services.GetService(typeof(ICommandDispatcher)) as ICommandDispatcher;
+        EventDispatcher = Host.Services.GetService(typeof(IEventDispatcher)) as FakeEventDispatcher;
+    }
+
+    private static void AddCommandHandlers(IServiceCollection services, Type interfaceType)
+    {
+        var types = interfaceType.Assembly.GetTypes().Where(t =>
+            t.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == interfaceType));
+        foreach (var type in types)
         {
-            var handlers = typeof(IEvent).Assembly.GetTypes()
-                .Where(t => t.GetInterfaces()
-                    .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == handlerInterface)
-                );
+            type.GetInterfaces().Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == interfaceType)
+                .ToList().ForEach(i => services.AddScoped(i, type));
+        }
+    }
 
-            foreach (var handler in handlers)
-            {
-                handler.GetInterfaces().Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == handlerInterface)
-                    .ToList().ForEach(i => services.AddScoped(i, handler));
-            }
+    private void AddEventHandlers(IServiceCollection services, Type handlerInterface)
+    {
+        var handlers = typeof(IEvent).Assembly.GetTypes()
+            .Where(t => t.GetInterfaces()
+                .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == handlerInterface)
+            );
+
+        foreach (var handler in handlers)
+        {
+            handler.GetInterfaces().Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == handlerInterface)
+                .ToList().ForEach(i => services.AddScoped(i, handler));
         }
     }
 }

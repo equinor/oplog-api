@@ -1,8 +1,7 @@
-﻿namespace Oplog.Core.Queries
+﻿namespace Oplog.Core.Queries;
+
+public interface ICustomFilterQueries
 {
-    public interface ICustomFilterQueries
-    {
-        Task<List<GetCustomFiltersByCreatedUserResult>> GetByCreatedUser(string createdBy);
-        Task<List<GetGlobalCustomFiltersResult>> GetGlobalCustomFilters();
-    }
+    Task<List<GetCustomFiltersByCreatedUserResult>> GetByCreatedUser(string createdBy);
+    Task<List<GetGlobalCustomFiltersResult>> GetGlobalCustomFilters();
 }

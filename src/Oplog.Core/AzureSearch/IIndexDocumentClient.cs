@@ -1,9 +1,8 @@
-﻿namespace Oplog.Core.AzureSearch
+﻿namespace Oplog.Core.AzureSearch;
+
+public interface IIndexDocumentClient
 {
-    public interface IIndexDocumentClient
-    {
-        Task<bool> Create(LogDocument log);
-        Task<bool> Delete(string logId);
-        Task<bool> Update(LogDocument log);
-    }
+    Task<bool> Create(LogDocument log);
+    Task<bool> Delete(string logId);
+    Task<bool> Update(LogDocument log);
 }

@@ -1,24 +1,23 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Oplog.Core.Infrastructure
+namespace Oplog.Core.Infrastructure;
+
+public class EventDispatcher : IEventDispatcher
 {
-    public class EventDispatcher : IEventDispatcher
+    private readonly IServiceProvider _serviceProvider;
+
+    public EventDispatcher(IServiceProvider serviceProvider)
     {
-        private readonly IServiceProvider _serviceProvider;
+        _serviceProvider = serviceProvider;
+    }
 
-        public EventDispatcher(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
-        }
+    public async Task RaiseEvent<T>(T @event) where T : IEvent
+    {
+        var handlers = _serviceProvider.GetServices<IEventHandler<T>>().ToList();
+        if (!handlers.Any())
+            return;
 
-        public async Task RaiseEvent<T>(T @event) where T : IEvent
-        {
-            var handlers = _serviceProvider.GetServices<IEventHandler<T>>().ToList();
-            if (!handlers.Any())
-                return;
-
-            foreach (var handler in handlers)
-                await handler.Handle(@event);
-        }
+        foreach (var handler in handlers)
+            await handler.Handle(@event);
     }
 }

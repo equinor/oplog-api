@@ -2,29 +2,28 @@
 using Oplog.Core.Commands.Logs;
 using Oplog.Core.Common;
 
-namespace Oplog.IntegrationTests.Tests.Logs
+namespace Oplog.IntegrationTests.Tests.Logs;
+
+public class UpdateLogCommandTests : TestBase
 {
-    public class UpdateLogCommandTests : TestBase
+    [Test]
+    public async Task Dispatch_ShouldUpdateLog()
     {
-        [Test]
-        public async Task Dispatch_ShouldUpdateLog()
-        {
-            var createLogCommand = new CreateLogCommand(logType: 415, subType: 1079, comment: "Test comment", operationsArea: 10000, author: "", unit: 1086, effectiveTime: DateTime.Now, createdBy: "bonm@equinor.com", isCritical: false);
-            var createResult = await CommandDispatcher.Dispatch<CreateLogCommand, CreateLogResult>(createLogCommand);
+        var createLogCommand = new CreateLogCommand(LogType: 415, SubType: 1079, Comment: "Test comment", OperationsAreaId: 10000, Author: "Bonyfus Martin", Unit: 1086, EffectiveTime: DateTime.Now, CreatedBy: "bonm@equinor.com", IsCritical: false);
+        var createResult = await CommandDispatcher.Dispatch<CreateLogCommand, CreateLogResult>(createLogCommand);
 
-            var updateCommand = new UpdateLogCommand(createResult.LogId, logType: 415, subType: 1079, comment: "Update comment", operationsArea: 10000, author: "Donald Trump", unit: 1086, effectiveTime: DateTime.Now, updatedBy: "bonm@equinor.com", isCritical: false);
-            var updateResult = await CommandDispatcher.Dispatch<UpdateLogCommand, UpdateLogResult>(updateCommand);
+        var updateCommand = new UpdateLogCommand(createResult.LogId, LogType: 415, SubType: 1079, Comment: "Update comment", OperationsAreaId: 10000, Author: "Donald Trump", Unit: 1086, EffectiveTime: DateTime.Now, UpdatedBy: "bonm@equinor.com", IsCritical: false);
+        var updateResult = await CommandDispatcher.Dispatch<UpdateLogCommand, UpdateLogResult>(updateCommand);
 
-            Assert.IsTrue(updateResult.ResultType == ResultTypeConstants.Success);
-        }
+        Assert.IsTrue(updateResult.ResultType == ResultTypeConstants.Success);
+    }
 
-        [Test]
-        public async Task Dispatch_ShouldReturnLogNotFound()
-        {
-            var updateCommand = new UpdateLogCommand(10, logType: 415, subType: 1079, comment: "Update comment", operationsArea: 10000, author: "Donald Trump", unit: 1086, effectiveTime: DateTime.Now, updatedBy: "bonm@equinor.com", isCritical: false);
-            var updateResult = await CommandDispatcher.Dispatch<UpdateLogCommand, UpdateLogResult>(updateCommand);
+    [Test]
+    public async Task Dispatch_ShouldReturnLogNotFound()
+    {
+        var updateCommand = new UpdateLogCommand(10, LogType: 415, SubType: 1079, Comment: "Update comment", OperationsAreaId: 10000, Author: "Donald Trump", Unit: 1086, EffectiveTime: DateTime.Now, UpdatedBy: "bonm@equinor.com", IsCritical: false);
+        var updateResult = await CommandDispatcher.Dispatch<UpdateLogCommand, UpdateLogResult>(updateCommand);
 
-            Assert.IsTrue(updateResult.ResultType == ResultTypeConstants.NotFound);
-        }
+        Assert.IsTrue(updateResult.ResultType == ResultTypeConstants.NotFound);
     }
 }
