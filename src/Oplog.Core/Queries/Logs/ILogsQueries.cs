@@ -1,9 +1,8 @@
-﻿namespace Oplog.Core.Queries
+﻿namespace Oplog.Core.Queries;
+
+public interface ILogsQueries
 {
-    public interface ILogsQueries
-    {
-        Task<List<LogsResult>> GetAllLogs();
-        Task<List<LogsResult>> GetLogsByDate(DateTime fromDate, DateTime toDate);
-        Task<List<LogsResult>> GetFilteredLogs(LogsFilter filter);
-    }
+    Task<List<LogsResult>> GetAllLogs();
+    Task<List<LogsResult>> GetLogsByDate(DateTime fromDate, DateTime toDate);
+    Task<List<LogsResult>> GetFilteredLogs(LogsFilter filter);
 }

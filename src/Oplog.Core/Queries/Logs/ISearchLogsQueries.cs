@@ -1,10 +1,9 @@
 ﻿using Oplog.Core.AzureSearch;
 
-namespace Oplog.Core.Queries.Logs
+namespace Oplog.Core.Queries.Logs;
+
+public interface ISearchLogsQueries
 {
-    public interface ISearchLogsQueries
-    {
-        Task<GetLogsByIdsSearchResult> GetLogsByIds(List<int> ids, List<string> sortBy);
-        Task<SearchLogsResult> Search(SearchRequest searchRequest);
-    }
+    Task<GetLogsByIdsSearchResult> GetLogsByIds(List<int> ids, List<string> sortBy);
+    Task<SearchLogsResult> Search(SearchRequest searchRequest);
 }

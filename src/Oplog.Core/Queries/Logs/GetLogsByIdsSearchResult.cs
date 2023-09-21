@@ -1,12 +1,11 @@
-﻿namespace Oplog.Core.Queries.Logs
-{
-    public class GetLogsByIdsSearchResult
-    {
-        public GetLogsByIdsSearchResult()
-        {
-            Logs = new List<LogsResult>();
-        }
+﻿namespace Oplog.Core.Queries.Logs;
 
-        public List<LogsResult> Logs { get; set; }
+public class GetLogsByIdsSearchResult
+{
+    public GetLogsByIdsSearchResult()
+    {
+        Logs = new List<LogsResult>();
     }
+
+    public List<LogsResult> Logs { get; set; }
 }

@@ -1,8 +1,7 @@
-﻿namespace Oplog.Core.Queries
+﻿namespace Oplog.Core.Queries;
+
+public interface IOperationAreasQueries
 {
-    public interface IOperationAreasQueries
-    {
-        Task<List<GetAllAreasResult>> GetAllAreas();
-        Task<List<GetAllAreasResult>> GetActiveAreas();
-    }
+    Task<List<GetAllAreasResult>> GetAllAreas();
+    Task<List<GetAllAreasResult>> GetActiveAreas();
 }

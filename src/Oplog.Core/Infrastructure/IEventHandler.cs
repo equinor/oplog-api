@@ -1,7 +1,6 @@
-﻿namespace Oplog.Core.Infrastructure
+﻿namespace Oplog.Core.Infrastructure;
+
+public interface IEventHandler<T> where T : IEvent
 {
-    public interface IEventHandler<T> where T : IEvent
-    {
-        Task Handle(T @event);
-    }
+    Task Handle(T @event);
 }

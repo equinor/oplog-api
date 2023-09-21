@@ -1,13 +1,12 @@
-﻿namespace Oplog.Core.Queries.Logs
+﻿namespace Oplog.Core.Queries.Logs;
+
+public class SearchLogsResult
 {
-    public class SearchLogsResult
+    public SearchLogsResult()
     {
-        public SearchLogsResult()
-        {
-            Logs = new();
-        }
-        public long? RecordsCount { get; set; }
-        public int TotalPages { get; set; }
-        public List<LogsResult> Logs { get; set; }
+        Logs = new();
     }
+    public long? RecordsCount { get; set; }
+    public int TotalPages { get; set; }
+    public List<LogsResult> Logs { get; set; }
 }
