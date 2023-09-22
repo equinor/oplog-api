@@ -8,8 +8,8 @@ namespace Oplog.Core.AzureSearch;
 public sealed class IndexDocumentClient : SearchClientBase, IIndexDocumentClient
 {
     private const int ToTalTryCount = 5;
-    private readonly ILogger<IndexDocumentClient> _logger;   
-    public IndexDocumentClient(IOptions<SearchConfiguration> configurationOptions, ILogger<IndexDocumentClient> logger) : base(configurationOptions)
+    private readonly ILogger<IndexDocumentClient> _logger;
+    public IndexDocumentClient(SearchConfiguration configurationOptions, ILogger<IndexDocumentClient> logger) : base(configurationOptions)
     {
         _logger = logger;
     }
@@ -24,8 +24,8 @@ public sealed class IndexDocumentClient : SearchClientBase, IIndexDocumentClient
             IndexDocumentsOptions options = new() { ThrowOnAnyError = true };
 
             var result = await searchClient.IndexDocumentsAsync(batch, options);
-
-            if (result.Value.Results.FirstOrDefault().Succeeded)
+            var firstResult = result.Value.Results[0];
+            if (firstResult.Succeeded)
             {
                 bool isIndexed = await IsLogDocumentIndexed(log.Id);
                 return isIndexed;
@@ -78,7 +78,8 @@ public sealed class IndexDocumentClient : SearchClientBase, IIndexDocumentClient
             //Note: Delay the return to update the indexed document
             await Task.Delay(1000);
 
-            if (result.Value.Results.FirstOrDefault().Succeeded)
+            var firstResult = result.Value.Results[0];
+            if (firstResult.Succeeded)
             {
                 return true;
             }
@@ -104,7 +105,8 @@ public sealed class IndexDocumentClient : SearchClientBase, IIndexDocumentClient
 
             var result = await searchClient.IndexDocumentsAsync(batch, options);
 
-            if (result.Value.Results.FirstOrDefault().Succeeded)
+            var firstResult = result.Value.Results[0];
+            if (firstResult.Succeeded)
             {
                 return true;
             }

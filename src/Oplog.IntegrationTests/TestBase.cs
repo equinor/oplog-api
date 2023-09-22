@@ -67,7 +67,7 @@ public class TestBase
         }
     }
 
-    private void AddEventHandlers(IServiceCollection services, Type handlerInterface)
+    private static void AddEventHandlers(IServiceCollection services, Type handlerInterface)
     {
         var handlers = typeof(IEvent).Assembly.GetTypes()
             .Where(t => t.GetInterfaces()

@@ -6,17 +6,17 @@ namespace Oplog.Core.AzureSearch;
 
 public abstract class SearchClientBase
 {
-    private readonly IOptions<SearchConfiguration> _configurationOptions;
-    public SearchClientBase(IOptions<SearchConfiguration> configurationOptions)
+    private readonly SearchConfiguration searchConfiguration;
+    public SearchClientBase(SearchConfiguration searchConfiguration)
     {
-        _configurationOptions = configurationOptions;
+        this.searchConfiguration = searchConfiguration;
     }
 
     protected SearchClient GetSearchClient(bool isAdminKey)
     {
-        string key = isAdminKey ? _configurationOptions.Value.AdminKey : _configurationOptions.Value.QueryKey;
+        string key = isAdminKey ? searchConfiguration.AdminKey : searchConfiguration.QueryKey;
         var credentials = new AzureKeyCredential(key);
-        var searchClient = new SearchClient(new Uri(_configurationOptions.Value.Endpoint), _configurationOptions.Value.SearchIndexName, credentials);
+        var searchClient = new SearchClient(new Uri(searchConfiguration.Endpoint), searchConfiguration.SearchIndexName, credentials);
         return searchClient;
     }
 }

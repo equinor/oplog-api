@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
 using Oplog.Api;
 using Oplog.Api.Middleware;
@@ -71,6 +72,13 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddOptions<SearchConfiguration>().BindConfiguration("AzureCognitiveSearch")
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+builder.Services.AddSingleton(sp =>
+    sp.GetRequiredService<IOptions<SearchConfiguration>>().Value);
+
+
 builder.Services.AddDbContext<OplogDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("Oplog")));
 builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
 builder.Services.AddScoped<IEventDispatcher, EventDispatcher>();
@@ -86,7 +94,6 @@ builder.Services.AddTransient<ICustomFilterQueries, CustomFilterQueries>();
 builder.Services.AddTransient<ILogTemplateQueries, LogTemplateQueries>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddMemoryCache();
-builder.Services.Configure<SearchConfiguration>(builder.Configuration.GetSection("AzureCognitiveSearch"));
 builder.Services.AddScoped<IIndexDocumentClient, IndexDocumentClient>();
 builder.Services.AddScoped<IIndexSearchClient, IndexSearchClient>();
 builder.Services.AddTransient<ISearchLogsQueries, SearchLogsQueries>();

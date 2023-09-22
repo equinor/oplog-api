@@ -7,7 +7,7 @@ namespace Oplog.Core.AzureSearch;
 public class SearchOptionsBuilder
 {
     private readonly SearchOptions _searchOptions = new();
-    private StringBuilder _filter = new();
+    private readonly StringBuilder _filter = new();
     private StringBuilder _fieldsFilter = new();
     private const string DateTimeFormat = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'";
     private readonly bool _isDateOnlySearch = false;
@@ -112,7 +112,7 @@ public class SearchOptionsBuilder
         return _searchOptions;
     }
 
-    private string CreateFieldsFilter(int[] fieldIds, string fieldName)
+    private static string CreateFieldsFilter(int[] fieldIds, string fieldName)
     {
         StringBuilder stringBuilder = new();
 

@@ -11,8 +11,7 @@ public class CommandDispatcher : ICommandDispatcher
     }
     public async Task Dispatch<T>(T command) where T : ICommand
     {
-        var handler = _serviceProvider.GetService(typeof(ICommandHandler<T>)) as ICommandHandler<T>;
-        if (handler == null)
+        if (_serviceProvider.GetService(typeof(ICommandHandler<T>)) is not ICommandHandler<T> handler)
         {
             throw new ApplicationException($"No Commandhandler registered for handling {typeof(T)}");
         }
@@ -21,11 +20,8 @@ public class CommandDispatcher : ICommandDispatcher
 
     public async Task<TResult> Dispatch<TCommand, TResult>(TCommand command) where TCommand : ICommand
     {
-        var handler = _serviceProvider.GetService(typeof(ICommandHandler<TCommand, TResult>)) as ICommandHandler<TCommand, TResult>;
-        if (handler == null)
-        {
-            throw new ApplicationException($"No Commandhandler registered for handling {typeof(TCommand)}");
-        }
-        return await handler.Handle(command);
+        return _serviceProvider.GetService(typeof(ICommandHandler<TCommand, TResult>)) is not ICommandHandler<TCommand, TResult> handler
+            ? throw new ApplicationException($"No Commandhandler registered for handling {typeof(TCommand)}")
+            : await handler.Handle(command);
     }
 }
