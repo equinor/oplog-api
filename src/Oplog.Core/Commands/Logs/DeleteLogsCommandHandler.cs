@@ -18,15 +18,11 @@ public sealed class DeleteLogsCommandHandler : ICommandHandler<DeleteLogsCommand
     public async Task<DeleteLogsResult> Handle(DeleteLogsCommand command)
     {
         var deleteLogsResult = new DeleteLogsResult();
-        var logsToDelete = new List<Log>();
-        foreach (var id in command.Ids)
-        {
-            var log = await _logsRepository.Get(id);
+        List<Log> logsToDelete = await _logsRepository.GetByIds(command.Ids);
 
-            if (log != null)
-            {
-                logsToDelete.Add(log);
-            }
+        if (!logsToDelete.Any())
+        {
+            return deleteLogsResult.NotFound();
         }
 
         _logsRepository.DeleteBulk(logsToDelete);

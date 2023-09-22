@@ -25,4 +25,14 @@ public class DeleteLogsComandTests : TestBase
 
         Assert.IsTrue(deleteResult.ResultType == ResultTypeConstants.Success);
     }
+
+    [Test]
+    public async Task Dispatch_ShouldReturnNotFound()
+    {
+        var ids = new List<int> { 10, 20 };
+
+        var deleteResult = await CommandDispatcher.Dispatch<DeleteLogsCommand, DeleteLogsResult>(new DeleteLogsCommand(ids));
+
+        Assert.IsTrue(deleteResult.ResultType == ResultTypeConstants.NotFound);
+    }
 }
