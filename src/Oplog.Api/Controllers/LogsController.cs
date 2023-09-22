@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Oplog.Api.Models;
 using Oplog.Core.AzureSearch;
 using Oplog.Core.Commands.Logs;
+using Oplog.Core.Common;
 using Oplog.Core.Infrastructure;
 using Oplog.Core.Queries;
 using Oplog.Core.Queries.Logs;
@@ -82,11 +83,14 @@ namespace Oplog.Api.Controllers
         }
 
 
-        [HttpDelete]
-        //TODO: Mark as soft delete
+        [HttpDelete]        
         public async Task<IActionResult> Delete(IEnumerable<int> ids)
         {
             var result = await _commandDispatcher.Dispatch<DeleteLogsCommand, DeleteLogsResult>(new DeleteLogsCommand(ids));
+            if (result.ResultType == ResultTypeConstants.NotFound)
+            {
+                return NotFound(result);
+            }
             return Ok(result);
         }
 

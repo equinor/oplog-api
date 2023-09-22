@@ -13,4 +13,11 @@ public class DeleteLogsResult
         Message = "All requested logs deleted!";
         return this;
     }
+
+    public DeleteLogsResult NotFound()
+    {
+        ResultType = ResultTypeConstants.NotFound;
+        Message = "No records found to delete!";
+        return this;
+    }
 }
