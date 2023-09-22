@@ -1,15 +1,17 @@
 ﻿using Azure.Search.Documents.Models;
 using Azure.Search.Documents;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
 
 namespace Oplog.Core.AzureSearch;
 
 public sealed class IndexDocumentClient : SearchClientBase, IIndexDocumentClient
 {
     private const int ToTalTryCount = 5;
-
-    public IndexDocumentClient(IOptions<SearchConfiguration> configurationOptions) : base(configurationOptions)
+    private readonly ILogger<IndexDocumentClient> _logger;   
+    public IndexDocumentClient(IOptions<SearchConfiguration> configurationOptions, ILogger<IndexDocumentClient> logger) : base(configurationOptions)
     {
+        _logger = logger;
     }
 
     public async Task<bool> Create(LogDocument log)
@@ -108,9 +110,10 @@ public sealed class IndexDocumentClient : SearchClientBase, IIndexDocumentClient
             }
             return false;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            //Note: Do not throw the error.Operation should continue for multiple deletes without breaking on exception. 
+            _logger.LogError(ex, "Cognitive search exception");
+            //Note: Do not throw the error. Just log the error and operation should continue for multiple deletes without breaking on exception. 
             return false;
         }
     }
