@@ -26,6 +26,6 @@ namespace Oplog.Api.Controllers
                 return NotFound();
             }
             return Ok(results);
-        }        
+        }
     }
 }

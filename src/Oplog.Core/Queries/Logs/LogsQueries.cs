@@ -1,4 +1,5 @@
-﻿using Oplog.Persistence.Repositories;
+﻿using Oplog.Core.Queries.Logs;
+using Oplog.Persistence.Repositories;
 
 namespace Oplog.Core.Queries;
 
@@ -22,33 +23,7 @@ public class LogsQueries : ILogsQueries
         var result = new List<LogsResult>();
         foreach (var item in logs)
         {
-            var log = new LogsResult
-            {
-                Id = item.Id,
-                LogTypeId = item.LogTypeId,
-                ParentId = item.ParentId,
-                LastChangeUserId = item.LastChangeUserId,
-                LastChangeDateTime = item.LastChangeDateTime,
-                UpdatedBy = item.UpdatedBy,
-                UpdatedDate = item.UpdatedDate,
-                CreatedById = item.CreatedById,
-                Author = item.Author,
-                ScheduleItemState = item.ScheduleItemState,
-                CreatedBy = item.CreatedBy,
-                CreatedDate = item.CreatedDate,
-                Text = item.Text,
-                OperationAreaId = item.OperationAreaId,
-                EffectiveTime = item.EffectiveTime,
-                Unit = item.Unit,
-                Subtype = item.Subtype,
-                IsCritical = item.IsCritical,
-                LogTypeName = item.LogTypeName,
-                SubTypeName = item.SubTypeName,
-                UnitName = item.UnitName,
-                AreaName = item.AreaName,
-            };
-
-            result.Add(log);
+            result.Add(LogsResult.Map(item));
         }
 
         return result;
@@ -66,33 +41,7 @@ public class LogsQueries : ILogsQueries
         var result = new List<LogsResult>();
         foreach (var item in logs)
         {
-            var log = new LogsResult
-            {
-                Id = item.Id,
-                LogTypeId = item.LogTypeId,
-                ParentId = item.ParentId,
-                LastChangeUserId = item.LastChangeUserId,
-                LastChangeDateTime = item.LastChangeDateTime,
-                UpdatedBy = item.UpdatedBy,
-                UpdatedDate = item.UpdatedDate,
-                CreatedById = item.CreatedById,
-                Author = item.Author,
-                ScheduleItemState = item.ScheduleItemState,
-                CreatedBy = item.CreatedBy,
-                CreatedDate = item.CreatedDate,
-                Text = item.Text,
-                OperationAreaId = item.OperationAreaId,
-                EffectiveTime = item.EffectiveTime,
-                Unit = item.Unit,
-                Subtype = item.Subtype,
-                IsCritical = item.IsCritical,
-                LogTypeName = item.LogTypeName,
-                SubTypeName = item.SubTypeName,
-                UnitName = item.UnitName,
-                AreaName = item.AreaName,
-            };
-
-            result.Add(log);
+            result.Add(LogsResult.Map(item));
         }
 
         return result;
@@ -110,33 +59,7 @@ public class LogsQueries : ILogsQueries
         var result = new List<LogsResult>();
         foreach (var item in logs)
         {
-            var log = new LogsResult
-            {
-                Id = item.Id,
-                LogTypeId = item.LogTypeId,
-                ParentId = item.ParentId,
-                LastChangeUserId = item.LastChangeUserId,
-                LastChangeDateTime = item.LastChangeDateTime,
-                UpdatedBy = item.UpdatedBy,
-                UpdatedDate = item.UpdatedDate,
-                CreatedById = item.CreatedById,
-                Author = item.Author,
-                ScheduleItemState = item.ScheduleItemState,
-                CreatedBy = item.CreatedBy,
-                CreatedDate = item.CreatedDate,
-                Text = item.Text,
-                OperationAreaId = item.OperationAreaId,
-                EffectiveTime = item.EffectiveTime,
-                Unit = item.Unit,
-                Subtype = item.Subtype,
-                IsCritical = item.IsCritical,
-                LogTypeName = item.LogTypeName,
-                SubTypeName = item.SubTypeName,
-                UnitName = item.UnitName,
-                AreaName = item.AreaName,
-            };
-
-            result.Add(log);
+            result.Add(LogsResult.Map(item));
         }
 
         return result;

@@ -1,4 +1,6 @@
-﻿namespace Oplog.Core.Queries;
+﻿using Oplog.Core.Queries.Logs;
+
+namespace Oplog.Core.Queries;
 
 public interface ILogsQueries
 {

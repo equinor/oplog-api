@@ -1,6 +1,5 @@
 ﻿using Azure.Search.Documents;
 using Azure.Search.Documents.Models;
-using Microsoft.Extensions.Options;
 using Oplog.Core.Utils;
 using System.Text;
 
@@ -76,7 +75,7 @@ public sealed class IndexSearchClient : SearchClientBase, IIndexSearchClient
 
     private static string CreateGetByIdsFilter(List<int> ids)
     {
-        StringBuilder stringBuilder = new ();
+        StringBuilder stringBuilder = new();
         foreach (var id in ids)
         {
             stringBuilder.Append(@$"Id eq '{id.ToString()}' or ");

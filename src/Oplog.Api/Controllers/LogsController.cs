@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Oplog.Api.Models;
@@ -12,6 +8,10 @@ using Oplog.Core.Common;
 using Oplog.Core.Infrastructure;
 using Oplog.Core.Queries;
 using Oplog.Core.Queries.Logs;
+using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Oplog.Api.Controllers
 {
@@ -83,7 +83,7 @@ namespace Oplog.Api.Controllers
         }
 
 
-        [HttpDelete]        
+        [HttpDelete]
         public async Task<IActionResult> Delete(IEnumerable<int> ids)
         {
             var result = await _commandDispatcher.Dispatch<DeleteLogsCommand, DeleteLogsResult>(new DeleteLogsCommand(ids));
