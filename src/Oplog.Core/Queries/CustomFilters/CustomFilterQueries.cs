@@ -31,7 +31,7 @@ public class CustomFilterQueries : ICustomFilterQueries
             {
                 Id = item.Id,
                 Name = item.Name,
-                SearchText= item.SearchText,
+                SearchText = item.SearchText,
                 Filters = new List<CustomFilterItemsResult>()
             };
 
@@ -74,7 +74,7 @@ public class CustomFilterQueries : ICustomFilterQueries
                 Id = item.Id,
                 Name = item.Name,
                 IsGlobalFilter = item.IsGlobalFilter,
-                SearchText= item.SearchText,
+                SearchText = item.SearchText,
                 Filters = new List<CustomFilterItemsResult>()
             };
 

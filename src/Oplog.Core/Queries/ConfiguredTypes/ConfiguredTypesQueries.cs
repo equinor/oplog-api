@@ -66,10 +66,10 @@ public class ConfiguredTypesQueries : IConfiguredTypesQueries
             var cacheEntryOptions = new MemoryCacheEntryOptions
             {
                 AbsoluteExpiration = DateTime.Now.AddHours(2),
-                SlidingExpiration = TimeSpan.FromHours(1)                   
+                SlidingExpiration = TimeSpan.FromHours(1)
             };
             cacheEntry.SetOptions(cacheEntryOptions);
-            
+
             var data = new AllConfiguredTypesResultGrouped();
             var configuredTypes = await _configuredTypesRepository.GetAllActive();
 

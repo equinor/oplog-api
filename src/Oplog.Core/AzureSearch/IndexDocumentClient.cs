@@ -1,6 +1,5 @@
-﻿using Azure.Search.Documents.Models;
-using Azure.Search.Documents;
-using Microsoft.Extensions.Options;
+﻿using Azure.Search.Documents;
+using Azure.Search.Documents.Models;
 using Microsoft.Extensions.Logging;
 
 namespace Oplog.Core.AzureSearch;
