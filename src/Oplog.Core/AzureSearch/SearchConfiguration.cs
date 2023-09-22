@@ -1,9 +1,15 @@
-﻿namespace Oplog.Core.AzureSearch;
+﻿using System.ComponentModel.DataAnnotations;
 
-public class SearchConfiguration
+namespace Oplog.Core.AzureSearch;
+
+public sealed class SearchConfiguration
 {
+    [Required]
     public string Endpoint { get; set; }
+    [Required]
     public string AdminKey { get; set; }
+    [Required]
     public string QueryKey { get; set; }
+    [Required]
     public string SearchIndexName { get; set; }
 }

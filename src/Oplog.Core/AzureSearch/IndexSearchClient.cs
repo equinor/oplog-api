@@ -8,7 +8,7 @@ namespace Oplog.Core.AzureSearch;
 
 public sealed class IndexSearchClient : SearchClientBase, IIndexSearchClient
 {
-    public IndexSearchClient(IOptions<SearchConfiguration> configurationOptions) : base(configurationOptions)
+    public IndexSearchClient(SearchConfiguration searchConfiguration) : base(searchConfiguration)
     {
     }
 

@@ -10,8 +10,7 @@ namespace Oplog.Api.ValidationAttributes
 
         public override bool IsValid(object value)
         {
-            var list = value as IList<CreateCustomFilterItem>;
-            if (list != null)
+            if (value is IList<CreateCustomFilterItem> list)
             {
                 if (list.Count < NoOfFilters)
                 {
