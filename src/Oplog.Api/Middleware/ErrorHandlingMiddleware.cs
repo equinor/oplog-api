@@ -29,15 +29,13 @@ namespace Oplog.Api.Middleware
 
         private static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            var code = HttpStatusCode.InternalServerError; // 500 if unexpected
-
-            /*     if (exception is ValidationException) code = HttpStatusCode.NotFound;
-                  else if (exception is MyUnauthorizedException) code = HttpStatusCode.Unauthorized;
-                  else if (exception is MyException) code = HttpStatusCode.BadRequest;*/
-
-            var t = exception.GetType();
+            var code = HttpStatusCode.InternalServerError; 
             var actualException = exception;
-            while (actualException.InnerException != null) actualException = actualException.InnerException;
+
+            while (actualException.InnerException != null)
+            {
+                actualException = actualException.InnerException;
+            }
 
             var result = JsonConvert.SerializeObject(new { error = actualException.Message });
             context.Response.ContentType = "application/json";
