@@ -86,11 +86,7 @@ namespace Oplog.Api.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(IEnumerable<int> ids)
         {
-            var result = await _commandDispatcher.Dispatch<DeleteLogsCommand, DeleteLogsResult>(new DeleteLogsCommand(ids));
-            if (result.ResultType == ResultTypeConstants.NotFound)
-            {
-                return NotFound(result);
-            }
+            var result = await _commandDispatcher.Dispatch<DeleteLogsCommand, DeleteLogsResult>(new DeleteLogsCommand(ids));            
             return Ok(result);
         }
 
