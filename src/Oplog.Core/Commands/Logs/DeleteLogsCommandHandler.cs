@@ -22,11 +22,9 @@ public sealed class DeleteLogsCommandHandler : ICommandHandler<DeleteLogsCommand
 
         if (!logsToDelete.Any())
         {
-            return deleteLogsResult.NotFound();
+            _logsRepository.DeleteBulk(logsToDelete);
+            await _logsRepository.Save();
         }
-
-        _logsRepository.DeleteBulk(logsToDelete);
-        await _logsRepository.Save();
 
         foreach (var logId in command.Ids)
         {
