@@ -46,14 +46,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Docker login
       - uses: azure/docker-login@v1
         with:
           login-server: ${{ secrets.ACR_URL }}
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
 
-      # Builds the Chemcom API
       - name: docker build
         run: |
           docker build src -t ${{ secrets.ACR_URL }}/oplog-api:latest
