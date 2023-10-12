@@ -37,22 +37,3 @@ jobs:
         env:
           ConnectionString: ${{ secrets.CI_SQL_CONNECTION_STRING }}
         run: dotnet test ./src/Oplog.IntegrationTests --no-restore --verbosity normal
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: test
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.ACR_URL }}
-          username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR_PASSWORD }}
-
-      - name: docker build
-        run: |
-          docker build src -t ${{ secrets.ACR_URL }}/oplog-api:latest
-          docker push ${{ secrets.ACR_URL }}/oplog-api:latest
