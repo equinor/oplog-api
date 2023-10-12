@@ -25,13 +25,19 @@ public class SearchOptionsBuilder
             _searchOptions.Skip = (pageNumber - 1) * pageSize;
         }
 
+        string criticalLogsFilter = $"(IsCritical eq true and EffectiveTime ge {fromDate.ToString(DateTimeFormat)} and EffectiveTime le {toDate.ToString(DateTimeFormat)})";
+
         if (_isDateOnlySearch)
         {
-            _filter.Append($"EffectiveTime ge {fromDate.ToString(DateTimeFormat)} and EffectiveTime le {toDate.ToString(DateTimeFormat)}");
+            _filter
+                .Append($"EffectiveTime ge {fromDate.ToString(DateTimeFormat)} and EffectiveTime le {toDate.ToString(DateTimeFormat)}");
         }
         else
         {
-            _filter.Append($"(EffectiveTime ge {fromDate.ToString(DateTimeFormat)} and EffectiveTime le {toDate.ToString(DateTimeFormat)}) and ({FilterPlaceHolderValue})");
+            _filter
+                .Append($"(EffectiveTime ge {fromDate.ToString(DateTimeFormat)} and EffectiveTime le {toDate.ToString(DateTimeFormat)}) " +
+                $"and ({FilterPlaceHolderValue}) " +
+                $"or {criticalLogsFilter}");
         }
     }
 
