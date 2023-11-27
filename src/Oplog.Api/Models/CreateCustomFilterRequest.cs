@@ -12,7 +12,7 @@ namespace Oplog.Api.Models
         public bool? IsGlobalFilter { get; set; }
         public string SearchText { get; set; }
         [Required]
-        [ValidateFilterItems(NoOfFilters = 2, ErrorMessage = "Atleast 2 filters required")]
+        [ValidateFilterItems(NoOfFilters = 1, ErrorMessage = "Atleast 1 filters required")]
         public List<CreateCustomFilterItem> FilterItems { get; set; }
     }
 }
