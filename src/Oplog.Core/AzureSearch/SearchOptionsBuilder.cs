@@ -61,8 +61,8 @@ public class SearchOptionsBuilder
     {
         if (string.IsNullOrWhiteSpace(searchText)) return;
 
-        var searchTextEscaped = $"\\{searchText.ToLower()}\\";
-        _fieldsFilter.Append($" and search.ismatch('{searchTextEscaped}', 'Text','simple','all')");
+        var searchTextEscaped = searchText.ToLower();
+        _fieldsFilter.Append($" and search.ismatch('{searchTextEscaped}*', 'Text','simple','all')");
     }
 
     public void AddLogTypeFilter(int[] logTypeIds)
