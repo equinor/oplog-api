@@ -99,9 +99,12 @@ builder.Services.AddScoped<IIndexSearchClient, IndexSearchClient>();
 builder.Services.AddTransient<ISearchLogsQueries, SearchLogsQueries>();
 
 // The following line enables Application Insights telemetry collection.
-var appinsightConnStr = configuration["ApplicationInsights:ConnectionString"];
-var optionsAppInsight = new ApplicationInsightsServiceOptions { ConnectionString = configuration["ApplicationInsights:ConnectionString"] };
-builder.Services.AddApplicationInsightsTelemetry(options: optionsAppInsight);
+var appInsightsOptions = new ApplicationInsightsServiceOptions
+{
+    ConnectionString = configuration["ApplicationInsights:ConnectionString"],
+    EnableAdaptiveSampling = false
+};
+builder.Services.AddApplicationInsightsTelemetry(options: appInsightsOptions);
 
 //Add command handlers
 CommandHandlersSetup.AddCommandHandlers(builder.Services, typeof(ICommandHandler<>));
