@@ -18,10 +18,10 @@ public class SearchLogsQueries : ISearchLogsQueries
         {
             RecordsCount = result.TotalCount
         };
-
+     
         if (searchLogsResult.RecordsCount != null)
         {
-            searchLogsResult.TotalPages = (int)Math.Ceiling((decimal)(searchLogsResult.RecordsCount / searchRequest.PageSize));
+            searchLogsResult.TotalPages = (int)Math.Ceiling((decimal)searchLogsResult.RecordsCount / searchRequest.PageSize);
         }
 
         foreach (var item in result.GetResults())
