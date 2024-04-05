@@ -21,6 +21,9 @@ spec:
         - KeyVaultEndpoint
       environmentConfig:
         - environment: dev
+          identity: 
+            azure:
+              clientId: d1aa9948-2222-4c9a-b9f4-93e959affe64
           runAsNonRoot: true
           variables:
             ASPNETCORE_URLS: "http://*:5000"
