@@ -30,12 +30,15 @@ var keyVaultUrl = configuration["KeyVaultEndpoint"];
 var clientId = configuration["AzureAd:ClientId"];
 var clientSecret = configuration["AzureAd:ClientSecret"];
 var tenantId = configuration["AzureAd:TenantId"];
+
 if (!builder.Environment.IsDevelopment())
 {
     var clientSecretCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
-    var secretClient = new SecretClient(new Uri(keyVaultUrl), clientSecretCredential);
+    var chainedTokenCredential = new ChainedTokenCredential(new WorkloadIdentityCredential(), clientSecretCredential);
+    var secretClient = new SecretClient(new Uri(keyVaultUrl), chainedTokenCredential);
     builder.Configuration.AddAzureKeyVault(secretClient, new KeyVaultSecretManager());
 }
+
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
     options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
