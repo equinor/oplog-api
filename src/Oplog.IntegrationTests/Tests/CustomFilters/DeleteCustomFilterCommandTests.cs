@@ -21,7 +21,7 @@ public class DeleteCustomFilterCommandTests : TestBase
         var deleteCustomFilterCommand = new DeleteCustomFilterCommand(createResult.FilterId, IsAdmin: false);
         var deleteResult = await CommandDispatcher.Dispatch<DeleteCustomFilterCommand, DeleteCustomFilterResult>(deleteCustomFilterCommand);
 
-        Assert.IsTrue(deleteResult.ResultType == ResultTypeConstants.Success);
+        Assert.That(deleteResult.ResultType == ResultTypeConstants.Success, Is.True);
     }
 
     [Test]
@@ -39,7 +39,7 @@ public class DeleteCustomFilterCommandTests : TestBase
         var deleteCustomFilterCommand = new DeleteCustomFilterCommand(createResult.FilterId, IsAdmin: false);
         var deleteResult = await CommandDispatcher.Dispatch<DeleteCustomFilterCommand, DeleteCustomFilterResult>(deleteCustomFilterCommand);
 
-        Assert.IsTrue(deleteResult.ResultType == ResultTypeConstants.NotAllowed);
+        Assert.That(deleteResult.ResultType == ResultTypeConstants.NotAllowed, Is.True);
     }
 
     [Test]
@@ -57,6 +57,6 @@ public class DeleteCustomFilterCommandTests : TestBase
         var deleteCustomFilterCommand = new DeleteCustomFilterCommand(createResult.FilterId, IsAdmin: true);
         var deleteResult = await CommandDispatcher.Dispatch<DeleteCustomFilterCommand, DeleteCustomFilterResult>(deleteCustomFilterCommand);
 
-        Assert.IsTrue(deleteResult.ResultType == ResultTypeConstants.Success);
+        Assert.That(deleteResult.ResultType == ResultTypeConstants.Success, Is.True);
     }
 }

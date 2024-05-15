@@ -13,7 +13,7 @@ public class DeleteLogTemplateCommandTests : TestBase
         var result = await CommandDispatcher.Dispatch<CreateLogTemplateCommand, CreateLogTemplateResult>(createLogTemplateCommand);
 
         var deleteResult = await CommandDispatcher.Dispatch<DeleteLogTemplateCommand, DeleteLogTemplateResult>(new DeleteLogTemplateCommand(result.LogTemplateId));
-        Assert.IsTrue(deleteResult.ResultType == ResultTypeConstants.Success);
+        Assert.That(deleteResult.ResultType == ResultTypeConstants.Success, Is.True);
     }
 
     [Test]
@@ -21,6 +21,6 @@ public class DeleteLogTemplateCommandTests : TestBase
     {
         var logTemplateId = 10;
         var deleteResult = await CommandDispatcher.Dispatch<DeleteLogTemplateCommand, DeleteLogTemplateResult>(new DeleteLogTemplateCommand(logTemplateId));
-        Assert.IsTrue(deleteResult.ResultType == ResultTypeConstants.NotFound);
+        Assert.That(deleteResult.ResultType == ResultTypeConstants.NotFound, Is.True);
     }
 }

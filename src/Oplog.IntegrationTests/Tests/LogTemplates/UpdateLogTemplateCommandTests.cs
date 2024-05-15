@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Oplog.Core.Commands.LogTemplates;
 using Oplog.Core.Common;
+using System.Threading.Tasks;
 
 namespace Oplog.IntegrationTests.Tests.LogTemplates;
 
@@ -17,7 +18,7 @@ public class UpdateLogTemplateCommandTests : TestBase
                                                 (result.LogTemplateId, "Test template", null, null, null, "test template", null, null, null, "bonm@equinor.com");
 
         var updateResult = await CommandDispatcher.Dispatch<UpdateLogTemplateCommand, UpdateLogTemplateResult>(updateLogTemplateCommand);
-        Assert.IsTrue(updateResult.ResultType == ResultTypeConstants.Success);
+        Assert.That(updateResult.ResultType == ResultTypeConstants.Success, Is.True);
     }
 
     [Test]
@@ -27,6 +28,6 @@ public class UpdateLogTemplateCommandTests : TestBase
                                                (Id: 5, "Test template", null, null, null, "test template", null, null, null, "bonm@equinor.com");
 
         var updateResult = await CommandDispatcher.Dispatch<UpdateLogTemplateCommand, UpdateLogTemplateResult>(updateLogTemplateCommand);
-        Assert.IsTrue(updateResult.ResultType == ResultTypeConstants.NotFound);
+        Assert.That(updateResult.ResultType == ResultTypeConstants.NotFound, Is.True);
     }
 }

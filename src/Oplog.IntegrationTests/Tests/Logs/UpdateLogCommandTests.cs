@@ -15,7 +15,7 @@ public class UpdateLogCommandTests : TestBase
         var updateCommand = new UpdateLogCommand(createResult.LogId, LogType: 415, SubType: 1079, Comment: "Update comment", OperationsAreaId: 10000, Author: "Donald Trump", Unit: 1086, EffectiveTime: DateTime.Now, UpdatedBy: "bonm@equinor.com", IsCritical: false);
         var updateResult = await CommandDispatcher.Dispatch<UpdateLogCommand, UpdateLogResult>(updateCommand);
 
-        Assert.IsTrue(updateResult.ResultType == ResultTypeConstants.Success);
+        Assert.That(updateResult.ResultType == ResultTypeConstants.Success, Is.True);
     }
 
     [Test]
@@ -24,6 +24,6 @@ public class UpdateLogCommandTests : TestBase
         var updateCommand = new UpdateLogCommand(10, LogType: 415, SubType: 1079, Comment: "Update comment", OperationsAreaId: 10000, Author: "Donald Trump", Unit: 1086, EffectiveTime: DateTime.Now, UpdatedBy: "bonm@equinor.com", IsCritical: false);
         var updateResult = await CommandDispatcher.Dispatch<UpdateLogCommand, UpdateLogResult>(updateCommand);
 
-        Assert.IsTrue(updateResult.ResultType == ResultTypeConstants.NotFound);
+        Assert.That(updateResult.ResultType == ResultTypeConstants.NotFound, Is.True);
     }
 }
