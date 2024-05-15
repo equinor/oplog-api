@@ -18,7 +18,7 @@ public class CreateCustomFilterCommandTests : TestBase
         var createCustomFilterCommad = new CreateCustomFilterCommand("Test Filter", "bonm@equinor.com", false, "Test", false, filterItems);
 
         var result = await CommandDispatcher.Dispatch<CreateCustomFilterCommand, CreateCustomFilterResult>(createCustomFilterCommad);
-        Assert.IsTrue(result.ResultType == ResultTypeConstants.Success);
+        Assert.That(result.ResultType == ResultTypeConstants.Success, Is.True);        
     }
 
     [Test]
@@ -35,7 +35,7 @@ public class CreateCustomFilterCommandTests : TestBase
         var createCustomFilterCommad = new CreateCustomFilterCommand("Test Filter", "bonm@equinor.com", isGlobalFilter, "Test", isAdmin, filterItems);
 
         var result = await CommandDispatcher.Dispatch<CreateCustomFilterCommand, CreateCustomFilterResult>(createCustomFilterCommad);
-        Assert.IsTrue(result.ResultType == ResultTypeConstants.Success);
+        Assert.That(result.ResultType == ResultTypeConstants.Success, Is.True);
     }
 
     [Test]
@@ -52,6 +52,6 @@ public class CreateCustomFilterCommandTests : TestBase
         var createCustomFilterCommad = new CreateCustomFilterCommand("Test Filter", "bonm@equinor.com", isGlobalFilter, "Test", isAdmin, filterItems);
 
         var result = await CommandDispatcher.Dispatch<CreateCustomFilterCommand, CreateCustomFilterResult>(createCustomFilterCommad);
-        Assert.IsTrue(result.ResultType == ResultTypeConstants.NotAllowed);
+        Assert.That(result.ResultType == ResultTypeConstants.NotAllowed, Is.True);
     }
 }

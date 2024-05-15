@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using Oplog.Persistence;
+using Testcontainers.MsSql;
 
 namespace Oplog.IntegrationTests;
 
@@ -12,16 +13,18 @@ public class TestRunSetUp
     public static IConfigurationRoot Configuration { get; private set; }
     public static string ConnectionString { get; set; }
     private readonly OplogDbContext _oplogDbContext;
+    private readonly MsSqlContainer _msSqlContainer
+       = new MsSqlBuilder().Build();
 
     public TestRunSetUp()
     {
+        _msSqlContainer.StartAsync().Wait();
         var configurationBuilder = new ConfigurationBuilder();
         configurationBuilder.AddUserSecrets<TestRunSetUp>()
                             .AddEnvironmentVariables();
         Configuration = configurationBuilder.Build();
-
-        var databaseName = GetRandomDatabaseName();
-        ConnectionString = Configuration.GetValue<string>("ConnectionString").Replace("DbName", databaseName);
+     
+        ConnectionString = _msSqlContainer.GetConnectionString();
 
         var optionsBuilder = new DbContextOptionsBuilder<OplogDbContext>();
         optionsBuilder.UseSqlServer(ConnectionString,
@@ -39,8 +42,7 @@ public class TestRunSetUp
 
     [OneTimeSetUp]
     public void RunBeforeAnyTests()
-    {
-        _oplogDbContext.Database.EnsureDeleted();
+    {       
         _oplogDbContext.Database.EnsureCreated();
         _oplogDbContext.Database.ExecuteSqlRaw(@"CREATE VIEW LogsView
                                     AS
@@ -55,12 +57,7 @@ public class TestRunSetUp
 
     [OneTimeTearDown]
     public void RunAfterAnyTests()
-    {
-        _oplogDbContext.Database.EnsureDeleted();
-    }
-
-    private static string GetRandomDatabaseName()
-    {
-        return Guid.NewGuid().ToString();
+    {       
+        _msSqlContainer.StopAsync().Wait();
     }
 }
