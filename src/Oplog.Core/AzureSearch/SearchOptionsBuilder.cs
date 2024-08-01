@@ -73,6 +73,10 @@ public class SearchOptionsBuilder
             string query = string.Empty;
             foreach (var keyword in keywords)
             {
+                if (string.IsNullOrWhiteSpace(keyword))
+                {
+                    continue;
+                }
                 query += $"search.ismatch('{keyword.ToLower()}*', 'Text','full','any') or search.ismatch('.*{keyword.ToLower()}', 'Text','full','any') or ";                
             }
 
