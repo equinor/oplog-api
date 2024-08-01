@@ -60,7 +60,27 @@ public class SearchOptionsBuilder
     public void AddSearchTextFilter(string searchText)
     {
         if (string.IsNullOrWhiteSpace(searchText)) return;
-        _fieldsFilter.Append($" and search.ismatch('{searchText.ToLower()}*', 'Text','simple','all')");
+
+        string[] keywords = searchText.Split(' ');
+        if (keywords.Length == 1)
+        {
+            _fieldsFilter.Append($" and (search.ismatch('{searchText.ToLower()}*', 'Text','full','any')");
+            _fieldsFilter.Append($" or search.ismatch('.*{searchText.ToLower()}', 'Text','full','any'))");
+        }
+        else
+        {
+            _fieldsFilter.Append(" and (");
+            string query = string.Empty;
+            foreach (var keyword in keywords)
+            {
+                query += $"search.ismatch('{keyword.ToLower()}*', 'Text','full','any') or search.ismatch('.*{keyword.ToLower()}', 'Text','full','any') or ";                
+            }
+
+            //Remove the "or" logical operator
+            query = query.Remove(query.Length - 3);
+
+            _fieldsFilter.Append($"{query})");
+        }
     }
 
     public void AddLogTypeFilter(int[] logTypeIds)
