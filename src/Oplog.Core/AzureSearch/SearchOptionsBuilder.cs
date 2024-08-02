@@ -64,9 +64,9 @@ public class SearchOptionsBuilder
         string[] keywords = searchText.Split(' ');
         if (keywords.Length == 1)
         {
-            _fieldsFilter.Append($" and (search.ismatch('{searchText.ToLower()}*', 'Text','full','any')");
-            _fieldsFilter.Append($" or search.ismatch('/{searchText.ToLower()}*/', 'Text','full','any')");
-            _fieldsFilter.Append($" or search.ismatch('/.*{searchText.ToLower()}/', 'Text','full','any'))");
+            _fieldsFilter.Append(@$" and (search.ismatch('{searchText.ToLower()}*', 'Text','full','any')");
+            _fieldsFilter.Append(@$" or search.ismatch('/{searchText.ToLower()}*/', 'Text','full','any')");
+            _fieldsFilter.Append($@" or search.ismatch('/.*{searchText.ToLower()}/', 'Text','full','any'))");
         }
         else
         {
@@ -78,8 +78,8 @@ public class SearchOptionsBuilder
                 {
                     continue;
                 }
-                query += $"search.ismatch('{keyword.ToLower()}*', 'Text','full','any') or search.ismatch('/.*{keyword.ToLower()}/', 'Text','full','any') or ";
-                query += $"search.ismatch('/{keyword.ToLower()}*/', 'Text','full','any') or ";
+                query += @$"search.ismatch('{keyword.ToLower()}*', 'Text','full','any') or search.ismatch('/.*{keyword.ToLower()}/', 'Text','full','any') or ";
+                query += @$"search.ismatch('/{keyword.ToLower()}*/', 'Text','full','any') or ";
             }
 
             //Remove the "or" logical operator
