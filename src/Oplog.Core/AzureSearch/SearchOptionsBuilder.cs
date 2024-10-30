@@ -1,6 +1,7 @@
 ﻿using Azure.Search.Documents;
 using Oplog.Core.Utils;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Oplog.Core.AzureSearch;
 
@@ -64,7 +65,7 @@ public class SearchOptionsBuilder
         string[] keywords = searchText.Split(' ');
         if (keywords.Length == 1)
         {
-            _fieldsFilter.Append(@$" and (search.ismatch('//{searchText.ToLower()}*//', 'Text','full','any'))");           
+            _fieldsFilter.Append(@$" and (search.ismatch('{SearchOptionsBuilder.EscapeSpecialCharacters(searchText).ToLower()}', 'Text','full','any'))");
         }
         else
         {
@@ -76,7 +77,7 @@ public class SearchOptionsBuilder
                 {
                     continue;
                 }
-                query += @$"search.ismatch('//{keyword.ToLower()}*//', 'Text','full','any') or ";
+                query += @$"search.ismatch('{SearchOptionsBuilder.EscapeSpecialCharacters(keyword).ToLower()}', 'Text','full','any') or ";
             }
 
             //Remove the "or" logical operator
@@ -84,6 +85,14 @@ public class SearchOptionsBuilder
 
             _fieldsFilter.Append($"{query})");
         }
+    }
+
+    // Function to escape special characters
+    public static string EscapeSpecialCharacters(string input)
+    {
+        string escapedPattern = Regex.Replace(input, @"([!@#%^&*()_+\-=\[\]{}|;:"",\\./<>?~\\])", @"\$1");
+        string regexPattern = $"/.*{escapedPattern.Replace("'", "''")}.*/";
+        return regexPattern;
     }
 
     public void AddLogTypeFilter(int[] logTypeIds)
