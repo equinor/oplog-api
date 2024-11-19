@@ -21,6 +21,7 @@ using Oplog.Persistence;
 using Oplog.Persistence.Repositories;
 using System;
 using System.Net.Http;
+using Azure.Monitor.OpenTelemetry.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -30,6 +31,7 @@ var keyVaultUrl = configuration["KeyVaultEndpoint"];
 var clientId = configuration["AzureAd:ClientId"];
 var clientSecret = configuration["AzureAd:ClientSecret"];
 var tenantId = configuration["AzureAd:TenantId"];
+var appInsightsConnectionString = configuration["ApplicationInsights:ConnectionString"];
 
 if (!builder.Environment.IsDevelopment())
 {
@@ -104,10 +106,15 @@ builder.Services.AddTransient<ISearchLogsQueries, SearchLogsQueries>();
 // The following line enables Application Insights telemetry collection.
 var appInsightsOptions = new ApplicationInsightsServiceOptions
 {
-    ConnectionString = configuration["ApplicationInsights:ConnectionString"],
+    ConnectionString = appInsightsConnectionString,
     EnableAdaptiveSampling = false
 };
 builder.Services.AddApplicationInsightsTelemetry(options: appInsightsOptions);
+
+// Add OpenTelemetry and configure it to use Azure Monitor.
+builder.Services.AddOpenTelemetry().UseAzureMonitor(options => {
+    options.ConnectionString = appInsightsConnectionString;
+});
 
 //Add command handlers
 CommandHandlersSetup.AddCommandHandlers(builder.Services, typeof(ICommandHandler<>));
