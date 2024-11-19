@@ -103,14 +103,6 @@ builder.Services.AddScoped<IIndexDocumentClient, IndexDocumentClient>();
 builder.Services.AddScoped<IIndexSearchClient, IndexSearchClient>();
 builder.Services.AddTransient<ISearchLogsQueries, SearchLogsQueries>();
 
-// The following line enables Application Insights telemetry collection.
-var appInsightsOptions = new ApplicationInsightsServiceOptions
-{
-    ConnectionString = appInsightsConnectionString,
-    EnableAdaptiveSampling = false
-};
-builder.Services.AddApplicationInsightsTelemetry(options: appInsightsOptions);
-
 // Add OpenTelemetry and configure it to use Azure Monitor.
 builder.Services.AddOpenTelemetry().UseAzureMonitor(options => {
     options.ConnectionString = appInsightsConnectionString;
