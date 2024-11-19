@@ -31,7 +31,7 @@ var keyVaultUrl = configuration["KeyVaultEndpoint"];
 var clientId = configuration["AzureAd:ClientId"];
 var clientSecret = configuration["AzureAd:ClientSecret"];
 var tenantId = configuration["AzureAd:TenantId"];
-var appInsightsConnectionString = configuration["ApplicationInsights:ConnectionString"];
+
 
 if (!builder.Environment.IsDevelopment())
 {
@@ -105,7 +105,7 @@ builder.Services.AddTransient<ISearchLogsQueries, SearchLogsQueries>();
 
 // Add OpenTelemetry and configure it to use Azure Monitor.
 builder.Services.AddOpenTelemetry().UseAzureMonitor(options => {
-    options.ConnectionString = appInsightsConnectionString;
+    options.ConnectionString = configuration["ApplicationInsights:ConnectionString"];
 });
 
 //Add command handlers
