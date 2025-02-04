@@ -37,7 +37,8 @@ spec:
               memory: "256Mi"
               cpu: "100m"
             limits:
-              cpu: "200m"
+              memory: "768Mi"
+              cpu: "400m"
         - environment: prod
           identity: 
             azure:
@@ -58,6 +59,7 @@ spec:
           resources:
             requests:
               memory: "512Mi"
-              cpu: "100m"
+              cpu: "200m"
             limits:
+              memory: "1024Mi"
               cpu: "200m"
