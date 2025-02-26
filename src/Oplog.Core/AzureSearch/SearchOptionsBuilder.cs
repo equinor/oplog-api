@@ -14,12 +14,14 @@ public class SearchOptionsBuilder
     private readonly bool _isDateOnlySearch = false;
     private const string FilterPlaceHolderValue = "[]";
     private const string LogTypeIdFieldName = "LogTypeId", AreaIdFieldName = "OperationAreaId", SubTypeIdFieldName = "Subtype", UnitIdFieldName = "Unit";
+    private readonly bool _hideVisibleToAll = false;
 
-    public SearchOptionsBuilder(DateTime fromDate, DateTime toDate, int pageSize, int pageNumber, bool isDateOnlySearch)
+    public SearchOptionsBuilder(DateTime fromDate, DateTime toDate, int pageSize, int pageNumber, bool isDateOnlySearch, bool hideVisibleToAll)
     {
         _isDateOnlySearch = isDateOnlySearch;
         _searchOptions.IncludeTotalCount = true;
         _searchOptions.Size = pageSize;
+        _hideVisibleToAll = hideVisibleToAll;
 
         if (pageNumber > 0)
         {
@@ -37,8 +39,11 @@ public class SearchOptionsBuilder
         {
             _filter
                 .Append($"(EffectiveTime ge {fromDate.ToString(DateTimeFormat)} and EffectiveTime le {toDate.ToString(DateTimeFormat)}) " +
-                $"and ({FilterPlaceHolderValue}) " +
-                $"or {criticalLogsFilter}");
+                $"and ({FilterPlaceHolderValue})");
+            if (!_hideVisibleToAll)
+            {
+                _filter.Append($" or {criticalLogsFilter}");
+            }
         }
     }
 

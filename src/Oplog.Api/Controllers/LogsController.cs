@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Oplog.Api.Models;
 using Oplog.Core.AzureSearch;
 using Oplog.Core.Commands.Logs;
-using Oplog.Core.Common;
 using Oplog.Core.Infrastructure;
 using Oplog.Core.Queries;
 using Oplog.Core.Queries.Logs;
@@ -71,7 +70,7 @@ namespace Oplog.Api.Controllers
         [HttpPost("search")]
         public async Task<IActionResult> Search([FromBody] GetSearchLogsRequest request)
         {
-            SearchLogsResult result = await _searchLogsQueries.Search(new SearchRequest(request.LogTypeIds, request.AreaIds, request.SubTypeIds, request.UnitIds, request.SearchText, request.FromDate, request.ToDate, request.SortBy, request.PageSize, request.PageNumber));
+            SearchLogsResult result = await _searchLogsQueries.Search(new SearchRequest(request.LogTypeIds, request.AreaIds, request.SubTypeIds, request.UnitIds, request.SearchText, request.FromDate, request.ToDate, request.SortBy, request.PageSize, request.PageNumber,request.HideVisibleToAll));
             return Ok(result);
         }
 
