@@ -46,6 +46,13 @@ jobs:
       - name: Test
         run: dotnet test ./src/Oplog.IntegrationTests --logger "console;verbosity=detailed" --blame-hang-timeout 300s
 
+      - name: Upload Hang Dump
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+         name: hang-dump
+         path: /tmp/*.dmp
+
       - name: Get Docker container logs
         run: docker logs test-container
 
