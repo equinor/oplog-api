@@ -44,7 +44,7 @@ jobs:
           docker ps -a
 
       - name: Test
-        run: dotnet test ./src/Oplog.IntegrationTests --no-parallel --logger "console;verbosity=detailed" --blame-hang-timeout 300s
+        run: dotnet test ./src/Oplog.IntegrationTests --logger "console;verbosity=detailed" --blame-hang-timeout 300s --no-parallel
 
       - name: Get Docker container logs
         run: docker logs test-container
