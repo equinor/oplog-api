@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using Oplog.Persistence;
+using System.Runtime.InteropServices;
 using Testcontainers.MsSql;
 
 namespace Oplog.IntegrationTests;
@@ -13,11 +14,25 @@ public class TestRunSetUp
     public static IConfigurationRoot Configuration { get; private set; }
     public static string ConnectionString { get; set; }
     private readonly OplogDbContext _oplogDbContext;
-    private readonly MsSqlContainer _msSqlContainer
-       = new MsSqlBuilder().Build();
+    private readonly MsSqlContainer _msSqlContainer;
 
     public TestRunSetUp()
     {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            _msSqlContainer = new MsSqlBuilder()
+                .WithImage(
+                    "mcr.microsoft.com/mssql/server:2022-latest"
+                )
+                .WithPortBinding(1433, true)
+                .Build();
+        }
+        else
+        {
+            _msSqlContainer = new MsSqlBuilder()
+                .WithPortBinding(1433, true)
+                .Build();
+        }
         _msSqlContainer.StartAsync().Wait();
         var configurationBuilder = new ConfigurationBuilder();
         configurationBuilder.AddUserSecrets<TestRunSetUp>()
