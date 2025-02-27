@@ -51,7 +51,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
          name: hang-dump
-         path: /tmp/*.dmp
+         path: /home/runner/work/oplog-api/oplog-api/src/Oplog.IntegrationTests/TestResults/**/*.dmp
+         compression-level: 0
 
       - name: Get Docker container logs
         run: docker logs test-container
