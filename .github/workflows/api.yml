@@ -50,8 +50,7 @@ jobs:
         run: |
            dotnet test ./src/Oplog.IntegrationTests \
              --logger "console;verbosity=detailed" \
-             --logger "trx;LogFileName=TestResults.trx" \
-             --blame-hang-timeout 300s | tee test-output.log
+             --logger "trx;LogFileName=TestResults.trx" | tee test-output.log
         continue-on-error: true
 
       - name: Upload Test Logs
