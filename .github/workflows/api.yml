@@ -40,11 +40,12 @@ jobs:
 
       - name: Start Docker container
         run: |
-          docker run -d --name test-container mcr.microsoft.com/mssql/server:2019-CU18-ubuntu-20.04
+          docker run -d --name test-container mcr.microsoft.com/mssql/server:2022-latest
           docker ps -a
 
       - name: Test
         run: dotnet test ./src/Oplog.IntegrationTests
+
 
       - name: Get Docker container logs
         run: docker logs test-container

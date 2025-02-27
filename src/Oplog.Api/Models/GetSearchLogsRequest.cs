@@ -20,5 +20,6 @@ namespace Oplog.Api.Models
         public List<string> SortBy { get; set; }
         public int PageSize { get; set; } = DefaultPageSize;
         public int PageNumber { get; set; } = InitialPageNumber;
+        public bool HideVisibleToAll { get; set; }
     }
 }
