@@ -43,24 +43,8 @@ jobs:
           docker run -d --name test-container mcr.microsoft.com/mssql/server:2022-latest
           docker ps -a
 
-      # - name: Test
-      #   run: dotnet test ./src/Oplog.IntegrationTests --logger "console;verbosity=diagnostic" --blame-hang-timeout 300s
-
-      - name: Run Tests and Capture Logs
-        run: |
-           dotnet test ./src/Oplog.IntegrationTests \
-             --logger "console;verbosity=detailed" \
-             --logger "trx;LogFileName=TestResults.trx" | tee test-output.log
-        continue-on-error: true
-
-      - name: Upload Test Logs
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-           name: TestLogs
-           path: |
-            ./src/Oplog.IntegrationTests/TestResults/TestResults.trx
-            test-output.log
+      - name: Test
+        run: dotnet test ./src/Oplog.IntegrationTests
 
 
       - name: Get Docker container logs
