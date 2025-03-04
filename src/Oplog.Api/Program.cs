@@ -111,15 +111,12 @@ if(!string.IsNullOrEmpty(configuration["ApplicationInsights:ConnectionString"]))
     });
 }
 
-
 //Add command handlers
 CommandHandlersSetup.AddCommandHandlers(builder.Services, typeof(ICommandHandler<>));
 CommandHandlersSetup.AddCommandHandlers(builder.Services, typeof(ICommandHandler<,>));
 EventHandlersSetup.AddEventHandlers(builder.Services, typeof(IEventHandler<>));
 
 SwaggerSetup.ConfigureServices(configuration, builder.Services);
-
-
 
 var app = builder.Build();
 
