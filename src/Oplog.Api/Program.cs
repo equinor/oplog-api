@@ -103,10 +103,14 @@ builder.Services.AddScoped<IIndexDocumentClient, IndexDocumentClient>();
 builder.Services.AddScoped<IIndexSearchClient, IndexSearchClient>();
 builder.Services.AddTransient<ISearchLogsQueries, SearchLogsQueries>();
 
-// Add OpenTelemetry and configure it to use Azure Monitor.
-builder.Services.AddOpenTelemetry().UseAzureMonitor(options => {
-    options.ConnectionString = configuration["ApplicationInsights:ConnectionString"];
-});
+if(!string.IsNullOrEmpty(configuration["ApplicationInsights:ConnectionString"]))
+{
+    // Add OpenTelemetry and configure it to use Azure Monitor.
+    builder.Services.AddOpenTelemetry().UseAzureMonitor(options => {
+        options.ConnectionString = configuration["ApplicationInsights:ConnectionString"];
+    });
+}
+
 
 //Add command handlers
 CommandHandlersSetup.AddCommandHandlers(builder.Services, typeof(ICommandHandler<>));
@@ -114,6 +118,8 @@ CommandHandlersSetup.AddCommandHandlers(builder.Services, typeof(ICommandHandler
 EventHandlersSetup.AddEventHandlers(builder.Services, typeof(IEventHandler<>));
 
 SwaggerSetup.ConfigureServices(configuration, builder.Services);
+
+
 
 var app = builder.Build();
 
