@@ -16,31 +16,46 @@ public class SearchOptionsBuilder
     private const string LogTypeIdFieldName = "LogTypeId", AreaIdFieldName = "OperationAreaId", SubTypeIdFieldName = "Subtype", UnitIdFieldName = "Unit";
     private readonly bool _hideVisibleToAll = false;
 
-    public SearchOptionsBuilder(DateTime fromDate, DateTime toDate, int pageSize, int pageNumber, bool isDateOnlySearch, bool hideVisibleToAll)
+    public SearchOptionsBuilder(SearchRequest searchRequest, bool isDateOnlySearch)
     {
         _isDateOnlySearch = isDateOnlySearch;
         _searchOptions.IncludeTotalCount = true;
-        _searchOptions.Size = pageSize;
-        _hideVisibleToAll = hideVisibleToAll;
+        _searchOptions.Size = searchRequest.PageSize;
+        _hideVisibleToAll = searchRequest.HideVisibleToAll;
 
-        if (pageNumber > 0)
+        if (searchRequest.PageNumber > 0)
         {
-            _searchOptions.Skip = (pageNumber - 1) * pageSize;
+            _searchOptions.Skip = (searchRequest.PageNumber - 1) * searchRequest.PageSize;
         }
 
-        string criticalLogsFilter = $"(IsCritical eq true and EffectiveTime ge {fromDate.ToString(DateTimeFormat)} and EffectiveTime le {toDate.ToString(DateTimeFormat)})";
+        string criticalLogsFilter = $"(IsCritical eq true and EffectiveTime ge {searchRequest.FromDate.ToString(DateTimeFormat)} and EffectiveTime le {searchRequest.ToDate.ToString(DateTimeFormat)})";
 
         if (_isDateOnlySearch)
         {
-            _filter
-                .Append($"EffectiveTime ge {fromDate.ToString(DateTimeFormat)} and EffectiveTime le {toDate.ToString(DateTimeFormat)}");
+            if (_hideVisibleToAll)
+            {
+                _filter
+               .Append($"IsCritical eq false and EffectiveTime ge {searchRequest.FromDate.ToString(DateTimeFormat)} and EffectiveTime le {searchRequest.ToDate.ToString(DateTimeFormat)}");
+            }
+            else
+            {
+                _filter
+               .Append($"EffectiveTime ge {searchRequest.FromDate.ToString(DateTimeFormat)} and EffectiveTime le {searchRequest.ToDate.ToString(DateTimeFormat)}");
+            }
         }
         else
         {
             _filter
-                .Append($"(EffectiveTime ge {fromDate.ToString(DateTimeFormat)} and EffectiveTime le {toDate.ToString(DateTimeFormat)}) " +
+                .Append($"(EffectiveTime ge {searchRequest.FromDate.ToString(DateTimeFormat)} and EffectiveTime le {searchRequest.ToDate.ToString(DateTimeFormat)}) " +
                 $"and ({FilterPlaceHolderValue})");
-            if (!_hideVisibleToAll)
+            if (_hideVisibleToAll)
+            {
+                if (string.IsNullOrEmpty(searchRequest.SearchText))
+                {
+                    _filter.Append(" and IsCritical eq false");
+                }
+            }
+            else
             {
                 _filter.Append($" or {criticalLogsFilter}");
             }

@@ -17,7 +17,7 @@ public sealed class IndexSearchClient : SearchClientBase, IIndexSearchClient
         {
             var searchClient = GetSearchClient(isAdminKey: false);
             bool isDateOnlySearch = IsDateOnlySearch(searchRequest);
-            SearchOptionsBuilder searchOptionsBuilder = new(searchRequest.FromDate, searchRequest.ToDate, searchRequest.PageSize, searchRequest.PageNumber, isDateOnlySearch, searchRequest.HideVisibleToAll);
+            SearchOptionsBuilder searchOptionsBuilder = new(searchRequest, isDateOnlySearch);
             searchOptionsBuilder.AddSortFields(searchRequest.SortBy);
             searchOptionsBuilder.AddSearchTextFilter(searchRequest.SearchText);
             searchOptionsBuilder.AddLogTypeFilter(searchRequest.LogTypeIds);
