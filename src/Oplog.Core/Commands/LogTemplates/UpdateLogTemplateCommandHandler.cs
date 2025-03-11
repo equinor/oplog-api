@@ -28,7 +28,7 @@ public sealed class UpdateLogTemplateCommandHandler : ICommandHandler<UpdateLogT
         logtemplate.Subtype = command.SubType;
         logtemplate.IsCritical = command.IsCritical;
         logtemplate.UpdatedBy = command.UpdatedBy;
-        logtemplate.UpdatedDate = DateTime.Now;
+        logtemplate.UpdatedDate = DateTime.UtcNow;
 
         _logTemplateRepository.Update(logtemplate);
         await _logTemplateRepository.Save();

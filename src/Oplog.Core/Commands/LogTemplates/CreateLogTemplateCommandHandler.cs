@@ -25,7 +25,7 @@ public sealed class CreateLogTemplateCommandHandler : ICommandHandler<CreateLogT
             Subtype = command.SubType,
             IsCritical = command.IsCritical,
             CreatedBy = command.CreatedBy,
-            CreatedDate = DateTime.Now
+            CreatedDate = DateTime.UtcNow
         };
 
         await _templateRepository.Insert(newLogTemplate);
