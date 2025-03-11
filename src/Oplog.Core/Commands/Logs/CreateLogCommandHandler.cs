@@ -28,7 +28,7 @@ public sealed class CreateLogCommandHandler : ICommandHandler<CreateLogCommand, 
             Text = command.Comment,
             EffectiveTime = command.EffectiveTime,
             CreatedBy = command.CreatedBy,
-            CreatedDate = DateTime.Now,
+            CreatedDate = DateTime.UtcNow,
             IsCritical = command.IsCritical
         };
 

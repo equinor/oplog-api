@@ -31,7 +31,7 @@ public sealed class UpdateLogCommandHandler : ICommandHandler<UpdateLogCommand, 
         logToUpdate.Subtype = command.SubType;
         logToUpdate.Text = command.Comment;
         logToUpdate.EffectiveTime = command.EffectiveTime;
-        logToUpdate.UpdatedDate = DateTime.Now;
+        logToUpdate.UpdatedDate = DateTime.UtcNow;
         logToUpdate.UpdatedBy = command.UpdatedBy;
         logToUpdate.IsCritical = command.IsCritical;
 
