@@ -69,7 +69,8 @@ builder.Services.AddCors(options =>
             "https://frontend-oplog-web-dev.radix.equinor.com",
             "https://frontend-oplog-web-prod.radix.equinor.com",
             "http://localhost:5173",
-            "https://oplog.equinor.com"
+            "https://oplog.equinor.com",
+            "https://frontend-oplog-web-dev.c2.radix.equinor.com"
         };
         builder.WithOrigins(origins)
         .AllowAnyHeader()
